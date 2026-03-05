@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Implementation Report - Lab 05</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            max-width: 900px;
+        }
+
+        h1 {
+            color: #583937;
+        }
+
+        h2 {
+            color: #333;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #583937;
+            color: white;
+            padding: 8px;
+            text-align: left;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Code Implementation Report</h1>
+    <a href="index.html">&larr; Back to Lab 05 Menu</a>
+    <hr />
+
+    <h2>Objective</h2>
+    <p>
+        The objective of Lab 05 was to build a complete, database-driven web application for
+        Pine Valley Furniture Company (PVFC) using ASP.NET Web Forms and VB.NET connected to SQL Server.
+        The system covers customer registration, product search with a session-based shopping cart,
+        multi-item order placement, product catalog management, and a dedicated customer information
+        update page — all implementing SQL <code>INSERT</code>, <code>SELECT</code>, and <code>UPDATE</code> commands.
+    </p>
+
+    <h2>Pages Implemented</h2>
+    <table>
+        <tr>
+            <th>Page</th>
+            <th>Purpose</th>
+            <th>Key SQL Operation</th>
+        </tr>
+        <tr>
+            <td><code>Registration.aspx</code></td>
+            <td>New customer registration</td>
+            <td><code>INSERT INTO CUSTOMER_t</code> — stores new Customer ID in Session</td>
+        </tr>
+        <tr>
+            <td><code>Update.aspx</code></td>
+            <td>Update existing customer info</td>
+            <td><code>UPDATE CUSTOMER_t</code> — Primary Key (Customer_Id) cannot be changed</td>
+        </tr>
+        <tr>
+            <td><code>Search.aspx</code></td>
+            <td>Product search &amp; shopping cart</td>
+            <td><code>SELECT FROM PRODUCT_t</code> — results added to Session cart with quantities</td>
+        </tr>
+        <tr>
+            <td><code>Order.aspx</code></td>
+            <td>Checkout &amp; order placement</td>
+            <td><code>INSERT</code> into <code>ORDER_t</code> then loop-insert into <code>Order_line_t</code></td>
+        </tr>
+        <tr>
+            <td><code>Catalog.aspx</code></td>
+            <td>Product catalog management</td>
+            <td><code>INSERT</code> (add) and <code>UPDATE PRODUCT_t</code> (edit by Product ID)</td>
+        </tr>
+        <tr>
+            <td><code>Help.aspx</code></td>
+            <td>User guide</td>
+            <td>Static — no DB interaction</td>
+        </tr>
+    </table>
+
+    <h2>Shopping Cart Algorithm</h2>
+    <ol>
+        <li><b>Search:</b> User types description or selects product line and clicks Search.</li>
+        <li><b>Add to Cart:</b> Each result row has a Quantity textbox and "Add to Cart" button. Clicking it stores the
+            item into a <code>DataTable</code> kept in <code>Session("Cart")</code>.</li>
+        <li><b>Cart Display:</b> Cart summary and Grand Total are shown live below search results.</li>
+        <li><b>Proceed to Order:</b> "Place Order" button navigates to <code>Order.aspx</code> with cart in Session.
+        </li>
+        <li><b>Order Placement:</b>
+            <ul>
+                <li>Read Customer ID from <code>Session("CustomerID")</code></li>
+                <li><code>INSERT</code> one header row into <code>ORDER_t</code> → get auto-generated Order_Id via
+                    <code>SCOPE_IDENTITY()</code>
+                </li>
+                <li>Loop through cart → <code>INSERT</code> each item into <code>Order_line_t</code></li>
+                <li>Clear <code>Session("Cart")</code> on success</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h2>Update Feature (Registration)</h2>
+    <p>
+        <code>Update.aspx</code> allows customers to correct their registration details after signing up.
+        The Customer ID (Primary Key) is used to locate the record but is <b>never modified</b>.
+        All other fields (Name, Address, City, State, Postal Code) can be updated using a parameterized
+        <code>UPDATE</code> statement to prevent SQL injection.
+    </p>
+
+    <h2>Form Validation</h2>
+    <p>All input forms use ASP.NET Validation Controls:</p>
+    <ul>
+        <li><code>RequiredFieldValidator</code> — ensures no blank fields</li>
+        <li><code>RegularExpressionValidator</code> — enforces 2-letter State codes (e.g., NY)</li>
+        <li><code>CompareValidator</code> — ensures Price and ID fields are numeric</li>
+    </ul>
+
+    <h2>Tools &amp; Technologies</h2>
+    <ul>
+        <li>ASP.NET Web Forms (.NET 4.8) with VB.NET code-behind</li>
+        <li>SQL Server Express (local SSMS — PVFC database)</li>
+        <li><code>System.Data.SqlClient</code> with parameterized queries</li>
+        <li>ASP.NET <code>Session</code> object for cart and customer state</li>
+        <li>ASP.NET Validation Controls for client-side &amp; server-side validation</li>
+    </ul>
+
+    <h2>Database Schema (Key Tables)</h2>
+    <table>
+        <tr>
+            <th>Table</th>
+            <th>Primary Key</th>
+            <th>Key Columns</th>
+        </tr>
+        <tr>
+            <td><code>CUSTOMER_t</code></td>
+            <td><code>Customer_Id</code> (IDENTITY)</td>
+            <td>Name, Address, City, State, Postal Code</td>
+        </tr>
+        <tr>
+            <td><code>PRODUCT_t</code></td>
+            <td><code>Product_Id</code> (IDENTITY)</td>
+            <td>Description, Finish, Standard_Price, Product_Line_Id</td>
+        </tr>
+        <tr>
+            <td><code>ORDER_t</code></td>
+            <td><code>Order_Id</code> (IDENTITY, starts 1001)</td>
+            <td>Customer_Id (FK), Order_Date</td>
+        </tr>
+        <tr>
+            <td><code>Order_line_t</code></td>
+            <td>Order_Id + Product_Id (composite)</td>
+            <td>Ordered_Quantity</td>
+        </tr>
+        <tr>
+            <td><code>PRODUCT_LINE_t</code></td>
+            <td><code>Product_Line_Id</code></td>
+            <td>Product_Line_Name</td>
+        </tr>
+    </table>
+
+    <hr />
+    <p>&copy; 2026 Pine Valley Furniture Company | Lab 05 | Mansoob-e-Zahra</p>
+</body>
+
+</html>

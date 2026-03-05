@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Management - QUICK byte</title>
+    <link rel="stylesheet" href="menu-management.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="live_demo.html" class="nav-logo">
+                <img src="assets/logo.png" alt="QuickByte Logo" />
+                QuickByte
+            </a>
+            <ul class="nav-menu">
+                <li><a href="live_demo.html">Home</a></li>
+                <li><a href="order-management.html">Orders</a></li>
+                <li><a href="search.html">Search</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="menu-wrapper">
+            <img src="assets/logo.png" alt="QuickByte Logo" class="brand-logo" />
+            <h1>QuickByte</h1>
+            <p class="subtitle">Taste the speed</p>
+
+            <div class="add-item-section">
+                <h2>Add New Menu Item</h2>
+                <form id="addItemForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="itemName">Item Name:</label>
+                            <input type="text" id="itemName" name="itemName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price (Rs.):</label>
+                            <input type="number" id="price" name="price" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="available" name="available" checked>
+                            Available for Order
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-add">Add Item</button>
+                </form>
+            </div>
+
+            <div class="menu-items-section">
+                <h2>Current Menu Items</h2>
+                <table class="menu-table">
+                    <thead>
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Available</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>4001</td>
+                            <td>Pepperoni Pizza</td>
+                            <td>Large pepperoni pizza</td>
+                            <td>Rs. 1,200</td>
+                            <td><span class="status-available">Available</span></td>
+                            <td>
+                                <button class="btn-edit">Edit</button>
+                                <button class="btn-delete">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4007</td>
+                            <td>Cheese Pizza</td>
+                            <td>12-inch cheese pizza</td>
+                            <td>Rs. 999</td>
+                            <td><span class="status-available">Available</span></td>
+                            <td>
+                                <button class="btn-edit">Edit</button>
+                                <button class="btn-delete">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4015</td>
+                            <td>French Fries</td>
+                            <td>Crispy fries</td>
+                            <td>Rs. 150</td>
+                            <td><span class="status-available">Available</span></td>
+                            <td>
+                                <button class="btn-edit">Edit</button>
+                                <button class="btn-delete">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="restaurant-info">
+                <h2>Restaurant Information</h2>
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="label">Restaurant ID:</span>
+                        <span class="value">3001</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Name:</span>
+                        <span class="value">Pizza Palace</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Address:</span>
+                        <span class="value">Main Road, Islamabad</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Contact:</span>
+                        <span class="value">0511111111</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Total Menu Items:</span>
+                        <span class="value">3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="links">
+                <a href="../index.html">All Labs</a> |
+                <a href="live_demo.html">Back to Home</a> |
+                <a href="order-management.html">Order Management</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 QUICK byte - Taste the speed</p>
+        <p>Internet application development</p>
+        <p>Mansoob-e-Zahra</p>
+    </footer>
+</body>
+
+</html>

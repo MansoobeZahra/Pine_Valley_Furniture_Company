@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Search Products - Pine Valley Furniture</title>
+</head>
+
+<body>
+    <h1>Search Products</h1>
+    <p><a href="index.html">Back to Main Menu</a></p>
+    <hr>
+    <form>
+        <table>
+            <tr>
+                <td>Product ID:</td>
+                <td><input type="text" name="product_id"></td>
+            </tr>
+            <tr>
+                <td>Product Name:</td>
+                <td><input type="text" name="product_name"></td>
+            </tr>
+            <tr>
+                <td>Product Line:</td>
+                <td>
+                    <select name="product_line">
+                        <option value="">-- Select --</option>
+                        <option value="living">Living Room</option>
+                        <option value="dining">Dining Room</option>
+                        <option value="bedroom">Bedroom</option>
+                        <option value="office">Office</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Search"></td>
+            </tr>
+        </table>
+    </form>
+    <hr>
+    <h2>Search Results</h2>
+    <table border="1">
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Product Line</th>
+            <th>Unit Price</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>End Table</td>
+            <td>Living Room</td>
+            <td>$175.00</td>
+            <td><a href="order.html">Order</a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Coffee Table</td>
+            <td>Living Room</td>
+            <td>$200.00</td>
+            <td><a href="order.html">Order</a></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Computer Desk</td>
+            <td>Office</td>
+            <td>$375.00</td>
+            <td><a href="order.html">Order</a></td>
+        </tr>
+    </table>
+    <hr>
+    <p><a href="help.html">Help</a></p>
+</body>
+
+</html>

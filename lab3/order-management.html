@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management - QUICK byte</title>
+    <link rel="stylesheet" href="order-management.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="live_demo.html" class="nav-logo">
+                <img src="assets/logo.png" alt="QuickByte Logo" />
+                QuickByte
+            </a>
+            <ul class="nav-menu">
+                <li><a href="live_demo.html">Home</a></li>
+                <li><a href="order-management.html">Orders</a></li>
+                <li><a href="search.html">Search</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="order-wrapper">
+            <img src="assets/logo.png" alt="QuickByte Logo" class="brand-logo" />
+            <h1>QuickByte</h1>
+            <p class="subtitle">Taste the speed</p>
+
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="statusFilter">Filter by Status:</label>
+                    <select id="statusFilter">
+                        <option value="">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="picked_up">Picked Up</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">Filter by Date:</label>
+                    <input type="date" id="dateFilter">
+                </div>
+            </div>
+
+            <div class="orders-table-section">
+                <h2>All Orders</h2>
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Restaurant</th>
+                            <th>Rider</th>
+                            <th>Items</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Order Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>6001</td>
+                            <td>Ali Raza</td>
+                            <td>Pizza Palace</td>
+                            <td>Ahmed</td>
+                            <td>2x Pepperoni Pizza</td>
+                            <td>Rs. 2,400</td>
+                            <td><span class="status-delivered">Delivered</span></td>
+                            <td>2026-02-13</td>
+                            <td><button class="btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>6002</td>
+                            <td>Sara Khan</td>
+                            <td>Burger Hub</td>
+                            <td>Bilal</td>
+                            <td>1x Zinger Burger</td>
+                            <td>Rs. 550</td>
+                            <td><span class="status-pending">Pending</span></td>
+                            <td>2026-02-13</td>
+                            <td><button class="btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>6003</td>
+                            <td>Hamza Malik</td>
+                            <td>Biryani House</td>
+                            <td>Usman</td>
+                            <td>3x Chicken Biryani</td>
+                            <td>Rs. 750</td>
+                            <td><span class="status-preparing">Preparing</span></td>
+                            <td>2026-02-13</td>
+                            <td><button class="btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>6004</td>
+                            <td>Ayesha Sheikh</td>
+                            <td>Food Street Café</td>
+                            <td>Hamza</td>
+                            <td>2x Club Sandwich</td>
+                            <td>Rs. 900</td>
+                            <td><span class="status-delivered">Delivered</span></td>
+                            <td>2026-02-12</td>
+                            <td><button class="btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>6005</td>
+                            <td>Bilal Ahmed</td>
+                            <td>Tikka Junction</td>
+                            <td>Sajid</td>
+                            <td>1x Beef Tikka</td>
+                            <td>Rs. 700</td>
+                            <td><span class="status-pending">Pending</span></td>
+                            <td>2026-02-13</td>
+                            <td><button class="btn-view">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-details" id="orderDetails" style="display:none;">
+                <h2>Order Details</h2>
+                <div class="detail-card">
+                    <h3>Order #6001</h3>
+                    <div class="detail-row">
+                        <span class="label">Customer:</span>
+                        <span class="value">Ali Raza (ali1@example.com)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Restaurant:</span>
+                        <span class="value">Pizza Palace - Main Road, Islamabad</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Rider:</span>
+                        <span class="value">Ahmed (03450000001)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Order Items:</span>
+                        <span class="value">2x Pepperoni Pizza @ Rs. 1,200 each</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Total Amount:</span>
+                        <span class="value amount">Rs. 2,400</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Payment Method:</span>
+                        <span class="value">Cash</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Status:</span>
+                        <span class="value"><span class="status-delivered">Delivered</span></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Order Date:</span>
+                        <span class="value">2026-02-13 10:30 AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="links">
+                <a href="../index.html">All Labs</a> |
+                <a href="live_demo.html">Back to Home</a> |
+                <a href="search.html">Search Orders</a> |
+                <a href="payment.html">Payments</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 QUICK byte - Taste the speed</p>
+        <p>Internet application development</p>
+        <p>Mansoob-e-Zahra</p>
+    </footer>
+</body>
+
+</html>

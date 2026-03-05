@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Orders - QUICK byte</title>
+    <link rel="stylesheet" href="search.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="live_demo.html" class="nav-logo">
+                <img src="assets/logo.png" alt="QuickByte Logo" />
+                QuickByte
+            </a>
+            <ul class="nav-menu">
+                <li><a href="live_demo.html">Home</a></li>
+                <li><a href="order-management.html">Orders</a></li>
+                <li><a href="search.html">Search</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="search-wrapper">
+            <img src="assets/logo.png" alt="QuickByte Logo" class="brand-logo" />
+            <h1>QuickByte</h1>
+            <p class="subtitle">Taste the speed</p>
+
+            <form id="searchForm">
+                <div class="search-box">
+                    <input type="text" id="searchInput" name="searchInput"
+                        placeholder="Search by Order ID, Customer Name, Restaurant..." required>
+                    <button type="submit" class="btn-search">Search</button>
+                </div>
+
+                <div class="filter-options">
+                    <h3>Search In:</h3>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="filterType" value="orders" checked>
+                            Orders
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="filterType" value="restaurants">
+                            Restaurants
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="filterType" value="menu">
+                            Menu Items
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="filterType" value="customers">
+                            Customers
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="statusFilter">Order Status:</label>
+                    <select id="statusFilter" name="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="picked_up">Picked Up</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </form>
+
+            <div class="results-section">
+                <h2>Search Results</h2>
+                <div class="results-info">
+                    <p>Results will appear here after searching...</p>
+                </div>
+
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Restaurant</th>
+                            <th>Rider</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <tr>
+                            <td colspan="7" class="no-results">No results to display. Please perform a search.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="links">
+                <a href="../index.html">All Labs</a> |
+                <a href="live_demo.html">Back to Home</a> |
+                <a href="order-management.html">Order Management</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 QUICK byte - Taste the speed</p>
+        <p>Internet application development</p>
+        <p>Mansoob-e-Zahra</p>
+    </footer>
+</body>
+
+</html>

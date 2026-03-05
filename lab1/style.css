@@ -1,0 +1,238 @@
+/* =======================================================
+   Lab 01 - Pine Valley Furniture Company
+   Theme: Pink & Purple
+   ======================================================= */
+
+/* ---- Google Font ---- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* ---- Reset & Base ---- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    background: #fdf4ff;
+    color: #2d1b4e;
+    min-height: 100vh;
+    padding: 24px 32px;
+}
+
+/* ---- Page Container ---- */
+.page-content {
+    max-width: 900px;
+    background: #fff;
+    border: 1px solid #e0c8f5;
+    border-radius: 6px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.06);
+}
+
+/* ---- Content Block (problem statement, report) ---- */
+.content-block {
+    margin-top: 16px;
+}
+
+/* ---- Headings ---- */
+h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #5b21b6;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #7c3aed;
+    margin: 18px 0 8px;
+}
+
+/* ---- Horizontal Rule ---- */
+hr {
+    border: none;
+    border-top: 1px solid #e0c8f5;
+    margin: 12px 0;
+}
+
+/* ---- Paragraphs ---- */
+p {
+    margin: 6px 0 10px;
+    line-height: 1.6;
+    color: #3b2260;
+}
+
+/* ---- Lists ---- */
+ul {
+    margin: 4px 0 10px 20px;
+    line-height: 1.8;
+}
+
+ul li {
+    color: #3b2260;
+}
+
+/* ---- Links ---- */
+a {
+    color: #7c3aed;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ec4899;
+    text-decoration: underline;
+}
+
+/* ---- Form Table (label + input alignment) ---- */
+table.form-table {
+    border-collapse: collapse;
+    margin: 8px 0;
+}
+
+table.form-table td {
+    padding: 5px 10px 5px 0;
+    vertical-align: middle;
+}
+
+table.form-table .label-col {
+    white-space: nowrap;
+    font-weight: 600;
+    color: #5b21b6;
+    min-width: 130px;
+    text-align: right;
+    padding-right: 14px;
+}
+
+/* ---- Inputs, Selects, Textareas ---- */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 4px 8px;
+    border: 1px solid #c4b5fd;
+    border-radius: 3px;
+    background: #fafaff;
+    color: #2d1b4e;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #7c3aed;
+    background: #f5f0ff;
+}
+
+/* ---- Buttons ---- */
+input[type="submit"],
+input[type="reset"],
+button {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 5px 18px;
+    border: 1px solid #7c3aed;
+    border-radius: 3px;
+    background: #7c3aed;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    margin-right: 6px;
+}
+
+input[type="reset"],
+button.btn-secondary {
+    background: #f3f0ff;
+    color: #5b21b6;
+    border-color: #c4b5fd;
+}
+
+input[type="submit"]:hover {
+    background: #6d28d9;
+    border-color: #6d28d9;
+}
+
+input[type="reset"]:hover {
+    background: #ede9fe;
+}
+
+/* ---- Radio & Checkbox ---- */
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 4px;
+    accent-color: #7c3aed;
+}
+
+/* ---- Data Table (results / catalog) ---- */
+table.data-table {
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+    width: auto;
+}
+
+table.data-table th,
+table.data-table td {
+    border: 1px solid #c4b5fd;
+    padding: 5px 12px;
+    text-align: left;
+}
+
+table.data-table th {
+    background: #ede9fe;
+    color: #5b21b6;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+table.data-table tr:nth-child(even) td {
+    background: #faf5ff;
+}
+
+table.data-table td input[type="text"] {
+    border: 1px solid #c4b5fd;
+    padding: 3px 6px;
+}
+
+/* ---- Screenshots grid ---- */
+.ss-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 16px;
+}
+
+.ss-grid figure {
+    margin: 0;
+    background: #f5f0ff;
+    border: 1px solid #e0c8f5;
+    border-radius: 4px;
+    padding: 8px;
+    text-align: center;
+}
+
+.ss-grid img {
+    max-width: 380px;
+    width: 100%;
+    display: block;
+    border: 1px solid #ddd;
+}
+
+.ss-grid figcaption {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #7c3aed;
+    font-weight: 600;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Payment - Pine Valley Furniture</title>
+</head>
+
+<body>
+    <h1>Payment</h1>
+    <p><a href="index.html">Back to Main Menu</a></p>
+    <hr>
+    <form>
+        <table>
+            <tr>
+                <td>Order ID:</td>
+                <td><input type="text" name="order_id"></td>
+            </tr>
+            <tr>
+                <td>Customer ID:</td>
+                <td><input type="text" name="customer_id"></td>
+            </tr>
+            <tr>
+                <td>Total Amount:</td>
+                <td><input type="text" name="total_amount" readonly></td>
+            </tr>
+            <tr>
+                <td>Payment Method:</td>
+                <td>
+                    <input type="radio" name="payment_method" value="credit_card"> Credit Card<br>
+                    <input type="radio" name="payment_method" value="debit_card"> Debit Card<br>
+                    <input type="radio" name="payment_method" value="cash"> Cash on Delivery<br>
+                    <input type="radio" name="payment_method" value="bank_transfer"> Bank Transfer
+                </td>
+            </tr>
+            <tr>
+                <td>Card Number:</td>
+                <td><input type="text" name="card_number"></td>
+            </tr>
+            <tr>
+                <td>Expiry Date:</td>
+                <td><input type="text" name="expiry_date" placeholder="MM/YY"></td>
+            </tr>
+            <tr>
+                <td>CVV:</td>
+                <td><input type="text" name="cvv" size="5"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Make Payment">
+                    <input type="reset" value="Clear">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <hr>
+    <p><a href="order.html">Back to Order</a> | <a href="help.html">Help</a></p>
+</body>
+
+</html>

@@ -1,0 +1,333 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #fcf3ec;
+    color: #583937;
+    font-size: 14px;
+    min-height: 100vh;
+}
+
+/* ---- Top Navigation Bar ---- */
+.top-nav {
+    background: #583937;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    /* Taller, more professional header */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.top-nav .brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+}
+
+.top-nav .logo-img {
+    height: 50px;
+    /* Larger logo */
+    width: auto;
+    display: block;
+    transition: transform 0.2s;
+}
+
+.top-nav .nav-links {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 5px;
+}
+
+.top-nav .nav-links a {
+    color: #fcf3ec;
+    text-decoration: none;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.top-nav .nav-links a:hover {
+    background: rgba(252, 243, 236, 0.1);
+    color: #fff;
+}
+
+.top-nav .nav-links a.active {
+    background: #fcf3ec;
+    color: #583937;
+}
+
+/* ---- Page Wrapper ---- */
+.page-wrapper {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ---- Page heading ---- */
+/* ---- Hero Section ---- */
+.hero-section {
+    background: #583937;
+    border: 3px solid #fcf3ec;
+    border-radius: 15px;
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #fcf3ec;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.hero-logo-img {
+    height: 150px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #583937;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #583937;
+    padding-bottom: 15px;
+}
+
+h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #583937;
+    margin: 20px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #583937;
+}
+
+/* ---- Card ---- */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1.5px solid #583937;
+    box-shadow: 0 4px 12px rgba(88, 57, 55, 0.08);
+}
+
+/* ---- Back link ---- */
+.back-bar {
+    margin-bottom: 18px;
+}
+
+.back-bar a {
+    color: #583937;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-bar a:hover {
+    background: #583937;
+    color: #fcf3ec;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+/* ---- Tables ---- */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+table th {
+    background: #583937;
+    color: #fcf3ec;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 13px;
+    border: 1px solid #583937;
+}
+
+table td {
+    padding: 10px 12px;
+    font-size: 13px;
+    border: 1px solid #583937;
+}
+
+table tr:nth-child(even) td {
+    background: #fcf3ec;
+}
+
+/* ---- Input fields ---- */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+select,
+textarea {
+    border: 1.5px solid #583937;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    background: #fff;
+    color: #583937;
+    transition: all 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    background: #fcf3ec;
+    box-shadow: 0 0 0 3px rgba(88, 57, 55, 0.15);
+}
+
+/* ---- Buttons ---- */
+input[type="submit"],
+input[type="button"],
+button {
+    background: #583937;
+    color: #fcf3ec;
+    border: 2px solid #583937;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover {
+    background: #fff;
+    color: #583937;
+}
+
+input[type="reset"] {
+    background: #fff;
+    color: #583937;
+    border: 2px solid #583937;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    margin-left: 8px;
+}
+
+input[type="reset"]:hover {
+    background: #fcf3ec;
+}
+
+/* ---- Form rows ---- */
+.form-row {
+    margin-bottom: 16px;
+}
+
+.form-row label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #583937;
+    margin-bottom: 6px;
+}
+
+/* ---- Messages ---- */
+.msg-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.msg-error {
+    background: #fdecea;
+    color: #b71c1c;
+    border: 2px solid #b71c1c;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+/* ---- Menu cards (Default.aspx) ---- */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* .menu-item {
+    background: #fff;
+    border: 2px solid #583937;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #583937;
+    transition: all 0.3s ease;
+    display: block;
+} */
+
+.menu-item {
+    transform: translateY(-5px);
+    padding: 30px 20px;
+    box-shadow: 0 10px 20px rgba(88, 57, 55, 0.15);
+    background: #583937;
+    color: #fcf3ec;
+}
+
+.menu-item .mi-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: inherit;
+}
+
+/* ---- Error labels for validators ---- */
+span.error-msg {
+    color: #b71c1c;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #583937;
+    margin: 20px 0;
+}
+
+footer {
+    text-align: center;
+    color: #7a4e4b;
+    font-size: 13px;
+    margin: 40px 0 20px;
+    font-weight: 500;
+}

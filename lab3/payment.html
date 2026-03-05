@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - QUICK byte</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="live_demo.html" class="nav-logo">
+                <img src="assets/logo.png" alt="QuickByte Logo" />
+                QuickByte
+            </a>
+            <ul class="nav-menu">
+                <li><a href="live_demo.html">Home</a></li>
+                <li><a href="order-management.html">Orders</a></li>
+                <li><a href="search.html">Search</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="payment-wrapper">
+            <img src="assets/logo.png" alt="QuickByte Logo" class="brand-logo" />
+            <h1>QuickByte</h1>
+            <p class="subtitle">Taste the speed</p>
+
+            <div class="payment-info">
+                <h2>Order Summary</h2>
+                <div class="info-row">
+                    <span class="label">Order ID:</span>
+                    <span class="value">6001</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Customer Name:</span>
+                    <span class="value">Ali Raza</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Restaurant:</span>
+                    <span class="value">Pizza Palace</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Order Items:</span>
+                    <span class="value">2x Pepperoni Pizza</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Total Amount:</span>
+                    <span class="value amount">Rs. 2,400.00</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Order Status:</span>
+                    <span class="value status-delivered">Delivered</span>
+                </div>
+            </div>
+
+            <form id="paymentForm">
+                <h2>Payment Information</h2>
+
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method:</label>
+                    <select id="paymentMethod" name="paymentMethod" required onchange="togglePaymentFields()">
+                        <option value="">Select Payment Method</option>
+                        <option value="cash">Cash on Delivery</option>
+                        <option value="credit">Credit Card</option>
+                        <option value="debit">Debit Card</option>
+                        <option value="easypaisa">Easypaisa</option>
+                        <option value="jazzcash">JazzCash</option>
+                    </select>
+                </div>
+
+                <!-- Card Payment Fields -->
+                <div id="cardFields" style="display:none;">
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number:</label>
+                        <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456"
+                            maxlength="19">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiryDate">Expiry Date:</label>
+                            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV:</label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardholderName">Cardholder Name:</label>
+                        <input type="text" id="cardholderName" name="cardholderName" placeholder="Name on Card">
+                    </div>
+                </div>
+
+                <!-- Mobile Wallet Fields -->
+                <div id="walletFields" style="display:none;">
+                    <div class="form-group">
+                        <label for="walletNumber">Mobile Number:</label>
+                        <input type="tel" id="walletNumber" name="walletNumber" placeholder="03001234567">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="amountPaying">Amount:</label>
+                    <input type="number" id="amountPaying" name="amountPaying" value="2400.00" step="0.01" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="remarks">Remarks (Optional):</label>
+                    <textarea id="remarks" name="remarks" rows="3" placeholder="Add any notes..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-pay">Process Payment</button>
+                <button type="button" class="btn-cancel" onclick="window.location.href='live_demo.html'">Cancel</button>
+            </form>
+
+            <div class="payment-history">
+                <h2>Recent Payments</h2>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Order ID</th>
+                            <th>Method</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>7001</td>
+                            <td>6001</td>
+                            <td>Cash</td>
+                            <td>Rs. 2,400</td>
+                            <td>2026-02-13</td>
+                            <td><span class="status-paid">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>7002</td>
+                            <td>6002</td>
+                            <td>Credit Card</td>
+                            <td>Rs. 550</td>
+                            <td>2026-02-13</td>
+                            <td><span class="status-pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="links">
+                <a href="../index.html">All Labs</a> |
+                <a href="live_demo.html">Back to Home</a> |
+                <a href="order-management.html">Order Management</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePaymentFields() {
+            const method = document.getElementById('paymentMethod').value;
+            const cardFields = document.getElementById('cardFields');
+            const walletFields = document.getElementById('walletFields');
+
+            cardFields.style.display = 'none';
+            walletFields.style.display = 'none';
+
+            if (method === 'credit' || method === 'debit') {
+                cardFields.style.display = 'block';
+            } else if (method === 'easypaisa' || method === 'jazzcash') {
+                walletFields.style.display = 'block';
+            }
+        }
+    </script>
+    <footer>
+        <p>&copy; 2026 QUICK byte - Taste the speed</p>
+        <p>Internet application development</p>
+        <p>Mansoob-e-Zahra</p>
+    </footer>
+</body>
+
+</html>

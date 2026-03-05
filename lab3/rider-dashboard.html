@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rider Dashboard - QUICK byte</title>
+    <link rel="stylesheet" href="rider-dashboard.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="live_demo.html" class="nav-logo">
+                <img src="assets/logo.png" alt="QuickByte Logo" />
+                QuickByte
+            </a>
+            <ul class="nav-menu">
+                <li><a href="live_demo.html">Home</a></li>
+                <li><a href="order-management.html">Orders</a></li>
+                <li><a href="search.html">Search</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="dashboard-wrapper">
+            <img src="assets/logo.png" alt="QuickByte Logo" class="brand-logo" />
+            <h1>QuickByte</h1>
+            <p class="subtitle">Taste the speed</p>
+
+            <div class="rider-info">
+                <h2>Your Information</h2>
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="label">Rider ID:</span>
+                        <span class="value">5001</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Name:</span>
+                        <span class="value">Ahmed</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Contact:</span>
+                        <span class="value">03450000001</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Status:</span>
+                        <span class="value">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="availabilityToggle" checked>
+                                <span class="status-available">Available</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Total Deliveries Today:</span>
+                        <span class="value">5</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Earnings Today:</span>
+                        <span class="value amount">Rs. 500</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="assigned-orders">
+                <h2>Assigned Deliveries</h2>
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Restaurant</th>
+                            <th>Delivery Address</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>6001</td>
+                            <td>Ali Raza<br><small>03001111111</small></td>
+                            <td>Pizza Palace<br><small>Main Road</small></td>
+                            <td>House 123, Street 5, Islamabad</td>
+                            <td>Rs. 2,400</td>
+                            <td><span class="status-delivered">Delivered</span></td>
+                            <td><button class="btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>6006</td>
+                            <td>Fatima Javed<br><small>03006666666</small></td>
+                            <td>Karachi Bites<br><small>F-11</small></td>
+                            <td>Apartment 45, F-11, Islamabad</td>
+                            <td>Rs. 360</td>
+                            <td>
+                                <select class="status-select">
+                                    <option value="pending">Pending</option>
+                                    <option value="picked_up" selected>Picked Up</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </td>
+                            <td><button class="btn-update">Update</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="delivery-history">
+                <h2>Delivery History</h2>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>6001</td>
+                            <td>2026-02-13</td>
+                            <td>Ali Raza</td>
+                            <td>Rs. 2,400</td>
+                            <td><span class="status-delivered">Delivered</span></td>
+                        </tr>
+                        <tr>
+                            <td>6004</td>
+                            <td>2026-02-12</td>
+                            <td>Ayesha Sheikh</td>
+                            <td>Rs. 900</td>
+                            <td><span class="status-delivered">Delivered</span></td>
+                        </tr>
+                        <tr>
+                            <td>6007</td>
+                            <td>2026-02-12</td>
+                            <td>Usman Butt</td>
+                            <td>Rs. 999</td>
+                            <td><span class="status-delivered">Delivered</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="links">
+                <a href="../index.html">All Labs</a> |
+                <a href="live_demo.html">Back to Home</a> |
+                <a href="order-management.html">Order Management</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('availabilityToggle').addEventListener('change', function () {
+            const statusSpan = this.nextElementSibling;
+            if (this.checked) {
+                statusSpan.textContent = 'Available';
+                statusSpan.className = 'status-available';
+            } else {
+                statusSpan.textContent = 'Unavailable';
+                statusSpan.className = 'status-unavailable';
+            }
+        });
+    </script>
+    <footer>
+        <p>&copy; 2026 QUICK byte - Taste the speed</p>
+        <p>Internet application development</p>
+        <p>Mansoob-e-Zahra</p>
+    </footer>
+</body>
+
+</html>

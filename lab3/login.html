@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - QUICK byte</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-wrapper">
+            <img src="assets/logo.png" alt="QuickByte Logo" class="brand-logo" />
+            <h1>QuickByte</h1>
+            <p class="subtitle">Taste the speed</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Email / Phone:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your email or phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="userRole">Login As:</label>
+                    <select id="userRole" name="userRole" required>
+                        <option value="">Select Role</option>
+                        <option value="customer">Customer</option>
+                        <option value="restaurant">Restaurant Manager</option>
+                        <option value="rider">Delivery Rider</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+
+                <div class="remember-forgot">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        Remember Me
+                    </label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+
+            <div class="links">
+                <p>Don't have an account? <a href="registration.html">Register here</a></p>
+                <p><a href="../index.html">All Labs</a> | <a href="live_demo.html">Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

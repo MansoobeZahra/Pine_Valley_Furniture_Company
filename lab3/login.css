@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fcf8ec;
+    /* Beige - 60% ratio */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.login-wrapper {
+    background: white;
+    padding: 40px;
+    border: 2px solid #ba1010;
+    /* Red border */
+    text-align: center;
+    border-radius: 20px;
+    /* Rounded corners */
+}
+
+.brand-logo {
+    height: 100px;
+    /* Zoomed in logo */
+    width: auto;
+    margin: 0 auto 20px;
+    display: block;
+}
+
+h1 {
+    color: #ba1010;
+    /* Red - 20% ratio */
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.subtitle {
+    color: #89758d;
+    /* Grey */
+    margin-bottom: 35px;
+    font-size: 15px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ba1010;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #89758d;
+    background-color: #fff;
+    font-size: 15px;
+    border-radius: 10px;
+    /* Rounded corners */
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #ba1010;
+    background-color: #fcf8ec;
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+}
+
+.remember-forgot a {
+    color: #ba1010;
+    text-decoration: none;
+    /* No hover underline */
+}
+
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background-color: #f8be2c;
+    /* Yellow highlight color */
+    color: #333;
+    border: 2px solid #ba1010;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 12px;
+    /* Rounded corners */
+    text-decoration: none;
+    /* No hover underline */
+}
+
+.links {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.links a {
+    color: #ba1010;
+    text-decoration: none;
+    /* No hover underline */
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .login-wrapper {
+        padding: 30px 20px;
+    }
+}
