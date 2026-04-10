@@ -1,3 +1,10 @@
 *.zip
 *.rar
 *.7z
+.vs/
+bin/
+obj/
+*.user
+*.suo
+_ReSharper.Caches/
+node_modules/

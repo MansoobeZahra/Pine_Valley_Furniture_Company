@@ -1,0 +1,73 @@
+<%@ Page Language="VB" AutoEventWireup="true" CodeFile="Order.aspx.vb" Inherits="OrderPage" %>
+    <!DOCTYPE html>
+    <html>
+
+    <head runat="server">
+        <title>Order Placement - Pine Valley Furniture</title>
+    </head>
+
+    <body style="font-family: Arial, sans-serif;">
+        <div style="background-color: #583937; color: white; padding: 20px; text-align: center;">
+            <h1><img src="logo.png" alt="logo_PVFC" height="50" style="margin-left: 0px; vertical-align: middle;" />
+                Pine Valley Furniture Company</h1>
+            <p>Mansoob-e-Zahra | Lab 05</p>
+        </div>
+        <div style="background-color: #f4f4f4; padding: 10px; border-bottom: 1px solid #ccc; text-align: center;">
+            <a href="Registration.aspx">Registration</a> |
+            <a href="Update.aspx">Update Info</a> |
+            <a href="Search.aspx">Search</a> |
+            <a href="Order.aspx">Order</a> |
+            <a href="Catalog.aspx">Catalog</a> |
+            <a href="Help.aspx">Help</a>
+        </div>
+
+        <form id="form1" runat="server">
+            <a href="../index.html">Back to All Labs</a>
+            <br /><br />
+            <b>Order Placement</b>
+            <br /><br />
+            <asp:Label ID="lblMessage" runat="server" />
+            <br /><br />
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <asp:Label ID="lblCustomerInfo" runat="server" Font-Bold="true" ForeColor="#583937" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Order Date:</td>
+                    <td>
+                        <asp:TextBox ID="txtOrderDate" runat="server" placeholder="YYYY-MM-DD" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            <b>Current Cart Items</b>
+            <asp:GridView ID="gvCart" runat="server" AutoGenerateColumns="False" Width="100%" GridLines="None"
+                CellPadding="5">
+                <HeaderStyle BackColor="#583937" ForeColor="White" />
+                <Columns>
+                    <asp:BoundField DataField="Description" HeaderText="Item" />
+                    <asp:BoundField DataField="Quantity" HeaderText="Qty" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Price" HeaderText="Price" DataFormatString="{0:C}"
+                        ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="Subtotal" HeaderText="Subtotal" DataFormatString="{0:C}"
+                        ItemStyle-HorizontalAlign="Right" />
+                </Columns>
+            </asp:GridView>
+            <div style="text-align: right; margin-top: 10px; border-top: 2px solid #583937; padding-top: 5px;">
+                <b>Total Amount:
+                    <asp:Label ID="lblGrandTotal" runat="server" Text="$0.00" />
+                </b>
+            </div>
+            <br />
+            <asp:Button ID="btnPlaceOrder" runat="server" Text="Place Order" OnClick="btnPlaceOrder_Click"
+                style="background-color: #583937; color: white; padding: 10px 20px; border: none; cursor: pointer;" />
+            <asp:Button ID="btnClear" runat="server" Text="Clear Cart" OnClick="btnClear_Click" CausesValidation="false"
+                style="margin-left: 10px; padding: 10px; border: 1px solid #ccc; background: none; cursor: pointer;" />
+
+        </form>
+    </body>
+
+    </html>
