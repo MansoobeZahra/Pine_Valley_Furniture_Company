@@ -13,7 +13,21 @@ Partial Class CatalogPage
     End Property
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
-        If Not IsPostBack Then LoadCatalog()
+        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
+        Dim isAdmin As Boolean = (Session("UserRole").ToString() = "admin")
+        lnkRegistration.Visible = isAdmin
+        lnkCatalog.Visible = True   ' Catalog visible to ALL roles
+        lnkSegmentation.Visible = isAdmin
+        pnlAdminTools.Visible = isAdmin  ' Add/Update only for admin
+        If Not IsPostBack Then
+            lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
+            LoadCatalog()
+        End If
+    End Sub
+
+    Protected Sub Logout_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Session.Clear()
+        Response.Redirect("Login.aspx")
     End Sub
 
     Private Sub LoadCatalog()
@@ -39,19 +53,30 @@ Partial Class CatalogPage
         cmd.Connection = conn
 
         Try
-            cmd.CommandText = "INSERT INTO PRODUCT_t ([Product_Line_Id], [Product_Description], [Product_Finish], [Standard_Price])"
-            cmd.CommandText &= " VALUES (" & ddlProductLine.SelectedValue & ","
+            conn.Open()
+            ' Get next Product_Id (non-IDENTITY schema)
+            Dim newId As Integer
+            Using cmdMax As New SqlCommand("SELECT ISNULL(MAX(Product_Id), 0) + 1 FROM PRODUCT_t", conn)
+                newId = Convert.ToInt32(cmdMax.ExecuteScalar())
+            End Using
+
+            cmd.CommandText = "INSERT INTO PRODUCT_t ([Product_Id], [Product_Line_Id], [Product_Description], [Product_Finish], [Standard_Price])"
+            cmd.CommandText &= " VALUES (" & newId & "," & ddlProductLine.SelectedValue & ","
             cmd.CommandText &= "'" & txtProductName.Text.Trim() & "',"
             cmd.CommandText &= "'" & txtFinish.Text.Trim() & "',"
             cmd.CommandText &= "'" & txtUnitPrice.Text.Trim() & "')"
 
-            conn.Open()
             cmd.ExecuteNonQuery()
-            lblMessage.Text = "product record inserted."
+            lblMessage.Text = "Product #" & newId & " added successfully."
+            lblMessage.ForeColor = System.Drawing.Color.Green
             lblMessage.Visible = True
+            txtProductName.Text = ""
+            txtFinish.Text = ""
+            txtUnitPrice.Text = ""
             LoadCatalog()
         Catch ex As Exception
-            lblMessage.Text = ex.Message
+            lblMessage.Text = "Error: " & ex.Message
+            lblMessage.ForeColor = System.Drawing.Color.Red
             lblMessage.Visible = True
         Finally
             cmd.Dispose()

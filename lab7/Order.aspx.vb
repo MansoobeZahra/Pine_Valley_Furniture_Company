@@ -13,11 +13,16 @@ Partial Class OrderPage
     End Property
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
+        Dim isAdmin As Boolean = (Session("UserRole").ToString() = "admin")
+        lnkRegistration.Visible = isAdmin
+        lnkCatalog.Visible = True
+        lnkSegmentation.Visible = isAdmin
         If Not IsPostBack Then
+            lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
             If String.IsNullOrEmpty(txtOrderDate.Text) Then
                 txtOrderDate.Text = DateTime.Now.ToString("yyyy-MM-dd")
             End If
-
             If Session("CustomerID") IsNot Nothing Then
                 lblCustomerInfo.Text = "Ordering as Customer ID: " & Session("CustomerID").ToString()
             Else
@@ -25,10 +30,10 @@ Partial Class OrderPage
                 lblCustomerInfo.ForeColor = System.Drawing.Color.Red
                 btnPlaceOrder.Enabled = False
             End If
-
             LoadCart()
         End If
     End Sub
+
 
     Private Sub LoadCart()
         Dim dtCart As DataTable = DirectCast(Session("Cart"), DataTable)
@@ -65,13 +70,17 @@ Partial Class OrderPage
             conn.Open()
             Dim trans As SqlTransaction = conn.BeginTransaction()
             Try
-                ' 1. Insert Order Header
-                Dim sqlHeader As String = "INSERT INTO ORDER_t (Customer_Id, Order_Date) VALUES (@cid, @date); SELECT SCOPE_IDENTITY();"
-                Dim orderId As Integer
+                ' 1. Get next Order_Id
+                Dim nextIdCmd As New SqlCommand("SELECT ISNULL(MAX(Order_Id), 1000) + 1 FROM ORDER_t", conn, trans)
+                Dim orderId As Integer = Convert.ToInt32(nextIdCmd.ExecuteScalar())
+
+                ' 2. Insert Order Header
+                Dim sqlHeader As String = "INSERT INTO ORDER_t (Order_Id, Customer_Id, Order_Date) VALUES (@oid, @cid, @date)"
                 Using cmdHeader As New SqlCommand(sqlHeader, conn, trans)
+                    cmdHeader.Parameters.AddWithValue("@oid", orderId)
                     cmdHeader.Parameters.AddWithValue("@cid", Integer.Parse(Session("CustomerID").ToString()))
                     cmdHeader.Parameters.AddWithValue("@date", Date.Parse(txtOrderDate.Text.Trim()))
-                    orderId = Convert.ToInt32(cmdHeader.ExecuteScalar())
+                    cmdHeader.ExecuteNonQuery()
                 End Using
 
                 ' 2. Insert Order Lines

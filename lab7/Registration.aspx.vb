@@ -19,6 +19,7 @@ Partial Class RegistrationPage
         If Not isAdmin Then Response.Redirect("Update.aspx")
         lnkRegistration.Visible = True
         lnkCatalog.Visible = True
+        lnkSegmentation.Visible = True
         If Not IsPostBack Then lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
     End Sub
 

@@ -10,16 +10,17 @@
         <div style="background-color: #583937; color: white; padding: 20px; text-align: center;">
             <h1><img src="logo.png" alt="logo_PVFC" height="50" style="margin-left: 0px; vertical-align: middle;" />
                 Pine Valley Furniture Company</h1>
-            <p>Mansoob-e-Zahra | Lab 05</p>
+            <p>Mansoob-e-Zahra | Lab 07</p>
         </div>
         <div style="background-color: #f4f4f4; padding: 10px; border-bottom: 1px solid #ccc; text-align: center;">
-            <a href="Registration.aspx">Registration</a> |
-            <a href="Update.aspx">Update Info</a> |
+            <asp:HyperLink ID="lnkRegistration" runat="server" NavigateUrl="Registration.aspx">Registration | </asp:HyperLink><a href="Update.aspx">Update Info</a> |
             <a href="Search.aspx">Search</a> |
-            <a href="Order.aspx">Order</a> |
-            <a href="Catalog.aspx">Catalog</a> |
-            <a href="Help.aspx">Help</a>
+            <a href="Order.aspx">Order</a><asp:HyperLink ID="lnkCatalog" runat="server" NavigateUrl="Catalog.aspx"> | Catalog</asp:HyperLink><asp:HyperLink ID="lnkSegmentation" runat="server" NavigateUrl="CustomerSegmentation.aspx"> | Segmentation</asp:HyperLink> |
+            <a href="Help.aspx">Help</a> |
+            <a href="Logout.aspx" style="color:#583937;font-weight:bold;">Logout</a>
         </div>
+
+        <div style="background:#fffbe6;text-align:center;padding:3px;font-size:13px;border-bottom:1px solid #ddd;"><asp:Label ID="lblWelcome" runat="server" /></div>
 
         <form id="form1" runat="server">
             <a href="../index.html">Back to All Labs</a>

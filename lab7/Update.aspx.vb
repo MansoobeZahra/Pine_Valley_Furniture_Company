@@ -12,10 +12,20 @@ Partial Class UpdatePage
     End Property
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
-        ' Pre-fill Customer ID from session if available
-        If Not IsPostBack AndAlso Session("CustomerID") IsNot Nothing Then
-            txtCustomerID.Text = Session("CustomerID").ToString()
+        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
+        Dim isAdmin As Boolean = (Session("UserRole").ToString() = "admin")
+        lnkRegistration.Visible = isAdmin
+        lnkCatalog.Visible = True
+        lnkSegmentation.Visible = isAdmin
+        If Not IsPostBack Then
+            lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
+            If Session("CustomerID") IsNot Nothing Then txtCustomerID.Text = Session("CustomerID").ToString()
         End If
+    End Sub
+
+    Protected Sub Logout_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Session.Clear()
+        Response.Redirect("Login.aspx")
     End Sub
 
     Protected Sub btnUpdate_Click(ByVal sender As Object, ByVal e As EventArgs)

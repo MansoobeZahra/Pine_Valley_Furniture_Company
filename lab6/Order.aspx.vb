@@ -13,8 +13,10 @@ Partial Class OrderPage
     End Property
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
-        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx")
-        lnkCatalog.Visible = (Session("UserRole").ToString() = "admin")
+        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
+        Dim isAdmin As Boolean = (Session("UserRole").ToString() = "admin")
+        lnkRegistration.Visible = isAdmin
+        lnkCatalog.Visible = True
         If Not IsPostBack Then
             lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
             If String.IsNullOrEmpty(txtOrderDate.Text) Then

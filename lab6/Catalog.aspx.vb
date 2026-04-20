@@ -13,13 +13,11 @@ Partial Class CatalogPage
     End Property
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
-        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx")
-        ' Admin only page
-        If Session("UserRole").ToString() <> "admin" Then
-            Response.Write("<script>alert('Access Denied: Catalog is for Admins only.');</script>")
-            Response.Redirect("Registration.aspx")
-        End If
-        lnkCatalog.Visible = True  ' Admin always sees Catalog
+        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
+        Dim isAdmin As Boolean = (Session("UserRole").ToString() = "admin")
+        lnkRegistration.Visible = isAdmin
+        lnkCatalog.Visible = True   ' Catalog visible to ALL roles
+        pnlAdminTools.Visible = isAdmin  ' Add/Update only for admin
         If Not IsPostBack Then
             lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
             LoadCatalog()

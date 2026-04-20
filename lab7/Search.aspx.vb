@@ -21,7 +21,13 @@ Partial Class SearchPage
     }
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+        If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
+        Dim isAdmin As Boolean = (Session("UserRole").ToString() = "admin")
+        lnkRegistration.Visible = isAdmin
+        lnkCatalog.Visible = True
+        lnkSegmentation.Visible = isAdmin
         If Not IsPostBack Then
+            lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
             If Session("Cart") Is Nothing Then
                 Dim dtCart As New DataTable()
                 dtCart.Columns.Add("ProductId", GetType(Integer))
@@ -33,6 +39,11 @@ Partial Class SearchPage
             End If
             UpdateCartDisplay()
         End If
+    End Sub
+
+    Protected Sub Logout_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Session.Clear()
+        Response.Redirect("Login.aspx")
     End Sub
 
     Protected Sub gvResults_RowCommand(ByVal sender As Object, ByVal e As GridViewCommandEventArgs)
