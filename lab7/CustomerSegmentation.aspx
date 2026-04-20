@@ -4,18 +4,8 @@
 <head runat="server">
     <title>Customer Segmentation Dashboard - PVFC Lab 07</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
-        .header { background-color: #583937; color: white; padding: 20px; text-align: center; }
-        .header h1 { margin: 0; font-size: 22px; }
-        .header p  { margin: 4px 0 0; font-size: 13px; }
-        .nav { background-color: #f4f4f4; padding: 10px; border-bottom: 1px solid #ccc; text-align: center; }
-        .nav a { color: #333; text-decoration: none; }
-        .nav a:hover { color: #583937; text-decoration: underline; }
-        .welcome-bar { background: #fffbe6; text-align: center; padding: 4px;
-                       font-size: 13px; border-bottom: 1px solid #ddd; }
-        .page-title { text-align: center; padding: 18px 0 6px;
-                      font-size: 20px; font-weight: bold; color: #583937; }
-        .page-sub   { text-align: center; font-size: 13px; color: #777; margin-bottom: 18px; }
+        body { font-family: Arial, sans-serif; margin: 0; }
+
 
         /* Summary cards */
         .summary-bar { display: flex; justify-content: center; gap: 20px;
@@ -65,19 +55,17 @@
         .filter-bar { padding: 10px 30px; background: white; border-bottom: 1px solid #eee;
                       display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
         .filter-bar label { font-size: 13px; font-weight: bold; }
-        .filter-bar input { padding: 4px 8px; border: 1px solid #ccc; border-radius:3px; width:80px; }
+        .filter-bar input { padding: 4px 8px; border: 1px solid #ccc; border-radius:3px; }
         .filter-bar select { padding: 4px 8px; border: 1px solid #ccc; border-radius:3px; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1><img src="logo.png" alt="PVFC" height="40" style="vertical-align:middle;"/>
+    <div style="background-color: #583937; color: white; padding: 20px; text-align: center;">
+        <h1><img src="logo.png" alt="logo_PVFC" height="50" style="margin-left: 0px; vertical-align: middle;" />
             Pine Valley Furniture Company</h1>
-        <p>Mansoob-e-Zahra | Lab 07 — Customer Segmentation</p>
+        <p>Mansoob-e-Zahra | Lab 07</p>
     </div>
-
-    <!-- NAV -->
-    <div class="nav">
+    <div style="background-color: #f4f4f4; padding: 10px; border-bottom: 1px solid #ccc; text-align: center;">
         <asp:HyperLink ID="lnkRegistration" runat="server" NavigateUrl="Registration.aspx">Registration | </asp:HyperLink><a href="Update.aspx">Update Info</a> |
         <a href="Search.aspx">Search</a> |
         <a href="Order.aspx">Order</a><asp:HyperLink ID="lnkCatalog" runat="server" NavigateUrl="Catalog.aspx"> | Catalog</asp:HyperLink> |
@@ -85,11 +73,16 @@
         <a href="Help.aspx">Help</a> |
         <a href="Logout.aspx" style="color:#583937;font-weight:bold;">Logout</a>
     </div>
-    <div class="welcome-bar"><asp:Label ID="lblWelcome" runat="server" /></div>
+
+    <div style="background:#fffbe6;text-align:center;padding:3px;font-size:13px;border-bottom:1px solid #ddd;">
+        <asp:Label ID="lblWelcome" runat="server" />
+    </div>
 
     <form id="form1" runat="server">
-        <div class="page-title">Customer Segmentation Dashboard</div>
-        <div class="page-sub">Identify Premium, Frequent, and Bulk Buyer customer segments</div>
+        <a href="../index.html">Back to All Labs</a>
+        <br /><br />
+        <b>Customer Segmentation Dashboard</b>
+        <div style="font-size: 13px; color: #777; margin-bottom: 18px;">Identify Premium, Frequent, and Bulk Buyer customer segments</div>
 
         <!-- Filters -->
         <div class="filter-bar">
@@ -100,7 +93,7 @@
             <label>Bulk (min avg qty/line):</label>
             <asp:TextBox ID="txtBulkThreshold" runat="server" Text="5" Width="60px" />
             <asp:Button ID="btnRefresh" runat="server" Text="Apply &amp; Refresh"
-                CssClass="refresh-btn" OnClick="btnRefresh_Click" CausesValidation="false" />
+                CssClass="refresh-btn" OnClick="btnRefresh_Click" CausesValidation="false" Width="130px" />
         </div>
 
         <!-- Summary Cards -->
@@ -213,9 +206,6 @@
             </div>
         </div>
 
-        <div style="padding:0 30px 10px; font-size:12px; color:#999;">
-            <a href="../index.html">Back to All Labs</a>
-        </div>
     </form>
 </body>
 </html>

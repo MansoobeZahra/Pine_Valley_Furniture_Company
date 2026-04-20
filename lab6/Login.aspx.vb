@@ -32,6 +32,7 @@ Partial Class LoginPage
                 Session("Username")      = txtUser.Text
                 Session("User_Password") = txtPass.Text
                 Session("UserRole")      = reader("User_Role").ToString()
+                Session("CustomerID")    = reader("UserId").ToString() ' Maps User to a Customer for Order placing
                 Session("LoginTime")     = DateTime.Now   ' Track when user logged in
                 reader.Close()
                 conn.Close()
