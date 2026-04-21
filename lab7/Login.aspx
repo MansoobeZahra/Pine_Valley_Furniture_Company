@@ -69,7 +69,7 @@
         <div class="header">
             <h1><img src="logo.png" alt="PVFC" height="45" style="vertical-align:middle;" />
                 Pine Valley Furniture Company</h1>
-            <p>Mansoob-e-Zahra | Lab 06</p>
+            <p>Mansoob-e-Zahra | Lab 07</p>
         </div>
         <form id="form1" runat="server">
             <div class="login-box">
@@ -102,7 +102,8 @@
                     <b>user</b>: Update Info, Search, Order, Help only
                 </small>
                 <hr style="margin:14px 0; border-color:#eee;" />
-                <small>New customer? <a href="Signup.aspx" style="color:#583937;font-weight:bold;">Sign Up here</a></small>
+                <small>New customer? <a href="Signup.aspx" style="color:#583937;font-weight:bold;">Sign Up
+                        here</a></small>
             </div>
         </form>
     </body>
