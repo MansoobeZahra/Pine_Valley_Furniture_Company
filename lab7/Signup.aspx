@@ -25,7 +25,7 @@
     <div class="header">
         <h1><img src="logo.png" alt="PVFC" height="40" style="vertical-align:middle;" />
             Pine Valley Furniture Company</h1>
-        <p>Mansoob-e-Zahra | Lab 06</p>
+        <p>Mansoob-e-Zahra | Lab 07</p>
     </div>
     <form id="form1" runat="server">
         <div class="box">
