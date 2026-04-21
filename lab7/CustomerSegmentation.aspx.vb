@@ -58,29 +58,35 @@ Partial Class CustomerSegmentationPage
         Dim dtBulk As DataTable = GetBulkBuyers(bulkThreshold)
         Dim dtOver As DataTable = GetMultiSegment(premThreshold, freqThreshold, bulkThreshold)
 
-        ' Bind grids
-        gvFrequent.DataSource = dtFreq : gvFrequent.DataBind()
-        gvPremium.DataSource  = dtPrem : gvPremium.DataBind()
-        gvBulk.DataSource     = dtBulk : gvBulk.DataBind()
-        gvOverlap.DataSource  = dtOver : gvOverlap.DataBind()
+        ' NEW: customers with zero orders (real-time – auto-reflects new registrations)
+        Dim dtNew As DataTable = GetNewCustomers()
 
-        ' Update counts
+        ' Bind grids
+        gvFrequent.DataSource    = dtFreq : gvFrequent.DataBind()
+        gvPremium.DataSource     = dtPrem : gvPremium.DataBind()
+        gvBulk.DataSource        = dtBulk : gvBulk.DataBind()
+        gvOverlap.DataSource     = dtOver : gvOverlap.DataBind()
+        gvNewCustomers.DataSource = dtNew : gvNewCustomers.DataBind()
+
+        ' Update summary card counts
         Dim totalCust As Integer = GetTotalCustomers()
         lblTotalCustomers.Text = totalCust.ToString()
-        lblFreqCount.Text = dtFreq.Rows.Count.ToString()
-        lblPremCount.Text = dtPrem.Rows.Count.ToString()
-        lblBulkCount.Text = dtBulk.Rows.Count.ToString()
-        lblOverlapCount.Text = dtOver.Rows.Count.ToString()
+        lblFreqCount.Text      = dtFreq.Rows.Count.ToString()
+        lblPremCount.Text      = dtPrem.Rows.Count.ToString()
+        lblBulkCount.Text      = dtBulk.Rows.Count.ToString()
+        lblOverlapCount.Text   = dtOver.Rows.Count.ToString()
+        lblNewCount.Text       = dtNew.Rows.Count.ToString()
 
-        ' Update badges
+        ' Update segment-header badges
         lblFreqBadge.Text = dtFreq.Rows.Count.ToString()
         lblPremBadge.Text = dtPrem.Rows.Count.ToString()
         lblBulkBadge.Text = dtBulk.Rows.Count.ToString()
         lblOverBadge.Text = dtOver.Rows.Count.ToString()
+        lblNewBadge.Text  = dtNew.Rows.Count.ToString()
     End Sub
 
     ' ─────────────────────────────────────────────────────────────
-    ' QUERY (c): FREQUENT CUSTOMERS
+    ' QUERY: FREQUENT CUSTOMERS
     ' Rule: Number of distinct orders > freqThreshold
     ' ─────────────────────────────────────────────────────────────
     Private Function GetFrequentCustomers(ByVal minOrders As Integer) As DataTable
@@ -99,9 +105,8 @@ Partial Class CustomerSegmentationPage
     End Function
 
     ' ─────────────────────────────────────────────────────────────
-    ' QUERY (c): PREMIUM CUSTOMERS
+    ' QUERY: PREMIUM CUSTOMERS
     ' Rule: Total spend (qty × price across all orders) > threshold
-    ' Simple definition: who paid us maximum in a period of time
     ' ─────────────────────────────────────────────────────────────
     Private Function GetPremiumCustomers(ByVal minSpend As Decimal) As DataTable
         Dim sql As String =
@@ -119,9 +124,8 @@ Partial Class CustomerSegmentationPage
     End Function
 
     ' ─────────────────────────────────────────────────────────────
-    ' QUERY (c): BULK BUYERS
+    ' QUERY: BULK BUYERS
     ' Rule: Average quantity per order line > bulkThreshold
-    ' High quantity ordered per transaction regardless of frequency
     ' ─────────────────────────────────────────────────────────────
     Private Function GetBulkBuyers(ByVal minAvgQty As Decimal) As DataTable
         Dim sql As String =
@@ -140,7 +144,7 @@ Partial Class CustomerSegmentationPage
     End Function
 
     ' ─────────────────────────────────────────────────────────────
-    ' QUERY (c): MULTI-SEGMENT CUSTOMERS (overlapping segments)
+    ' QUERY: MULTI-SEGMENT CUSTOMERS (overlapping segments)
     ' Customers appearing in 2+ segments – highest priority targets
     ' ─────────────────────────────────────────────────────────────
     Private Function GetMultiSegment(ByVal minSpend As Decimal, ByVal minOrders As Integer, ByVal minAvgQty As Decimal) As DataTable
@@ -179,6 +183,33 @@ Partial Class CustomerSegmentationPage
                 cmd.Parameters.AddWithValue("@minOrders", minOrders)
                 cmd.Parameters.AddWithValue("@minSpend",  minSpend)
                 cmd.Parameters.AddWithValue("@minAvg",    minAvgQty)
+                Dim da As New SqlDataAdapter(cmd)
+                Dim dt As New DataTable()
+                da.Fill(dt)
+                Return dt
+            End Using
+        End Using
+    End Function
+
+    ' ─────────────────────────────────────────────────────────────
+    ' QUERY: NEW CUSTOMERS (zero orders – real-time)
+    ' Any customer registered via Registration.aspx with no orders
+    ' will appear here IMMEDIATELY without any manual step.
+    ' ─────────────────────────────────────────────────────────────
+    Private Function GetNewCustomers() As DataTable
+        Dim sql As String =
+            "SELECT c.Customer_Id, c.Customer_Name, " &
+            "       c.Customer_Address, c.Customer_City, " &
+            "       c.Customer_State,  c.Postal_Code, " &
+            "       'New - No Orders Yet' AS Status " &
+            "FROM CUSTOMER_t c " &
+            "WHERE NOT EXISTS ( " &
+            "    SELECT 1 FROM ORDER_t o WHERE o.Customer_Id = c.Customer_Id " &
+            ") " &
+            "ORDER BY c.Customer_Id DESC"
+
+        Using conn As New SqlConnection(ConnStr)
+            Using cmd As New SqlCommand(sql, conn)
                 Dim da As New SqlDataAdapter(cmd)
                 Dim dt As New DataTable()
                 da.Fill(dt)

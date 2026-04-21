@@ -38,7 +38,30 @@ Partial Class SearchPage
                 Session("Cart") = dtCart
             End If
             UpdateCartDisplay()
+            LoadCustomerDropdown()
         End If
+    End Sub
+
+    ' ─────────────────────────────────────────────
+    ' Populate customer dropdown (name shown, ID as value)
+    ' ─────────────────────────────────────────────
+    Private Sub LoadCustomerDropdown()
+        ddlCustomer.Items.Clear()
+        ddlCustomer.Items.Add(New ListItem("-- Select Customer --", ""))
+        Using conn As New SqlConnection(ConnStr)
+            Dim sql As String = "SELECT Customer_Id, Customer_Name FROM CUSTOMER_t ORDER BY Customer_Name"
+            Using cmd As New SqlCommand(sql, conn)
+                Using da As New SqlDataAdapter(cmd)
+                    Dim dt As New DataTable()
+                    da.Fill(dt)
+                    For Each row As DataRow In dt.Rows
+                        ddlCustomer.Items.Add(New ListItem(
+                            row("Customer_Name").ToString(),
+                            row("Customer_Id").ToString()))
+                    Next
+                End Using
+            End Using
+        End Using
     End Sub
 
     Protected Sub Logout_Click(ByVal sender As Object, ByVal e As EventArgs)
@@ -58,7 +81,6 @@ Partial Class SearchPage
             Integer.TryParse(txtQty.Text, qty)
 
             Dim dtCart As DataTable = DirectCast(Session("Cart"), DataTable)
-            ' Check if item exists, if so update qty
             Dim existingRow As DataRow() = dtCart.Select("ProductId = " & productId)
             If existingRow.Length > 0 Then
                 existingRow(0)("Quantity") = Convert.ToInt32(existingRow(0)("Quantity")) + qty
@@ -106,7 +128,6 @@ Partial Class SearchPage
 
             Dim parms As New List(Of SqlParameter)()
 
-
             If Not String.IsNullOrWhiteSpace(txtProductDesc.Text) Then
                 sql &= " AND Product_Description LIKE @desc"
                 parms.Add(New SqlParameter("@desc", "%" & txtProductDesc.Text.Trim() & "%"))
@@ -152,4 +173,111 @@ Partial Class SearchPage
         gvResults.Visible = False
         lblMessage.Visible = False
     End Sub
+
+    ' ──────────────────────────────────────────────────────────────
+    ' CUSTOMER ORDER LOOKUP
+    ' Frontend: dropdown shows names; backend queries by Customer_Id
+    ' ──────────────────────────────────────────────────────────────
+    Protected Sub btnCustomerSearch_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim custId As String = ddlCustomer.SelectedValue
+        Dim orderIdText As String = txtOrderId.Text.Trim()
+
+        ' Validation
+        If String.IsNullOrEmpty(custId) AndAlso String.IsNullOrEmpty(orderIdText) Then
+            ShowOrderMsg("Please select a customer from the dropdown OR enter an Order ID.", System.Drawing.Color.OrangeRed)
+            pnlOrderResults.Visible = False
+            Return
+        End If
+
+        Try
+            Dim sql As String =
+                "SELECT c.Customer_Id, c.Customer_Name, " &
+                "       c.Customer_City, c.Customer_State, " &
+                "       o.Order_Id, o.Order_Date, " &
+                "       p.Product_Description, ol.Ordered_Quantity, " &
+                "       p.Standard_Price AS Unit_Price, " &
+                "       (ol.Ordered_Quantity * p.Standard_Price) AS Line_Total " &
+                "FROM CUSTOMER_t c " &
+                "JOIN ORDER_t o        ON c.Customer_Id = o.Customer_Id " &
+                "JOIN Order_line_t ol  ON o.Order_Id    = ol.Order_Id " &
+                "JOIN PRODUCT_t p      ON ol.Product_Id = p.Product_Id " &
+                "WHERE 1 = 1"
+
+            Dim parms As New List(Of SqlParameter)()
+
+            ' Filter by Customer_Id (from dropdown – frontend shows name, backend uses ID)
+            If Not String.IsNullOrEmpty(custId) Then
+                sql &= " AND c.Customer_Id = @custId"
+                parms.Add(New SqlParameter("@custId", Integer.Parse(custId)))
+            End If
+
+            ' Filter by Order_Id if supplied
+            If Not String.IsNullOrEmpty(orderIdText) Then
+                Dim oid As Integer
+                If Integer.TryParse(orderIdText, oid) Then
+                    sql &= " AND o.Order_Id = @orderId"
+                    parms.Add(New SqlParameter("@orderId", oid))
+                Else
+                    ShowOrderMsg("Order ID must be a number.", System.Drawing.Color.OrangeRed)
+                    Return
+                End If
+            End If
+
+            sql &= " ORDER BY o.Order_Id, p.Product_Id"
+
+            Dim dt As New DataTable()
+            Using conn As New SqlConnection(ConnStr)
+                Using cmd As New SqlCommand(sql, conn)
+                    cmd.Parameters.AddRange(parms.ToArray())
+                    Using da As New SqlDataAdapter(cmd)
+                        da.Fill(dt)
+                    End Using
+                End Using
+            End Using
+
+            If dt.Rows.Count = 0 Then
+                ShowOrderMsg("No orders found for the selected criteria.", System.Drawing.Color.DarkOrange)
+                pnlOrderResults.Visible = False
+                Return
+            End If
+
+            ' Bind results
+            lblCustomerSearchMsg.Visible = False
+            gvOrders.DataSource = dt
+            gvOrders.DataBind()
+
+            ' Grand total + summary
+            Dim grandTotal As Decimal = 0
+            Dim distinctOrders As New System.Collections.Generic.HashSet(Of Integer)()
+            For Each row As DataRow In dt.Rows
+                grandTotal += Convert.ToDecimal(row("Line_Total"))
+                distinctOrders.Add(Convert.ToInt32(row("Order_Id")))
+            Next
+            lblOrderGrandTotal.Text = String.Format("{0:C}", grandTotal)
+
+            Dim custName As String = dt.Rows(0)("Customer_Name").ToString()
+            Dim custIdVal As String = dt.Rows(0)("Customer_Id").ToString()
+            lblOrderSummary.Text = "Customer: <b>" & custName & "</b> (ID: " & custIdVal & ") - " & _
+                distinctOrders.Count.ToString() & " order(s) found | " & dt.Rows.Count.ToString() & " line item(s)"
+
+            pnlOrderResults.Visible = True
+
+        Catch ex As Exception
+            ShowOrderMsg("Error: " & ex.Message, System.Drawing.Color.Red)
+        End Try
+    End Sub
+
+    Protected Sub btnClearOrderSearch_Click(ByVal sender As Object, ByVal e As EventArgs)
+        ddlCustomer.SelectedIndex = 0
+        txtOrderId.Text = ""
+        pnlOrderResults.Visible = False
+        lblCustomerSearchMsg.Visible = False
+    End Sub
+
+    Private Sub ShowOrderMsg(ByVal msg As String, ByVal color As System.Drawing.Color)
+        lblCustomerSearchMsg.Text = msg
+        lblCustomerSearchMsg.ForeColor = color
+        lblCustomerSearchMsg.Visible = True
+    End Sub
+
 End Class
