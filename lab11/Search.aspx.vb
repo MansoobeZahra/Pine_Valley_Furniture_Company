@@ -3,6 +3,7 @@ Imports System.Collections.Generic
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
+Imports System.Web.UI.WebControls
 
 Partial Class SearchPage
     Inherits System.Web.UI.Page
