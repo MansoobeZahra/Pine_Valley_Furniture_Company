@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>Lab 11 Problem Statement</title></head>
+<body style="font-family: Arial, sans-serif; margin: 40px;">
+<h2 style="text-align:center;">Internet Application Development</h2>
+<h3 style="text-align:center;">Lab 11</h3>
+<p style="text-align:center;">Topic: Recommendation System and Market Basket Analysis (BI)</p>
+<a href="../index.html">← Back to Dashboard</a>
+<hr>
+
+<h3>Problem Statement</h3>
+<p>Incorporate business intelligence in your PVFC order processing system by adding a recommendation system based on Market Basket Analysis using Self Joins.</p>
+
+<b>Requirements:</b>
+<ol type="i">
+    <li><b>Market Basket Analysis:</b> Use the concept of Self Joins to identify products that are frequently bought together. "If a user buys product A, he will likely buy product B."</li>
+    <li><b>Web API:</b> Implement a Web API (using Generic Handlers or ASP.NET Web API) to serve recommendations. The API should accept a Product ID and return suggested items.</li>
+    <li><b>Recommendation Messages:</b> Display "Customers who bought this also bought..." during Product Selection and Order Placement.</li>
+    <li><b>Reordering Suggestions:</b> Provide personalized reordering suggestions for customers based on their purchase history.</li>
+    <li><b>Inventory Forecasting:</b> Develop a manager/employee dashboard to forecast demand for secondary items when a primary item's sales increase.</li>
+</ol>
+
+<b>Technical Constraints:</b>
+<ul>
+    <li>Use <b>Self Join</b> in SQL for association rule mining.</li>
+    <li>Separate the API logic from the main server processing (simulate separate CPU via Web API).</li>
+    <li>Use AJAX to fetch recommendations from the Web API in real-time.</li>
+</ul>
+
+<hr>
+<a href="../index.html">← Back to Dashboard</a>
+</body>
+</html>

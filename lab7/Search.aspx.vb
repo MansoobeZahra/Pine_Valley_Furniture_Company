@@ -26,7 +26,9 @@ Partial Class SearchPage
         lnkRegistration.Visible = isAdmin
         lnkCatalog.Visible = True
         lnkSegmentation.Visible = isAdmin
+        pnlOrderLookup.Visible = isAdmin
         If Not IsPostBack Then
+
             lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
             If Session("Cart") Is Nothing Then
                 Dim dtCart As New DataTable()

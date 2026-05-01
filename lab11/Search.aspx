@@ -77,21 +77,81 @@
                 border: 1px solid #ccc;
                 border-radius: 3px;
             }
+
+            /* Recommendation Box Styling */
+            .recommendation-panel {
+                background: #e3f2fd;
+                border: 1px solid #2196f3;
+                border-radius: 8px;
+                padding: 15px;
+                margin-top: 20px;
+                display: none;
+            }
+            .recommendation-title {
+                font-weight: bold;
+                color: #0d47a1;
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+            .rec-item {
+                display: inline-block;
+                background: white;
+                padding: 5px 12px;
+                border-radius: 20px;
+                margin-right: 10px;
+                border: 1px solid #bbdefb;
+                font-size: 13px;
+                cursor: pointer;
+            }
+            .rec-item:hover {
+                background: #bbdefb;
+            }
         </style>
+        <script>
+            function getRecommendations(productId, productName) {
+                const panel = document.getElementById('recPanel');
+                const list = document.getElementById('recList');
+                const title = document.getElementById('recHeader');
+                
+                // Calling the separate Blazor Web API
+                fetch('http://localhost:5170/api/recommendation/marketBasket?productId=' + productId)
+                    .then(response => response.json())
+                    .then(data => {
+                        list.innerHTML = '';
+                        if (data.length > 0) {
+                            title.innerText = 'Customers who bought "' + productName + '" also bought:';
+                            data.forEach(item => {
+                                const span = document.createElement('span');
+                                span.className = 'rec-item';
+                                span.innerText = item.name;
+                                span.onclick = () => { alert('Add ' + item.name + ' to cart?'); };
+                                list.appendChild(span);
+                            });
+                            panel.style.display = 'block';
+                        } else {
+                            panel.style.display = 'none';
+                        }
+                    })
+                    .catch(err => console.error('API Error:', err));
+            }
+
+        </script>
     </head>
 
     <body style="font-family: Arial, sans-serif;">
         <div style="background-color: #583937; color: white; padding: 20px; text-align: center;">
             <h1><img src="logo.png" alt="logo_PVFC" height="50" style="margin-left: 0px; vertical-align: middle;" />
                 Pine Valley Furniture Company</h1>
-            <p>Mansoob-e-Zahra | Lab 06</p>
+            <p>Mansoob-e-Zahra | Lab 11</p>
         </div>
         <div style="background-color: #f4f4f4; padding: 10px; border-bottom: 1px solid #ccc; text-align: center;">
             <asp:HyperLink ID="lnkRegistration" runat="server" NavigateUrl="Registration.aspx">Registration |
             </asp:HyperLink><a href="Update.aspx">Update Info</a> |
             <a href="Search.aspx">Search</a> |
             <a href="Order.aspx">Order</a>
-            <asp:HyperLink ID="lnkCatalog" runat="server" NavigateUrl="Catalog.aspx"> | Catalog</asp:HyperLink> |
+            <asp:HyperLink ID="lnkCatalog" runat="server" NavigateUrl="Catalog.aspx"> | Catalog</asp:HyperLink>
+            <asp:HyperLink ID="lnkSegmentation" runat="server" NavigateUrl="CustomerSegmentation.aspx"> | Segmentation
+            </asp:HyperLink> |
             <a href="Help.aspx">Help</a> |
             <a href="Logout.aspx" style="color:#583937;font-weight:bold;">Logout</a>
         </div>
@@ -107,7 +167,7 @@
 
                 <!-- ─── PRODUCT SEARCH ─────────────────────────────────── -->
                 <div class="section-box">
-                    <div class="section-title"> Search Products / Inventory</div>
+                    <div class="section-title">Search Products / Inventory</div>
                     <asp:Label ID="lblMessage" runat="server" Visible="false" />
                     <table class="search-table">
                         <tr>
@@ -152,10 +212,17 @@
                                 <ItemTemplate>
                                     <asp:Button ID="btnAddToCart" runat="server" Text="Add to Cart"
                                         CommandName="AddToCart" CommandArgument='<%# Container.DataItemIndex %>' />
+                                    <button type="button" onclick="getRecommendations('<%# Eval("Product_Id") %>', '<%# Eval("Product_Description") %>')" style="font-size:11px;margin-left:5px;">Suggest</button>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
+
+                    <!-- Recommendation UI -->
+                    <div id="recPanel" class="recommendation-panel">
+                        <div id="recHeader" class="recommendation-title">Customers who bought this also bought:</div>
+                        <div id="recList"></div>
+                    </div>
                 </div>
 
                 <!-- ─── CART SUMMARY ──────────────────────────────────── -->
@@ -183,7 +250,7 @@
                 <!-- ─── CUSTOMER ORDER LOOKUP (Admin Only) ─────────── -->
                 <asp:Panel ID="pnlOrderLookup" runat="server">
                     <div class="section-box">
-                        <div class="section-title">Customer Order Lookup</div>
+                        <div class="section-title"> Customer Order Lookup</div>
                         <p style="font-size:12px;color:#888;margin:0 0 10px;">
                             Search by customer name or order ID to view all order details.
                         </p>
@@ -244,12 +311,7 @@
                             </div>
                         </asp:Panel>
                     </div>
-                </asp:Panel>total">
-                            Grand Total:
-                            <asp:Label ID="lblOrderGrandTotal" runat="server" />
-                        </div>
-                    </asp:Panel>
-                </div>
+                </asp:Panel>
 
             </div>
         </form>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Implementation Report - Lab 11</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; max-width: 900px; }
+        h1 { color: #583937; }
+        h2 { color: #333; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th { background-color: #583937; color: white; padding: 8px; text-align: left; }
+        td { padding: 8px; border: 1px solid #ccc; }
+        tr:nth-child(even) { background-color: #f4f4f4; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+
+<body>
+    <h1>Code Implementation Report - Lab 11</h1>
+    <a href="index.html">&larr; Back to Lab 11 Menu</a>
+    <hr />
+
+    <h2>Objective</h2>
+    <p>
+        The objective of Lab 11 was to incorporate <b>Business Intelligence (BI)</b> into the Pine Valley Furniture Company (PVFC) system. 
+        This involved implementing a <b>Recommendation System</b> based on <b>Market Basket Analysis</b> using SQL Self-Joins and a dedicated <b>Web API</b> for serving suggestions.
+    </p>
+
+    <h2>Key Functionalities Implemented</h2>
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Implementation Details</th>
+            <th>Technical Logic</th>
+        </tr>
+        <tr>
+            <td><b>Market Basket Analysis</b></td>
+            <td>Identifies products frequently bought together.</td>
+            <td>SQL <code>SELF JOIN</code> on <code>Order_line_t</code>.</td>
+        </tr>
+        <tr>
+            <td><b>Recommendation Web API</b></td>
+            <td>A separate <b>Blazor Web App</b> (ASP.NET Core) serving JSON.</td>
+            <td>Decoupled logic running on a separate CPU (simulated via <code>https://localhost:7087</code>).</td>
+        </tr>
+        <tr>
+            <td><b>Real-time Suggestions</b></td>
+            <td>"Suggest" button in <code>Search.aspx</code> fetches data via AJAX.</td>
+            <td>JavaScript <code>fetch()</code> API calling the recommendation endpoint.</td>
+        </tr>
+        <tr>
+            <td><b>Reordering System</b></td>
+            <td>Personalized suggestions in <code>Order.aspx</code>.</td>
+            <td><code>SELECT DISTINCT</code> from past orders for the logged-in user.</td>
+        </tr>
+        <tr>
+            <td><b>Inventory Forecasting</b></td>
+            <td>Manager dashboard for demand prediction.</td>
+            <td>Frequency analysis of product pairings to predict secondary demand.</td>
+        </tr>
+    </table>
+
+    <h2>SQL Self-Join Logic (Market Basket)</h2>
+    <p>To find items bought with a specific product, we join the <code>Order_line_t</code> table with itself on the same <code>Order_Id</code>:</p>
+    <pre><code>
+SELECT TOP 3 p2.Product_Description, COUNT(*) as Frequency
+FROM Order_line_t l1
+JOIN Order_line_t l2 ON l1.Order_Id = l2.Order_Id AND l1.Product_Id <> l2.Product_Id
+JOIN PRODUCT_t p2 ON l2.Product_Id = p2.Product_Id
+WHERE l1.Product_Id = @CurrentID
+GROUP BY p2.Product_Id, p2.Product_Description
+ORDER BY Frequency DESC;
+    </code></pre>
+
+    <h2>System Architecture</h2>
+    <ul>
+        <li><b>Backend:</b> ASP.NET Core Controller (<code>RecommendationController.cs</code>) in a separate Blazor project.</li>
+        <li><b>Database:</b> SQL Server with associations established via order history.</li>
+        <li><b>Frontend:</b> AJAX-enabled ASP.NET Web Forms for a dynamic user experience without full page reloads.</li>
+    </ul>
+
+    <hr />
+    <p>&copy; 2026 Pine Valley Furniture Company | Lab 11 | Mansoob-e-Zahra</p>
+</body>
+
+</html>
