@@ -1,0 +1,158 @@
+body {
+    font-family: sans-serif;
+    background-color: #eee;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    padding: 0;
+    margin: 0;
+}
+
+.top-nav {
+    background-color: #1b9cff;
+    color: white;
+    padding: 10px;
+    border-bottom: 1px solid #005a9e;
+}
+
+.top-nav strong {
+    font-size: 20px;
+}
+
+.top-nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.top-nav a:hover {
+    text-decoration: underline;
+}
+
+.main-area {
+    background-color: white;
+    padding: 20px;
+    margin: 15px;
+    border: 1px solid #ccc;
+    min-height: 400px;
+}
+
+.form-item {
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+input[type=text],
+input[type=password],
+select,
+textarea {
+    border: 1px solid #999;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn {
+    padding: 7px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #777;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-blue {
+    background-color: #0078d4;
+    color: white;
+    border-color: #005a9e;
+}
+
+.btn-green {
+    background-color: #28a745;
+    color: white;
+    border-color: #1e7e34;
+}
+
+.btn-red {
+    background-color: #dc3545;
+    color: white;
+    border-color: #bd2130;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #333;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+}
+
+td {
+    border-bottom: 1px solid #eee;
+    padding: 8px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+}
+
+.alert-ok {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.alert-err {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.layout-container {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ccc;
+    min-height: 90vh;
+    padding: 10px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar a:hover {
+    background-color: #e9ecef;
+}
+
+.content-area {
+    flex: 1;
+    padding: 20px;
+}
+
+.text-green { color: green !important; }
+.text-gray { color: gray !important; }
+.text-red { color: red !important; }
+.text-bold { font-weight: bold; }
