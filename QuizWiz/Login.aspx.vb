@@ -15,6 +15,12 @@ Partial Class Login
             Dim dt = DBHelper.GetDataTable("SELECT UserID, FullName, Role, IsActive FROM Users2 WHERE Username=@u AND Password=@p",
                 DBHelper.Param("@u", username), DBHelper.Param("@p", password))
 
+            If dt Is Nothing Then
+                litError.Text = "Error: Database result is null."
+                pnlError.Visible = True
+                Return
+            End If
+
             If dt.Rows.Count = 0 Then
                 pnlError.Visible = True
                 litError.Text = "Invalid login."
@@ -22,25 +28,27 @@ Partial Class Login
             End If
 
             Dim row = dt.Rows(0)
-            If Not CBool(row("IsActive")) Then
+            If row("IsActive") Is DBNull.Value OrElse Not CBool(row("IsActive")) Then
                 pnlError.Visible = True
                 litError.Text = "Account inactive."
                 Return
             End If
 
-            Session("UserID") = row("UserID")
-            Session("FullName") = row("FullName").ToString()
-            Session("Role") = row("Role").ToString()
+            If Session Is Nothing Then
+                litError.Text = "Error: Session is not available."
+                pnlError.Visible = True
+                Return
+            End If
 
-            Select Case Session("Role").ToString()
-                Case "Admin"   : Response.Redirect("Admin_Dashboard.aspx")
-                Case "Teacher" : Response.Redirect("Teacher_Dashboard.aspx")
-                Case "Student" : Response.Redirect("Student_Dashboard.aspx")
-            End Select
+            Session("UserID") = row("UserID")
+            Session("FullName") = If(row("FullName") Is DBNull.Value, "User", row("FullName").ToString())
+            Session("Role") = If(row("Role") Is DBNull.Value, "Student", row("Role").ToString())
+
+            Response.Redirect(Session("Role").ToString() & "_Dashboard.aspx")
 
         Catch ex As Exception
             pnlError.Visible = True
-            litError.Text = "Error: " & ex.Message
+            litError.Text = "Error: " & ex.Message & " [Trace: " & ex.StackTrace.Substring(0, Math.Min(ex.StackTrace.Length, 100)) & "]"
         End Try
     End Sub
 End Class
