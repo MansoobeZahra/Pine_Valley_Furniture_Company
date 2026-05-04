@@ -69,17 +69,19 @@
             <asp:Button ID="btnPlaceOrder" runat="server" Text="Place Order" OnClick="btnPlaceOrder_Click" />
             <asp:Button ID="btnClear" runat="server" Text="Clear" OnClick="btnClear_Click" CausesValidation="false" />
 
-            <hr />
-            <b>Order Lookup</b>
-            <br />
-            Customer ID:
-            <asp:TextBox ID="txtLookupCustID" runat="server" Width="80px" />
-            Product ID:
-            <asp:TextBox ID="txtLookupProdID" runat="server" Width="80px" />
-            <asp:Button ID="btnLookup" runat="server" Text="Lookup" OnClick="btnLookup_Click"
-                CausesValidation="false" />
-            <br /><br />
-            <asp:GridView ID="gvLookupResults" runat="server"></asp:GridView>
+            <asp:Panel ID="pnlLookup" runat="server" Visible="true">
+                <hr />
+                <b>Order Lookup</b>
+                <br />
+                Customer ID:
+                <asp:TextBox ID="txtLookupCustID" runat="server" Width="80px" />
+                Product ID:
+                <asp:TextBox ID="txtLookupProdID" runat="server" Width="80px" />
+                <asp:Button ID="btnLookup" runat="server" Text="Lookup" OnClick="btnLookup_Click"
+                    CausesValidation="false" />
+                <br /><br />
+                <asp:GridView ID="gvLookupResults" runat="server"></asp:GridView>
+            </asp:Panel>
         </form>
     </body>
 

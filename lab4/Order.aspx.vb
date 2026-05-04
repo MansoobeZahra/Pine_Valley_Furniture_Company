@@ -18,6 +18,13 @@ Partial Class OrderPage
         If Not IsPostBack AndAlso String.IsNullOrEmpty(txtOrderDate.Text) Then
             txtOrderDate.Text = DateTime.Now.ToString("yyyy-MM-dd")
         End If
+
+        ' Admin Only check for lookup functionality
+        Dim isAdmin As Boolean = False
+        If Session("UserRole") IsNot Nothing AndAlso Session("UserRole").ToString().ToLower() = "admin" Then
+            isAdmin = True
+        End If
+        pnlLookup.Visible = isAdmin
     End Sub
 
     ' ---------------------------------------------------------------
