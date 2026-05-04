@@ -15,8 +15,12 @@ Public Class Register
     Protected Sub btnRegister_Click(ByVal sender As Object, ByVal e As EventArgs)
         If Not Page.IsValid Then Return
 
-        Dim connStr As String = ConfigurationManager.ConnectionStrings("SurveyDB").ConnectionString
         Try
+            Dim connStringObj = ConfigurationManager.ConnectionStrings("SurveyDB")
+            If connStringObj Is Nothing Then
+                Throw New Exception("Connection string 'SurveyDB' not found in Web.config.")
+            End If
+            Dim connStr As String = connStringObj.ConnectionString
             Using conn As New SqlConnection(connStr)
                 conn.Open()
                 ' Check duplicate username / email
@@ -40,7 +44,7 @@ Public Class Register
                 insCmd.Parameters.AddWithValue("@r", Integer.Parse(ddlRole.SelectedValue))
                 insCmd.ExecuteNonQuery()
             End Using
-            Response.Redirect("~/Login.aspx?registered=1")
+            Response.Redirect("/FEEDBACK/Login.aspx?registered=1")
         Catch ex As Exception
             pnlError.Visible = True
             litError.Text = "Error: " & ex.Message
