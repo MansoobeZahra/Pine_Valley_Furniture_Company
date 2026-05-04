@@ -20,6 +20,17 @@
         <h1>PVFC Manager Dashboard</h1>
         <p>Lab 11: Inventory Forecasting & Demand Analysis (BI)</p>
     </div>
+
+    <div style="background-color: #f4f4f4; padding: 10px; border-bottom: 1px solid #ccc; text-align: center;">
+        <a href="Registration.aspx">Registration</a> | 
+        <a href="Update.aspx">Update Info</a> |
+        <a href="Search.aspx">Search</a> |
+        <a href="Order.aspx">Order</a> |
+        <a href="Catalog.aspx">Catalog</a> |
+        <a href="CustomerSegmentation.aspx">Segmentation</a> |
+        <a href="ManagerDashboard.aspx"><b>Forecasting</b></a> |
+        <a href="Logout.aspx" style="color:#583937;font-weight:bold;">Logout</a>
+    </div>
     
     <div class="card">
         <h2>Demand Forecasting</h2>

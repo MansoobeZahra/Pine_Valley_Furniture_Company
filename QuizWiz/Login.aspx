@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Login" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Login" EnableViewStateMac="false" ViewStateEncryptionMode="Never" %>
 <!DOCTYPE html>
 <html>
 <head runat="server">

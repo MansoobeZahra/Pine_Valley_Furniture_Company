@@ -15,7 +15,10 @@
         <div style="background-color: #f4f4f4; padding: 10px; border-bottom: 1px solid #ccc; text-align: center;">
             <asp:HyperLink ID="lnkRegistration" runat="server" NavigateUrl="Registration.aspx">Registration | </asp:HyperLink><a href="Update.aspx">Update Info</a> |
             <a href="Search.aspx">Search</a> |
-            <a href="Order.aspx">Order</a><asp:HyperLink ID="lnkCatalog" runat="server" NavigateUrl="Catalog.aspx"> | Catalog</asp:HyperLink><asp:HyperLink ID="lnkSegmentation" runat="server" NavigateUrl="CustomerSegmentation.aspx"> | Segmentation</asp:HyperLink> |
+            <a href="Order.aspx">Order</a>
+            <asp:HyperLink ID="lnkCatalog" runat="server" NavigateUrl="Catalog.aspx"> | Catalog</asp:HyperLink>
+            <asp:HyperLink ID="lnkSegmentation" runat="server" NavigateUrl="CustomerSegmentation.aspx"> | Segmentation</asp:HyperLink>
+            <asp:HyperLink ID="lnkForecasting" runat="server" NavigateUrl="ManagerDashboard.aspx"> | Forecasting</asp:HyperLink> |
             <a href="Help.aspx">Help</a> |
             <a href="Logout.aspx" style="color:#583937;font-weight:bold;">Logout</a>
         </div>

@@ -151,6 +151,8 @@
             <a href="Order.aspx">Order</a>
             <asp:HyperLink ID="lnkCatalog" runat="server" NavigateUrl="Catalog.aspx"> | Catalog</asp:HyperLink>
             <asp:HyperLink ID="lnkSegmentation" runat="server" NavigateUrl="CustomerSegmentation.aspx"> | Segmentation
+            </asp:HyperLink>
+            <asp:HyperLink ID="lnkForecasting" runat="server" NavigateUrl="ManagerDashboard.aspx"> | Forecasting
             </asp:HyperLink> |
             <a href="Help.aspx">Help</a> |
             <a href="Logout.aspx" style="color:#583937;font-weight:bold;">Logout</a>

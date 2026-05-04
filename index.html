@@ -1,249 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mansoob-e-Zahra | IAD Labs Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --accent: #ec4899;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text: #f8fafc;
-        }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Internet Application Development Labs</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        body {
-            background: var(--bg);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-            overflow-x: hidden;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            letter-spacing: 1px;
-        }
-
-        .container {
-            max-width: 1100px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .lab-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .lab-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transform: translateX(-100%);
-            transition: 0.5s;
-        }
-
-        .lab-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.2);
-        }
-
-        .lab-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .lab-num {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .lab-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .lab-desc {
-            font-size: 0.95rem;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-
-        .arrow {
-            margin-top: 20px;
-            color: var(--secondary);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: gap 0.3s;
-        }
-
-        .lab-card:hover .arrow {
-            gap: 12px;
-        }
-
-        .badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        footer {
-            margin-top: 80px;
-            text-align: center;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 640px) {
-            h1 { font-size: 2.2rem; }
-            .container { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
-<body>
+
+<body style="font-family: Arial, sans-serif; margin: 40px ;">
 
     <header>
-        <h1>Internet Application Development</h1>
-        <p>Lab Portfolio & Project Showcases</p>
+        <h1>Internet Application Development Labs</h1>
+        <p>Select a lab to open it</p>
     </header>
+    <hr>
+    <ul>
+        <li>
+            <h2><a href="lab1/index.html">Click here for Lab 01</a></h2>
+        </li>
+        <li>
+            <h2><a href="lab3/index.html">Click here for Lab 03</a></h2>
+        </li>
+        <li>
+            <h2><a href="lab4/index.html">Click here for Lab 04</a></h2>
+        </li>
+        <li>
+            <h2><a href="lab5/index.html">Click here for Lab 05</a></h2>
+        </li>
+        <li>
+            <h2><a href="lab6/index.html">Click here for Lab 06</a> </h2>
+        </li>
+        <li style="margin-top:20px;">
+            <h2><a href="lab7/index.html">Click here for Lab 07</a> </h2>
+        </li>
+        <li style="margin-top:20px;">
+            <h2><a href="QuizWiz/Login.aspx">Click here for Lab 08 (QuizWiz)</a> </h2>
+        </li>
+        <li style="margin-top:20px;">
+            <h2><a href="lab11/index.html">Click here for Lab 11</a> </h2>
+        </li>
+    </ul>
 
-    <div class="container">
-        <!-- Lab 01 -->
-        <a href="lab1/index.html" class="lab-card">
-            <span class="lab-num">Module 01</span>
-            <div class="lab-title">HTML & UI Fundamentals</div>
-            <p class="lab-desc">The core foundation of web structures, focusing on semantic HTML and basic navigation layouts.</p>
-            <div class="arrow">Explore Lab <span>&rarr;</span></div>
-        </a>
-
-        <!-- Lab 03 -->
-        <a href="lab3/index.html" class="lab-card">
-            <span class="lab-num">Module 03</span>
-            <div class="lab-title">Advanced CSS Design</div>
-            <p class="lab-desc">Deep dive into layout systems, responsiveness, and complex styling for modern interfaces.</p>
-            <div class="arrow">Explore Lab <span>&rarr;</span></div>
-        </a>
-
-        <!-- Lab 04 -->
-        <a href="lab4/index.html" class="lab-card">
-            <span class="lab-num">Module 04</span>
-            <div class="lab-title">ASP.NET Web Forms Intro</div>
-            <p class="lab-desc">Transitioning to server-side development with basic Web Forms controls and page lifecycle.</p>
-            <div class="arrow">Explore Lab <span>&rarr;</span></div>
-        </a>
-
-        <!-- Lab 05 -->
-        <a href="lab5/index.html" class="lab-card">
-            <span class="lab-num">Module 05</span>
-            <div class="lab-title">Database Connectivity</div>
-            <p class="lab-desc">Implementing SQL Server interactions and data-driven controls for dynamic content rendering.</p>
-            <div class="arrow">Explore Lab <span>&rarr;</span></div>
-        </a>
-
-        <!-- Lab 06 -->
-        <a href="lab6/index.html" class="lab-card">
-            <span class="lab-num">Module 06</span>
-            <div class="lab-title">State Management</div>
-            <p class="lab-desc">Managing user sessions, cookies, and application state for secure and persistent user journeys.</p>
-            <div class="arrow">Explore Lab <span>&rarr;</span></div>
-        </a>
-
-        <!-- Lab 07 -->
-        <a href="lab7/index.html" class="lab-card">
-            <span class="lab-num">Module 07</span>
-            <div class="lab-title">Customer Segmentation</div>
-            <p class="lab-desc">Building advanced dashboards for data analysis and customer profiling within the PVFC system.</p>
-            <div class="arrow">Explore Lab <span>&rarr;</span></div>
-        </a>
-
-        <!-- Lab 08 (QuizWiz) -->
-        <a href="QuizWiz/Login.aspx" class="lab-card" style="border-color: var(--accent);">
-            <span class="lab-num" style="color: var(--accent);">Module 08</span>
-            <div class="badge">Major Project</div>
-            <div class="lab-title">QuizWiz Application</div>
-            <p class="lab-desc">A full-featured Online Quiz Management System with role-based access for Admins, Teachers, and Students.</p>
-            <div class="arrow" style="color: var(--accent);">Launch Project <span>&rarr;</span></div>
-        </a>
-    </div>
-
-    <footer>
-        &copy; 2026 IAD Labs | Crafted by Mansoob-e-Zahra
-    </footer>
+    <footer>&copy; 2026 IAD Labs | Mansoob-e-Zahra</footer>
 
 </body>
+
 </html>

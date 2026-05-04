@@ -14,10 +14,11 @@ Partial Class CatalogPage
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
         If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
-        Dim isAdmin As Boolean = (Session("UserRole").ToString() = "admin")
+        Dim isAdmin As Boolean = (Session("UserRole").ToString().ToLower() = "admin")
         lnkRegistration.Visible = isAdmin
         lnkCatalog.Visible = True   ' Catalog visible to ALL roles
         lnkSegmentation.Visible = isAdmin
+        lnkForecasting.Visible = isAdmin
         pnlAdminTools.Visible = isAdmin  ' Add/Update only for admin
         If Not IsPostBack Then
             lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"

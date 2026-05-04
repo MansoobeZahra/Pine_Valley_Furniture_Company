@@ -14,13 +14,15 @@ Partial Class CustomerSegmentationPage
     ' PAGE LOAD – RBAC guard + load segments on first visit
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
         If Session("Username") Is Nothing Then Response.Redirect("Login.aspx?reason=timeout")
-        If Session("UserRole").ToString() <> "admin" Then
+        Dim isAdmin As Boolean = (Session("UserRole").ToString().ToLower() = "admin")
+        If Not isAdmin Then
             Response.Write("<script>alert('Access Denied: Segmentation is for Admins only.');</script>")
             Response.Redirect("Update.aspx")
         End If
-        Dim isAdmin As Boolean = True
         lnkRegistration.Visible = isAdmin
         lnkCatalog.Visible      = True
+        lnkSegmentation.Visible = isAdmin
+        lnkForecasting.Visible  = isAdmin
         If Not IsPostBack Then
             lblWelcome.Text = "Welcome, " & Session("Username") & " (" & Session("UserRole") & ")"
             LoadAllSegments()
