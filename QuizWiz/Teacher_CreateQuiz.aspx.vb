@@ -68,7 +68,7 @@ Partial Class Teacher_CreateQuiz
         Dim imgPath = ""
         If fuQImage.HasFile Then
             Try
-                Dim folder = Server.MapPath("~/Images/Questions/")
+                Dim folder = Server.MapPath("Images/Questions/")
                 If Not System.IO.Directory.Exists(folder) Then System.IO.Directory.CreateDirectory(folder)
                 Dim fName = Guid.NewGuid().ToString() & System.IO.Path.GetExtension(fuQImage.FileName)
                 fuQImage.SaveAs(folder & fName)

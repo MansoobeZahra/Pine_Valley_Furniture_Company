@@ -42,7 +42,7 @@ Partial Class Teacher_AddQuestion
         Dim imgPath = ""
         If fuImage.HasFile Then
             Try
-                Dim folder = Server.MapPath("~/Images/Questions/")
+                Dim folder = Server.MapPath("Images/Questions/")
                 If Not System.IO.Directory.Exists(folder) Then System.IO.Directory.CreateDirectory(folder)
                 Dim ext = System.IO.Path.GetExtension(fuImage.FileName).ToLower()
                 Dim fName = Guid.NewGuid().ToString() & ext
