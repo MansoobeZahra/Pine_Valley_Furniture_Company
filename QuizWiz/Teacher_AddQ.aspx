@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Teacher_AddQ.aspx.vb" Inherits="Teacher_AddQuestion" MasterPageFile="~/MasterPage.master" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Teacher_AddQ.aspx.vb" Inherits="Teacher_AddQuestion" MasterPageFile="MasterPage.master" %>
 
 <asp:Content ID="ctTitle" ContentPlaceHolderID="PageTitle" runat="server">Add Question</asp:Content>
 

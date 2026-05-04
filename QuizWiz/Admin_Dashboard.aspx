@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Admin_Dashboard.aspx.vb" Inherits="Admin_Dashboard" MasterPageFile="~/MasterPage.master" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Admin_Dashboard.aspx.vb" Inherits="Admin_Dashboard" MasterPageFile="MasterPage.master" %>
 
 <asp:Content ID="ctTitle" ContentPlaceHolderID="PageTitle" runat="server">Admin Dashboard</asp:Content>
 
