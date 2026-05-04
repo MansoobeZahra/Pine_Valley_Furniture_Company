@@ -2,7 +2,7 @@ Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 
-Public Class Login
+Public Class Feedback_Login
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load

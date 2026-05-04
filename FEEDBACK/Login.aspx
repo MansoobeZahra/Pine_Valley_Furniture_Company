@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Login" Debug="true" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Feedback_Login" Debug="true" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
