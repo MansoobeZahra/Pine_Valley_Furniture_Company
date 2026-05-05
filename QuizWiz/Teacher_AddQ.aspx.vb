@@ -39,20 +39,6 @@ Partial Class Teacher_AddQuestion
             correctOptions = txtModelAnswer.Text.Trim()
         End If
 
-        Dim imgPath = ""
-        If fuImage.HasFile Then
-            Try
-                Dim folder = Server.MapPath("Images/Questions/")
-                If Not System.IO.Directory.Exists(folder) Then System.IO.Directory.CreateDirectory(folder)
-                Dim ext = System.IO.Path.GetExtension(fuImage.FileName).ToLower()
-                Dim fName = Guid.NewGuid().ToString() & ext
-                fuImage.SaveAs(folder & fName)
-                imgPath = "Images/Questions/" & fName
-            Catch ex As Exception
-                litError.Text = "Image upload failed: " & ex.Message : pnlError.Visible = True : Return
-            End Try
-        End If
-
         DBHelper.ExecuteNonQuery( _
             "INSERT INTO QuestionsTable (SubjectID,QuestionStatement,OptionA,OptionB,OptionC,OptionD,CorrectOption,DifficultyLevel,CreatedBy,QuestionType,CorrectOptions,ImagePath) " & _
             "VALUES (@sid,@stmt,@a,@b,@c,@d,@co,@diff,@by,@qt,@cops,@img)", _
@@ -67,7 +53,7 @@ Partial Class Teacher_AddQuestion
             DBHelper.Param("@by", CInt(Session("UserID"))), _
             DBHelper.Param("@qt", qType), _
             DBHelper.Param("@cops", correctOptions), _
-            DBHelper.Param("@img", If(imgPath="", DBNull.Value, imgPath)))
+            DBHelper.Param("@img", DBNull.Value))
 
         pnlSuccess.Visible = True
         txtStatement.Text = "" : txtA.Text = "" : txtB.Text = "" : txtC.Text = "" : txtD.Text = ""

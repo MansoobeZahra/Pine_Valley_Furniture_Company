@@ -33,8 +33,6 @@
     <br /><br />
     Question Text:<br />
     <asp:TextBox ID="txtStatement" runat="server" TextMode="MultiLine" Rows="3" Width="100%" /><br /><br />
-    Upload Image (Optional):<br />
-    <asp:FileUpload ID="fuImage" runat="server" />
 </div>
 
 <div id="secOptions" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
