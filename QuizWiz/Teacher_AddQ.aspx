@@ -1,72 +1,83 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Teacher_AddQ.aspx.vb" Inherits="Teacher_AddQuestion" MasterPageFile="MasterPage.master" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Teacher_AddQ.aspx.vb" Inherits="Teacher_AddQuestion" %>
+<%@ Register TagPrefix="uc" TagName="Header" Src="Header.ascx" %>
+<%@ Register TagPrefix="uc" TagName="Sidebar" Src="Sidebar.ascx" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Add Question - QuizWiz</title>
+    <link rel="stylesheet" href="Styles/site.css" />
+</head>
+<body>
+<form id="form1" runat="server">
+    <uc:Header runat="server" ID="Header1" />
+    <div class="layout-container">
+        <uc:Sidebar runat="server" ID="Sidebar1" />
+        <div class="main-area">
+            <h2>Add New Question</h2>
 
-<asp:Content ID="ctTitle" ContentPlaceHolderID="PageTitle" runat="server">Add Question</asp:Content>
+            <asp:Panel ID="pnlSuccess" runat="server" Visible="false" CssClass="alert alert-ok">
+                Question saved! <a href="Teacher_AddQ.aspx">Add another</a> | <a href="Teacher_Bank.aspx">View Bank</a>
+            </asp:Panel>
 
-<asp:Content ID="ctMain" ContentPlaceHolderID="MainContent" runat="server">
+            <asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="alert alert-err">
+                <asp:Literal ID="litError" runat="server" />
+            </asp:Panel>
 
-<h2>Add New Question</h2>
+            <div style="border:1px solid #0078d4; padding:10px; background:#f0f7ff; margin-bottom:10px;">
+                <b>Select Type:</b><br />
+                <asp:RadioButton ID="rbSingle" runat="server" GroupName="qType" Checked="true" Text="Single Choice" /><br />
+                <asp:RadioButton ID="rbMultiple" runat="server" GroupName="qType" Text="Multiple Choice" /><br />
+                <asp:RadioButton ID="rbParagraph" runat="server" GroupName="qType" Text="Short Answer" />
+                <asp:HiddenField ID="hfQType" runat="server" Value="Radio" />
+            </div>
 
-<asp:Panel ID="pnlSuccess" runat="server" Visible="false" CssClass="alert alert-ok">
-    Question saved! <a href="Teacher_AddQ.aspx">Add another</a> | <a href="Teacher_Bank.aspx">View Bank</a>
-</asp:Panel>
+            <div style="margin:0 0 10px 0;">
+                Subject: <asp:DropDownList ID="ddlSubject" runat="server" /><br />
+                Difficulty: 
+                <asp:DropDownList ID="ddlDifficulty" runat="server">
+                    <asp:ListItem>Easy</asp:ListItem>
+                    <asp:ListItem Selected="True">Medium</asp:ListItem>
+                    <asp:ListItem>Hard</asp:ListItem>
+                </asp:DropDownList>
+                <br /><br />
+                Question Text:<br />
+                <asp:TextBox ID="txtStatement" runat="server" TextMode="MultiLine" Rows="3" Width="100%" /><br /><br />
+            </div>
 
-<asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="alert alert-err">
-    <asp:Literal ID="litError" runat="server" />
-</asp:Panel>
+            <div id="secOptions" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                <b>Options:</b><br />
+                A: <asp:TextBox ID="txtA" runat="server" /><br />
+                B: <asp:TextBox ID="txtB" runat="server" /><br />
+                C: <asp:TextBox ID="txtC" runat="server" /><br />
+                D: <asp:TextBox ID="txtD" runat="server" />
+            </div>
 
-<div style="border:1px solid #0078d4; padding:10px; background:#f0f7ff; margin-bottom:10px;">
-    <b>Select Type:</b><br />
-    <asp:RadioButton ID="rbSingle" runat="server" GroupName="qType" Checked="true" Text="Single Choice" /><br />
-    <asp:RadioButton ID="rbMultiple" runat="server" GroupName="qType" Text="Multiple Choice" /><br />
-    <asp:RadioButton ID="rbParagraph" runat="server" GroupName="qType" Text="Short Answer" />
-    <asp:HiddenField ID="hfQType" runat="server" Value="Radio" />
-</div>
+            <div id="secCorrectRadio" style="border:1px solid #28a745; padding:10px; background:#f0fff4; margin-bottom:10px;">
+                <b>Correct Option (Single):</b><br />
+                <asp:RadioButton ID="rbA" runat="server" GroupName="Correct" Text="A" />
+                <asp:RadioButton ID="rbB" runat="server" GroupName="Correct" Text="B" />
+                <asp:RadioButton ID="rbC" runat="server" GroupName="Correct" Text="C" />
+                <asp:RadioButton ID="rbD" runat="server" GroupName="Correct" Text="D" />
+            </div>
 
-<div class="main-area" style="margin:0 0 10px 0;">
-    Subject: <asp:DropDownList ID="ddlSubject" runat="server" /><br />
-    Difficulty: 
-    <asp:DropDownList ID="ddlDifficulty" runat="server">
-        <asp:ListItem>Easy</asp:ListItem>
-        <asp:ListItem Selected="True">Medium</asp:ListItem>
-        <asp:ListItem>Hard</asp:ListItem>
-    </asp:DropDownList>
-    <br /><br />
-    Question Text:<br />
-    <asp:TextBox ID="txtStatement" runat="server" TextMode="MultiLine" Rows="3" Width="100%" /><br /><br />
-</div>
+            <div id="secCorrectCheckbox" style="border:1px solid #28a745; padding:10px; background:#f0fff4; margin-bottom:10px; display:none;">
+                <b>Correct Options (Multiple):</b><br />
+                <asp:CheckBox ID="cbCA" runat="server" Text="A" />
+                <asp:CheckBox ID="cbCB" runat="server" Text="B" />
+                <asp:CheckBox ID="cbCC" runat="server" Text="C" />
+                <asp:CheckBox ID="cbCD" runat="server" Text="D" />
+            </div>
 
-<div id="secOptions" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-    <b>Options:</b><br />
-    A: <asp:TextBox ID="txtA" runat="server" /><br />
-    B: <asp:TextBox ID="txtB" runat="server" /><br />
-    C: <asp:TextBox ID="txtC" runat="server" /><br />
-    D: <asp:TextBox ID="txtD" runat="server" />
-</div>
+            <div id="secCorrectParagraph" style="border:1px solid #28a745; padding:10px; background:#f0fff4; margin-bottom:10px; display:none;">
+                <b>Model Answer (Text):</b><br />
+                <asp:TextBox ID="txtModelAnswer" runat="server" Width="100%" />
+            </div>
 
-<div id="secCorrectRadio" style="border:1px solid #28a745; padding:10px; background:#f0fff4; margin-bottom:10px;">
-    <b>Correct Option (Single):</b><br />
-    <asp:RadioButton ID="rbA" runat="server" GroupName="Correct" Text="A" />
-    <asp:RadioButton ID="rbB" runat="server" GroupName="Correct" Text="B" />
-    <asp:RadioButton ID="rbC" runat="server" GroupName="Correct" Text="C" />
-    <asp:RadioButton ID="rbD" runat="server" GroupName="Correct" Text="D" />
-</div>
-
-<div id="secCorrectCheckbox" style="border:1px solid #28a745; padding:10px; background:#f0fff4; margin-bottom:10px; display:none;">
-    <b>Correct Options (Multiple):</b><br />
-    <asp:CheckBox ID="cbCA" runat="server" Text="A" />
-    <asp:CheckBox ID="cbCB" runat="server" Text="B" />
-    <asp:CheckBox ID="cbCC" runat="server" Text="C" />
-    <asp:CheckBox ID="cbCD" runat="server" Text="D" />
-</div>
-
-<div id="secCorrectParagraph" style="border:1px solid #28a745; padding:10px; background:#f0fff4; margin-bottom:10px; display:none;">
-    <b>Model Answer (Text):</b><br />
-    <asp:TextBox ID="txtModelAnswer" runat="server" Width="100%" />
-</div>
-
-<asp:Button ID="btnSave" runat="server" Text="Save Question" OnClick="btnSave_Click" CssClass="btn btn-blue" />
-<a href="Teacher_Bank.aspx" style="margin-left:10px; color:red;">Cancel</a>
-
+            <asp:Button ID="btnSave" runat="server" Text="Save Question" OnClick="btnSave_Click" CssClass="btn btn-blue" />
+            <a href="Teacher_Bank.aspx" style="margin-left:10px; color:red;">Cancel</a>
+        </div>
+    </div>
+</form>
 <script>
     function updateVisibility() {
         var type = "";
@@ -85,5 +96,5 @@
     document.getElementById('<%= rbParagraph.ClientID %>').onclick = updateVisibility;
     updateVisibility();
 </script>
-
-</asp:Content>
+</body>
+</html>
