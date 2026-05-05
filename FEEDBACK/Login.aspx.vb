@@ -1,13 +1,13 @@
-﻿Imports System.Data
+Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 
-Public Class Login
+Public Class Feedback_Login
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
         ' Already logged in -> redirect
-        If Session("UserID") IsNot Nothing Then
+        If Session("UserID") IsNot Nothing AndAlso Session("RoleName") IsNot Nothing Then
             RedirectByRole(Session("RoleName").ToString())
         End If
 
@@ -22,42 +22,51 @@ Public Class Login
     Protected Sub btnLogin_Click(ByVal sender As Object, ByVal e As EventArgs)
         If Not Page.IsValid Then Return
 
-        Dim connStr As String = ConfigurationManager.ConnectionStrings("SurveyDB").ConnectionString
-        Using conn As New SqlConnection(connStr)
-            Using cmd As New SqlCommand("sp_ValidateUser", conn)
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.AddWithValue("@Username", txtUsername.Text.Trim())
-                cmd.Parameters.AddWithValue("@Password", txtPassword.Text.Trim())
-                conn.Open()
-                Using dr As SqlDataReader = cmd.ExecuteReader()
-                    If dr.Read() Then
-                        Session("UserID")   = dr("UserID")
-                        Session("Username") = dr("Username")
-                        Session("FullName") = dr("FullName")
-                        Session("Email")    = dr("Email")
-                        Session("RoleID")   = dr("RoleID")
-                        Session("RoleName") = dr("RoleName")
-                        RedirectByRole(dr("RoleName").ToString())
-                    Else
-                        pnlError.Visible = True
-                        litError.Text = "Invalid username or password. Please try again."
-                    End If
+        Try
+            Dim connStringObj = ConfigurationManager.ConnectionStrings("SurveyDB")
+            If connStringObj Is Nothing Then
+                Throw New Exception("Connection string 'SurveyDB' not found in root Web.config.")
+            End If
+
+            Dim connStr As String = connStringObj.ConnectionString
+            Using conn As New SqlConnection(connStr)
+                Using cmd As New SqlCommand("sp_ValidateUser", conn)
+                    cmd.CommandType = CommandType.StoredProcedure
+                    cmd.Parameters.AddWithValue("@Username", txtUsername.Text.Trim())
+                    cmd.Parameters.AddWithValue("@Password", txtPassword.Text.Trim())
+                    conn.Open()
+                    Using dr As SqlDataReader = cmd.ExecuteReader()
+                        If dr.Read() Then
+                            Session("UserID")   = dr("UserID")
+                            Session("Username") = dr("Username")
+                            Session("FullName") = dr("FullName")
+                            Session("Email")    = dr("Email")
+                            Session("RoleID")   = dr("RoleID")
+                            Session("RoleName") = dr("RoleName")
+                            RedirectByRole(dr("RoleName").ToString())
+                        Else
+                            pnlError.Visible = True
+                            litError.Text = "Invalid username or password. Please try again."
+                        End If
+                    End Using
                 End Using
             End Using
-        End Using
+        Catch ex As Exception
+            pnlError.Visible = True
+            litError.Text = "Error: " & ex.Message
+        End Try
     End Sub
 
     Private Sub RedirectByRole(role As String)
         Select Case role
             Case "Survey Administrator"
-                Response.Redirect("~/Admin/Dashboard.aspx")
+                Response.Redirect("/FEEDBACK/Admin/Dashboard.aspx")
             Case "Survey Builder"
-                Response.Redirect("~/Builder/Dashboard.aspx")
+                Response.Redirect("/FEEDBACK/Builder/Dashboard.aspx")
             Case "Surveyor"
-                Response.Redirect("~/Surveyor/Dashboard.aspx")
+                Response.Redirect("/FEEDBACK/Surveyor/Dashboard.aspx")
             Case Else
-                Response.Redirect("~/Login.aspx")
+                Response.Redirect("/FEEDBACK/Login.aspx")
         End Select
     End Sub
 End Class
-
