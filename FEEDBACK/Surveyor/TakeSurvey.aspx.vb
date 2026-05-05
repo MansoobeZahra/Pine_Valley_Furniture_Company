@@ -1,4 +1,4 @@
-Imports System.Data
+﻿Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 Imports System.Web.UI
@@ -13,7 +13,7 @@ Public Class Surveyor_TakeSurvey
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
         If Session("RoleName") Is Nothing OrElse Session("RoleName").ToString() <> "Surveyor" Then
-            Response.Redirect("/FEEDBACK/Login.aspx")
+            Response.Redirect("~/Login.aspx")
         End If
 
         If Not Integer.TryParse(Request.QueryString("sid"), _surveyID) OrElse _surveyID = 0 Then

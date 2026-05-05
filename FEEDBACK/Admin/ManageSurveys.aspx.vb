@@ -7,7 +7,7 @@ Public Class Admin_ManageSurveys
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
         If Session("RoleName") Is Nothing OrElse Session("RoleName").ToString() <> "Survey Administrator" Then
-            Response.Redirect("/FEEDBACK/Login.aspx")
+            Response.Redirect("~/Login.aspx")
         End If
         If Not IsPostBack Then LoadSurveys()
     End Sub

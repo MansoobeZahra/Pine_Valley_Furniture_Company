@@ -1,4 +1,4 @@
-Imports System.Web.UI
+﻿Imports System.Web.UI
 Imports System.Web.UI.HtmlControls
 
 Public Class Site
@@ -44,7 +44,7 @@ Public Class Site
     Protected Sub btnLogout_Click(ByVal sender As Object, ByVal e As EventArgs)
         Session.Clear()
         Session.Abandon()
-        Response.Redirect("/FEEDBACK/Login.aspx")
+        Response.Redirect("~/Login.aspx")
     End Sub
 End Class
 

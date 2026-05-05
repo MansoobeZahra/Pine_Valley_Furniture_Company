@@ -1,4 +1,4 @@
-Imports System.Data
+﻿Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 Imports System.Web.UI.HtmlControls
@@ -7,7 +7,7 @@ Public Class Results_SurveyResults
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
-        If Session("UserID") Is Nothing Then Response.Redirect("/FEEDBACK/Login.aspx")
+        If Session("UserID") Is Nothing Then Response.Redirect("~/Login.aspx")
 
         If Not IsPostBack Then
             PopulateSurveyDropdown()

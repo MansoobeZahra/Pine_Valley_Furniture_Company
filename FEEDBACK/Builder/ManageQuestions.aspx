@@ -1,4 +1,4 @@
-<%@ Page Language="VB" MasterPageFile="/FEEDBACK/Site.master" AutoEventWireup="false"
+﻿<%@ Page Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false"
     CodeFile="ManageQuestions.aspx.vb" Inherits="Builder_ManageQuestions" %>
 
 <asp:Content ContentPlaceHolderID="PageTitle" runat="server">Manage Questions</asp:Content>

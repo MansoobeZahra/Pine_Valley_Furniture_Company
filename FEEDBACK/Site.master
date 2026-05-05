@@ -1,4 +1,4 @@
-<%@ Master Language="VB" AutoEventWireup="false" CodeFile="Site.master.vb" Inherits="Site" %>
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeFile="Site.master.vb" Inherits="Site" %>
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="FeedBACK - Online Survey Platform" />
     <title>FeedBACK - <asp:ContentPlaceHolder ID="PageTitle" runat="server">Survey</asp:ContentPlaceHolder></title>
-    <link rel="stylesheet" href="/FEEDBACK/Styles/Site.css" />
+    <link rel="stylesheet" href="~/Styles/Site.css" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 <body>
@@ -14,7 +14,7 @@
 
         <!-- ===== NAVBAR ===== -->
         <nav class="navbar">
-            <a href="/FEEDBACK/Default.aspx" runat="server" class="navbar-brand">
+            <a href="~/Default.aspx" runat="server" class="navbar-brand">
                 <span class="brand-icon"></span>
                 FeedBACK
             </a>

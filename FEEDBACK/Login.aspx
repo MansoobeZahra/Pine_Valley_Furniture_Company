@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Feedback_Login" Debug="true" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Login" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,7 +75,12 @@
 
         <!-- Footer -->
         <div class="login-footer">
-            <p>Default credentials: <strong>admin / Admin@123</strong></p>
+            <p><strong>Demo Accounts:</strong></p>
+            <p style="font-size: 0.8rem; opacity: 0.8; margin-top: 0.25rem;">
+                Admin: admin / Admin@123<br />
+                Builder: builder1 / Builder@123<br />
+                Surveyor: surveyor1 / Survey@123
+            </p>
         </div>
     </div>
 </div>
