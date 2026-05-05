@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false"
+<%@ Page Language="VB" MasterPageFile="/FEEDBACK/Site.master" AutoEventWireup="false"
     CodeFile="TakeSurvey.aspx.vb" Inherits="Surveyor_TakeSurvey" %>
 
 <asp:Content ContentPlaceHolderID="PageTitle" runat="server">Take Survey</asp:Content>
