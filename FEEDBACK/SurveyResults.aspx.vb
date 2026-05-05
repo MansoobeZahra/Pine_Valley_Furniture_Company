@@ -1,9 +1,9 @@
-﻿Imports System.Data
+Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 Imports System.Web.UI.HtmlControls
 
-Public Class Results_SurveyResults
+Public Class SurveyResults
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
@@ -12,10 +12,8 @@ Public Class Results_SurveyResults
         If Not IsPostBack Then
             PopulateSurveyDropdown()
 
-            ' Auto-load if sid param passed
             Dim sid As Integer
             If Integer.TryParse(Request.QueryString("sid"), sid) AndAlso sid > 0 Then
-                ' Find and select the item
                 Dim item As ListItem = ddlSurvey.Items.FindByValue(sid.ToString())
                 If item IsNot Nothing Then
                     ddlSurvey.SelectedValue = sid.ToString()
@@ -66,7 +64,6 @@ Public Class Results_SurveyResults
         Using conn As New SqlConnection(connStr)
             conn.Open()
 
-            ' Survey meta
             Dim metaCmd As New SqlCommand(
                 "SELECT Title, IsAnonymous, " &
                 "(SELECT COUNT(*) FROM Responses WHERE SurveyID=@s) AS TotalResp, " &
@@ -85,7 +82,6 @@ Public Class Results_SurveyResults
                 End If
             End Using
 
-            ' Results per question/option
             Dim resCmd As New SqlCommand("sp_GetSurveyResults", conn)
             resCmd.CommandType = CommandType.StoredProcedure
             resCmd.Parameters.AddWithValue("@SurveyID", surveyID)
@@ -98,7 +94,6 @@ Public Class Results_SurveyResults
                 Return
             End If
 
-            ' Group by question
             Dim questions As New Dictionary(Of Integer, DataRow())
             Dim questionOrder As New List(Of Integer)
             For Each row As DataRow In dt.Rows
@@ -119,7 +114,6 @@ Public Class Results_SurveyResults
                 Dim rows() As DataRow = questions(qid)
                 Dim firstRow As DataRow = rows(0)
 
-                ' Calculate total answers for this question
                 Dim totalAns As Integer = 0
                 For Each r As DataRow In rows
                     totalAns += CInt(r("AnswerCount"))
@@ -146,7 +140,6 @@ Public Class Results_SurveyResults
                 hdr.Controls.Add(textEl)
                 block.Controls.Add(hdr)
 
-                ' Body
                 Dim body As New HtmlGenericControl("div")
                 body.Attributes("class") = "results-q-body"
 
@@ -187,4 +180,6 @@ Public Class Results_SurveyResults
         End Using
     End Sub
 End Class
+
+
 

@@ -1,8 +1,8 @@
-﻿Imports System.Data
+Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 
-Public Class Builder_CreateSurvey
+Public Class CreateSurvey
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
@@ -35,4 +35,6 @@ Public Class Builder_CreateSurvey
         End Try
     End Sub
 End Class
+
+
 

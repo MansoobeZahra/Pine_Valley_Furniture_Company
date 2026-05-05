@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Feedback_Login" Debug="true" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Login" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="FeedBACK - Sign in to your survey account" />
     <title>FeedBACK - Login</title>
-    <link rel="stylesheet" href="Styles/Site.css" />
+    <link rel="stylesheet" href="Site.css" runat="server" />
 </head>
 <body>
 <form id="frmLogin" runat="server">
@@ -87,4 +87,5 @@
 </form>
 </body>
 </html>
+
 

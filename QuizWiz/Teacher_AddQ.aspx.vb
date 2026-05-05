@@ -1,13 +1,28 @@
+Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration
+
 Partial Class Teacher_AddQuestion
     Inherits System.Web.UI.Page
 
+    Dim connStr As String = ConfigurationManager.ConnectionStrings("QuizWizDB").ConnectionString
+
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AuthHelper.RequireRole(Me, "Teacher")
+        If Session("UserID") Is Nothing OrElse Session("Role").ToString() <> "Teacher" Then
+            Response.Redirect("Login.aspx")
+            Return
+        End If
         If Not IsPostBack Then LoadSubjects()
     End Sub
 
     Private Sub LoadSubjects()
-        ddlSubject.DataSource = DBHelper.GetDataTable("SELECT SubjectID, SubjectName FROM Subjects ORDER BY SubjectName")
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("SELECT SubjectID, SubjectName FROM Subjects ORDER BY SubjectName", conn)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
+        ddlSubject.DataSource = dt
         ddlSubject.DataTextField = "SubjectName"
         ddlSubject.DataValueField = "SubjectID"
         ddlSubject.DataBind()
@@ -39,21 +54,24 @@ Partial Class Teacher_AddQuestion
             correctOptions = txtModelAnswer.Text.Trim()
         End If
 
-        DBHelper.ExecuteNonQuery( _
-            "INSERT INTO QuestionsTable (SubjectID,QuestionStatement,OptionA,OptionB,OptionC,OptionD,CorrectOption,DifficultyLevel,CreatedBy,QuestionType,CorrectOptions,ImagePath) " & _
-            "VALUES (@sid,@stmt,@a,@b,@c,@d,@co,@diff,@by,@qt,@cops,@img)", _
-            DBHelper.Param("@sid", CInt(ddlSubject.SelectedValue)), _
-            DBHelper.Param("@stmt", txtStatement.Text.Trim()), _
-            DBHelper.Param("@a", txtA.Text.Trim()), _
-            DBHelper.Param("@b", txtB.Text.Trim()), _
-            DBHelper.Param("@c", txtC.Text.Trim()), _
-            DBHelper.Param("@d", txtD.Text.Trim()), _
-            DBHelper.Param("@co", If(qType="Radio", correctOptions, "A")), _
-            DBHelper.Param("@diff", ddlDifficulty.SelectedValue), _
-            DBHelper.Param("@by", CInt(Session("UserID"))), _
-            DBHelper.Param("@qt", qType), _
-            DBHelper.Param("@cops", correctOptions), _
-            DBHelper.Param("@img", DBNull.Value))
+        Using conn As New SqlConnection(connStr)
+            Dim sql = "INSERT INTO QuestionsTable (SubjectID,QuestionStatement,OptionA,OptionB,OptionC,OptionD,CorrectOption,DifficultyLevel,CreatedBy,QuestionType,CorrectOptions) " & _
+                      "VALUES (@sid,@stmt,@a,@b,@c,@d,@co,@diff,@by,@qt,@cops)"
+            Dim cmd As New SqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@sid", CInt(ddlSubject.SelectedValue))
+            cmd.Parameters.AddWithValue("@stmt", txtStatement.Text.Trim())
+            cmd.Parameters.AddWithValue("@a", txtA.Text.Trim())
+            cmd.Parameters.AddWithValue("@b", txtB.Text.Trim())
+            cmd.Parameters.AddWithValue("@c", txtC.Text.Trim())
+            cmd.Parameters.AddWithValue("@d", txtD.Text.Trim())
+            cmd.Parameters.AddWithValue("@co", If(qType = "Radio", correctOptions, "A"))
+            cmd.Parameters.AddWithValue("@diff", ddlDifficulty.SelectedValue)
+            cmd.Parameters.AddWithValue("@by", CInt(Session("UserID")))
+            cmd.Parameters.AddWithValue("@qt", qType)
+            cmd.Parameters.AddWithValue("@cops", correctOptions)
+            conn.Open()
+            cmd.ExecuteNonQuery()
+        End Using
 
         pnlSuccess.Visible = True
         txtStatement.Text = "" : txtA.Text = "" : txtB.Text = "" : txtC.Text = "" : txtD.Text = ""

@@ -1,19 +1,20 @@
 <%@ Page Language="VB" AutoEventWireup="false" CodeFile="Admin_Dashboard.aspx.vb" Inherits="Admin_Dashboard" %>
-<%@ Register TagPrefix="uc" TagName="Header" Src="Header.ascx" %>
-<%@ Register TagPrefix="uc" TagName="Sidebar" Src="Sidebar.ascx" %>
+<%@ Register Src="~/Navbar.ascx" TagPrefix="uc" TagName="Navbar" %>
+<%@ Register Src="~/Header.ascx" TagPrefix="uc" TagName="Header" %>
 <!DOCTYPE html>
 <html>
 <head runat="server">
-    <title>Admin Dashboard - QuizWiz</title>
-    <link rel="stylesheet" href="Styles/site.css" />
+    <title>QuizWiz - Admin Dashboard</title>
+    <link href="Styles/site.css" rel="stylesheet" />
 </head>
-<body>
+<body style="margin:0; padding:0;">
 <form id="form1" runat="server">
-    <uc:Header runat="server" ID="Header1" />
+    <uc:Header runat="server" ID="Header" />
     <div class="layout-container">
-        <uc:Sidebar runat="server" ID="Sidebar1" />
+        <uc:Navbar runat="server" ID="Navbar" />
         <div class="main-area">
             <h1>Admin Dashboard</h1>
+            <hr />
 
             <div style="display:flex; flex-wrap:wrap; gap:15px; margin-bottom:25px;">
                 <div style="flex:1; min-width:150px; border:1px solid #ccc; padding:15px; background:white; border-top:5px solid #0078d4; text-align:center;">

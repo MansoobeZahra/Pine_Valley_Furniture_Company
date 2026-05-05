@@ -1,11 +1,18 @@
 Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration
 Imports System.Web.UI.WebControls
 
 Partial Class Student_AttemptQuiz
     Inherits System.Web.UI.Page
 
+    Dim connStr As String = ConfigurationManager.ConnectionStrings("QuizWizDB").ConnectionString
+
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AuthHelper.RequireRole(Me, "Student")
+        If Session("UserID") Is Nothing OrElse Session("Role").ToString() <> "Student" Then
+            Response.Redirect("Login.aspx")
+            Return
+        End If
         If Not IsPostBack Then
             Dim qid = Request.QueryString("quizid")
             If qid = "" Then Response.Redirect("Student_Dashboard.aspx") : Return
@@ -14,14 +21,28 @@ Partial Class Student_AttemptQuiz
     End Sub
 
     Private Sub StartQuiz(qid As Integer)
-        Dim dt = DBHelper.GetDataTable("SELECT QuizTitle, AllowedTime, TotalQuestions FROM Quiz WHERE QuizID=@q", DBHelper.Param("@q", qid))
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("SELECT QuizTitle, AllowedTime, TotalQuestions FROM Quiz WHERE QuizID=@q", conn)
+            cmd.Parameters.AddWithValue("@q", qid)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
+
         If dt.Rows.Count = 0 Then Response.Redirect("Student_Dashboard.aspx") : Return
         Session("QuizID") = qid
         Session("QuizTitle") = dt.Rows(0)("QuizTitle").ToString()
         Session("TimeLeft") = CInt(dt.Rows(0)("AllowedTime")) * 60
         Session("QIndex") = 0
         
-        Dim qDt = DBHelper.GetDataTable("SELECT TOP " & dt.Rows(0)("TotalQuestions").ToString() & " q.QuestionID, q.QuestionStatement, q.OptionA, q.OptionB, q.OptionC, q.OptionD, q.CorrectOptions, q.QuestionType FROM QuizQuestions qq JOIN QuestionsTable q ON qq.QuestionID = q.QuestionID WHERE qq.QuizID=@q", DBHelper.Param("@q", qid))
+        Dim qDt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim sql = "SELECT TOP " & dt.Rows(0)("TotalQuestions").ToString() & " q.QuestionID, q.QuestionStatement, q.OptionA, q.OptionB, q.OptionC, q.OptionD, q.CorrectOptions, q.QuestionType FROM QuizQuestions qq JOIN QuestionsTable q ON qq.QuestionID = q.QuestionID WHERE qq.QuizID=@q"
+            Dim cmd As New SqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@q", qid)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(qDt)
+        End Using
         Session("Questions") = qDt
         Session("QTotal") = qDt.Rows.Count
         
@@ -102,18 +123,43 @@ Partial Class Student_AttemptQuiz
             If ans.ToLower() = correct.ToLower() Then marks = 1
         End If
         
-        DBHelper.ExecuteNonQuery("INSERT INTO Answers (StudentID,QuizID,QuestionID,QNo,CorrectAns,StudentAns,Marks) VALUES (@s,@qz,@qn,@no,@ca,@sa,@m)", _
-            DBHelper.Param("@s", Session("UserID")), DBHelper.Param("@qz", Session("QuizID")), DBHelper.Param("@qn", row("QuestionID")), _
-            DBHelper.Param("@no", idx + 1), DBHelper.Param("@ca", correct), DBHelper.Param("@sa", ans), DBHelper.Param("@m", marks))
+        Using conn As New SqlConnection(connStr)
+            Dim sql = "INSERT INTO Answers (StudentID,QuizID,QuestionID,QNo,CorrectAns,StudentAns,Marks) VALUES (@s,@qz,@qn,@no,@ca,@sa,@m)"
+            Dim cmd As New SqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@s", Session("UserID"))
+            cmd.Parameters.AddWithValue("@qz", Session("QuizID"))
+            cmd.Parameters.AddWithValue("@qn", row("QuestionID"))
+            cmd.Parameters.AddWithValue("@no", idx + 1)
+            cmd.Parameters.AddWithValue("@ca", correct)
+            cmd.Parameters.AddWithValue("@sa", ans)
+            cmd.Parameters.AddWithValue("@m", marks)
+            conn.Open()
+            cmd.ExecuteNonQuery()
+        End Using
     End Sub
 
     Private Sub Finish()
         Dim qid = CInt(Session("QuizID"))
         Dim sid = CInt(Session("UserID"))
         Dim total = CInt(Session("QTotal"))
-        Dim obtained = CInt(If(DBHelper.ExecuteScalar("SELECT SUM(Marks) FROM Answers WHERE StudentID=@s AND QuizID=@q", DBHelper.Param("@s", sid), DBHelper.Param("@q", qid)), 0))
-        DBHelper.ExecuteNonQuery("INSERT INTO Results (StudentID,QuizID,TotalMarks,ObtainedMarks,Percentage) VALUES (@s,@q,@t,@o,@p)", _
-            DBHelper.Param("@s", sid), DBHelper.Param("@q", qid), DBHelper.Param("@t", total), DBHelper.Param("@o", obtained), DBHelper.Param("@p", (obtained / total) * 100))
+        
+        Dim obtained As Integer = 0
+        Using conn As New SqlConnection(connStr)
+            Dim cmd1 As New SqlCommand("SELECT SUM(Marks) FROM Answers WHERE StudentID=@s AND QuizID=@q", conn)
+            cmd1.Parameters.AddWithValue("@s", sid)
+            cmd1.Parameters.AddWithValue("@q", qid)
+            conn.Open()
+            Dim res = cmd1.ExecuteScalar()
+            If res IsNot DBNull.Value Then obtained = CInt(res)
+
+            Dim cmd2 As New SqlCommand("INSERT INTO Results (StudentID,QuizID,TotalMarks,ObtainedMarks,Percentage) VALUES (@s,@q,@t,@o,@p)", conn)
+            cmd2.Parameters.AddWithValue("@s", sid)
+            cmd2.Parameters.AddWithValue("@q", qid)
+            cmd2.Parameters.AddWithValue("@t", total)
+            cmd2.Parameters.AddWithValue("@o", obtained)
+            cmd2.Parameters.AddWithValue("@p", (obtained / total) * 100)
+            cmd2.ExecuteNonQuery()
+        End Using
         Response.Redirect("Student_Results.aspx?done=1&quizid=" & qid)
     End Sub
 End Class

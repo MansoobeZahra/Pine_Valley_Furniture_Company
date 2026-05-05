@@ -1,4 +1,4 @@
-﻿Public Class DefaultPage
+Public Class DefaultPage
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
@@ -8,11 +8,13 @@
         End If
         Dim role As String = Session("RoleName").ToString()
         Select Case role
-            Case "Survey Administrator" : Response.Redirect("~/Admin/Dashboard.aspx")
-            Case "Survey Builder"       : Response.Redirect("~/Builder/Dashboard.aspx")
-            Case "Surveyor"             : Response.Redirect("~/Surveyor/Dashboard.aspx")
+            Case "Survey Administrator" : Response.Redirect("~/AdminDashboard.aspx")
+            Case "Survey Builder"       : Response.Redirect("~/BuilderDashboard.aspx")
+            Case "Surveyor"             : Response.Redirect("~/SurveyorDashboard.aspx")
             Case Else                   : Response.Redirect("~/Login.aspx")
         End Select
     End Sub
 End Class
+
+
 

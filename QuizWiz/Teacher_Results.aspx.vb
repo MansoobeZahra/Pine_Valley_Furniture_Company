@@ -1,20 +1,35 @@
 Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration
 Imports System.Web.UI.WebControls
 
 Partial Class Teacher_ViewResults
     Inherits System.Web.UI.Page
 
+    Dim connStr As String = ConfigurationManager.ConnectionStrings("QuizWizDB").ConnectionString
+
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AuthHelper.RequireRole(Me, "Teacher", "Admin")
+        Dim role = If(Session("Role") IsNot Nothing, Session("Role").ToString(), "")
+        If role <> "Teacher" And role <> "Admin" Then
+            Response.Redirect("Login.aspx")
+            Return
+        End If
         If Not IsPostBack Then LoadQuizList()
     End Sub
 
     Private Sub LoadQuizList()
         Dim uid = CInt(Session("UserID"))
-        Dim sql = "SELECT QuizID, QuizTitle FROM Quiz WHERE CreatedBy=@id ORDER BY CreatedAt DESC"
-        If Session("Role").ToString() = "Admin" Then sql = "SELECT QuizID, QuizTitle FROM Quiz ORDER BY CreatedAt DESC"
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim sql = "SELECT QuizID, QuizTitle FROM Quiz WHERE CreatedBy=@id ORDER BY CreatedAt DESC"
+            If Session("Role").ToString() = "Admin" Then sql = "SELECT QuizID, QuizTitle FROM Quiz ORDER BY CreatedAt DESC"
+            Dim cmd As New SqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@id", uid)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
         
-        ddlQuiz.DataSource = DBHelper.GetDataTable(sql, DBHelper.Param("@id", uid))
+        ddlQuiz.DataSource = dt
         ddlQuiz.DataTextField = "QuizTitle"
         ddlQuiz.DataValueField = "QuizID"
         ddlQuiz.DataBind()
@@ -23,10 +38,15 @@ Partial Class Teacher_ViewResults
 
     Protected Sub btnView_Click(sender As Object, e As EventArgs)
         If ddlQuiz.SelectedValue = "" Then Return
-        Dim dt = DBHelper.GetDataTable( _
-            "SELECT r.ObtainedMarks, r.TotalMarks, r.Percentage, r.AttemptDate, u.FullName AS StudentName " & _
-            "FROM Results r JOIN Users2 u ON r.StudentID = u.UserID WHERE r.QuizID = @q ORDER BY r.Percentage DESC", _
-            DBHelper.Param("@q", ddlQuiz.SelectedValue))
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim sql = "SELECT r.ObtainedMarks, r.TotalMarks, r.Percentage, r.AttemptDate, u.FullName AS StudentName " & _
+                      "FROM Results r JOIN Users2 u ON r.StudentID = u.UserID WHERE r.QuizID = @q ORDER BY r.Percentage DESC"
+            Dim cmd As New SqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@q", ddlQuiz.SelectedValue)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
         
         If dt.Rows.Count = 0 Then
             pnlResults.Visible = False
@@ -38,7 +58,7 @@ Partial Class Teacher_ViewResults
         gvResults.DataBind()
 
         Dim sum = 0.0, high = 0.0, low = 100.0
-        For Each r As System.Data.DataRow In dt.Rows
+        For Each r As DataRow In dt.Rows
             Dim p = Convert.ToDouble(r("Percentage"))
             sum += p
             If p > high Then high = p

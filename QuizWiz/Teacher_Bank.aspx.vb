@@ -1,11 +1,18 @@
 Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration
 Imports System.Web.UI.WebControls
 
 Partial Class Teacher_ManageQuestions
     Inherits System.Web.UI.Page
 
+    Dim connStr As String = ConfigurationManager.ConnectionStrings("QuizWizDB").ConnectionString
+
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AuthHelper.RequireRole(Me, "Teacher")
+        If Session("UserID") Is Nothing OrElse Session("Role").ToString() <> "Teacher" Then
+            Response.Redirect("Login.aspx")
+            Return
+        End If
         If Not IsPostBack Then
             LoadSubjects()
             LoadQuestions()
@@ -13,28 +20,36 @@ Partial Class Teacher_ManageQuestions
     End Sub
 
     Private Sub LoadSubjects()
-        Dim dt = DBHelper.GetDataTable("SELECT SubjectID, SubjectName FROM Subjects ORDER BY SubjectName")
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("SELECT SubjectID, SubjectName FROM Subjects ORDER BY SubjectName", conn)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
         ddlFilter.Items.Clear()
         ddlFilter.Items.Add(New ListItem("All Subjects", ""))
-        For Each row As System.Data.DataRow In dt.Rows
+        For Each row As DataRow In dt.Rows
             ddlFilter.Items.Add(New ListItem(row("SubjectName").ToString(), row("SubjectID").ToString()))
         Next
     End Sub
 
     Private Sub LoadQuestions()
-        Dim sql = "SELECT q.QuestionID, q.QuestionStatement, q.DifficultyLevel, q.CorrectOptions, s.SubjectName FROM QuestionsTable q JOIN Subjects s ON q.SubjectID = s.SubjectID WHERE q.CreatedBy = @t"
-        Dim pList As New System.Collections.Generic.List(Of System.Data.SqlClient.SqlParameter)
-        pList.Add(DBHelper.Param("@t", CInt(Session("UserID"))))
-        If ddlFilter.SelectedValue <> "" Then
-            sql &= " AND q.SubjectID = @s"
-            pList.Add(DBHelper.Param("@s", ddlFilter.SelectedValue))
-        End If
-        If ddlDiffFilter.SelectedValue <> "" Then
-            sql &= " AND q.DifficultyLevel = @d"
-            pList.Add(DBHelper.Param("@d", ddlDiffFilter.SelectedValue))
-        End If
-        sql &= " ORDER BY q.CreatedAt DESC"
-        gvQuestions.DataSource = DBHelper.GetDataTable(sql, pList.ToArray())
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim sql = "SELECT q.QuestionID, q.QuestionStatement, q.DifficultyLevel, q.CorrectOptions, s.SubjectName FROM QuestionsTable q JOIN Subjects s ON q.SubjectID = s.SubjectID WHERE q.CreatedBy = @t"
+            If ddlFilter.SelectedValue <> "" Then sql &= " AND q.SubjectID = @s"
+            If ddlDiffFilter.SelectedValue <> "" Then sql &= " AND q.DifficultyLevel = @d"
+            sql &= " ORDER BY q.CreatedAt DESC"
+
+            Dim cmd As New SqlCommand(sql, conn)
+            cmd.Parameters.AddWithValue("@t", CInt(Session("UserID")))
+            If ddlFilter.SelectedValue <> "" Then cmd.Parameters.AddWithValue("@s", ddlFilter.SelectedValue)
+            If ddlDiffFilter.SelectedValue <> "" Then cmd.Parameters.AddWithValue("@d", ddlDiffFilter.SelectedValue)
+            
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
+        gvQuestions.DataSource = dt
         gvQuestions.DataBind()
     End Sub
 
@@ -44,8 +59,13 @@ Partial Class Teacher_ManageQuestions
 
     Protected Sub gvQuestions_RowCommand(sender As Object, e As GridViewCommandEventArgs)
         If e.CommandName = "DeleteQ" Then
-            DBHelper.ExecuteNonQuery("DELETE FROM QuestionsTable WHERE QuestionID=@q AND CreatedBy=@t", _
-                DBHelper.Param("@q", e.CommandArgument), DBHelper.Param("@t", Session("UserID")))
+            Using conn As New SqlConnection(connStr)
+                Dim cmd As New SqlCommand("DELETE FROM QuestionsTable WHERE QuestionID=@q AND CreatedBy=@t", conn)
+                cmd.Parameters.AddWithValue("@q", e.CommandArgument)
+                cmd.Parameters.AddWithValue("@t", Session("UserID"))
+                conn.Open()
+                cmd.ExecuteNonQuery()
+            End Using
             LoadQuestions()
         End If
     End Sub
@@ -64,8 +84,14 @@ Partial Class Teacher_ManageQuestions
         Dim qid = gvQuestions.DataKeys(e.RowIndex).Value
         Dim txtStmt = CType(gvQuestions.Rows(e.RowIndex).FindControl("txtEditStmt"), TextBox)
         Dim ddlDiff = CType(gvQuestions.Rows(e.RowIndex).FindControl("ddlEditDiff"), DropDownList)
-        DBHelper.ExecuteNonQuery("UPDATE QuestionsTable SET QuestionStatement=@s, DifficultyLevel=@d WHERE QuestionID=@q", _
-            DBHelper.Param("@s", txtStmt.Text), DBHelper.Param("@d", ddlDiff.SelectedValue), DBHelper.Param("@q", qid))
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("UPDATE QuestionsTable SET QuestionStatement=@s, DifficultyLevel=@d WHERE QuestionID=@q", conn)
+            cmd.Parameters.AddWithValue("@s", txtStmt.Text)
+            cmd.Parameters.AddWithValue("@d", ddlDiff.SelectedValue)
+            cmd.Parameters.AddWithValue("@q", qid)
+            conn.Open()
+            cmd.ExecuteNonQuery()
+        End Using
         gvQuestions.EditIndex = -1
         LoadQuestions()
     End Sub

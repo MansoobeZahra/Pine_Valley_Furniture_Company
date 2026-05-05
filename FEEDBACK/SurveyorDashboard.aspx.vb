@@ -1,8 +1,8 @@
-﻿Imports System.Data
+Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 
-Public Class Surveyor_Dashboard
+Public Class SurveyorDashboard
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
@@ -38,4 +38,6 @@ Public Class Surveyor_Dashboard
         End Using
     End Sub
 End Class
+
+
 

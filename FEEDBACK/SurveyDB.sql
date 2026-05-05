@@ -1,8 +1,3 @@
--- =============================================
--- FeedBACK Survey Application Database Script
--- Run this in SQL Server Management Studio (SSMS)
--- =============================================
-
 USE master;
 GO
 
@@ -15,9 +10,7 @@ GO
 USE SurveyDB;
 GO
 
--- =============================================
--- DROP TABLES in correct order (child → parent)
--- ============================================IF OBJECT_ID('dbo.ResponseAnswers', 'U') IS NOT NULL DROP TABLE dbo.ResponseAnswers;
+IF OBJECT_ID('dbo.ResponseAnswers', 'U') IS NOT NULL DROP TABLE dbo.ResponseAnswers;
 GO
 IF OBJECT_ID('dbo.Responses',       'U') IS NOT NULL DROP TABLE dbo.Responses;
 GO
@@ -32,18 +25,12 @@ GO
 IF OBJECT_ID('dbo.Roles',           'U') IS NOT NULL DROP TABLE dbo.Roles;
 GO
 
--- =============================================
--- ROLES TABLE
--- =============================================
 CREATE TABLE dbo.Roles (
     RoleID   INT IDENTITY(1,1) PRIMARY KEY,
     RoleName NVARCHAR(50) NOT NULL UNIQUE
 );
 GO
 
--- =============================================
--- USERS SURVEY TABLE
--- =============================================
 CREATE TABLE dbo.UsersSurvey (
     UserID       INT IDENTITY(1,1) PRIMARY KEY,
     Username     NVARCHAR(50)  NOT NULL UNIQUE,
@@ -57,9 +44,6 @@ CREATE TABLE dbo.UsersSurvey (
 );
 GO
 
--- =============================================
--- SURVEYS TABLE
--- =============================================
 CREATE TABLE dbo.Surveys (
     SurveyID    INT IDENTITY(1,1) PRIMARY KEY,
     Title       NVARCHAR(200) NOT NULL,
@@ -72,22 +56,16 @@ CREATE TABLE dbo.Surveys (
 );
 GO
 
--- =============================================
--- QUESTIONS TABLE
--- =============================================
 CREATE TABLE dbo.Questions (
     QuestionID   INT IDENTITY(1,1) PRIMARY KEY,
     SurveyID     INT           NOT NULL,
     QuestionText NVARCHAR(MAX) NOT NULL,
-    QuestionType NVARCHAR(20)  NOT NULL, -- 'MCQ' or 'TrueFalse'
+    QuestionType NVARCHAR(20)  NOT NULL, 
     OrderNo      INT           NOT NULL DEFAULT 1,
     CONSTRAINT FK_Questions_Surveys FOREIGN KEY (SurveyID) REFERENCES dbo.Surveys(SurveyID)
 );
 GO
 
--- =============================================
--- OPTIONS TABLE
--- =============================================
 CREATE TABLE dbo.Options (
     OptionID     INT IDENTITY(1,1) PRIMARY KEY,
     QuestionID   INT           NOT NULL,
@@ -97,22 +75,16 @@ CREATE TABLE dbo.Options (
 );
 GO
 
--- =============================================
--- RESPONSES TABLE
--- =============================================
 CREATE TABLE dbo.Responses (
     ResponseID     INT IDENTITY(1,1) PRIMARY KEY,
     SurveyID       INT      NOT NULL,
-    UserID         INT      NULL,  -- NULL when survey is anonymous
+    UserID         INT      NULL,  
     SubmittedDate  DATETIME NOT NULL DEFAULT GETDATE(),
     CONSTRAINT FK_Responses_Surveys FOREIGN KEY (SurveyID) REFERENCES dbo.Surveys(SurveyID),
     CONSTRAINT FK_Responses_UsersSurvey FOREIGN KEY (UserID)   REFERENCES dbo.UsersSurvey(UserID)
 );
 GO
 
--- =============================================
--- RESPONSE ANSWERS TABLE
--- =============================================
 CREATE TABLE dbo.ResponseAnswers (
     AnswerID   INT IDENTITY(1,1) PRIMARY KEY,
     ResponseID INT NOT NULL,
@@ -124,9 +96,6 @@ CREATE TABLE dbo.ResponseAnswers (
 );
 GO
 
--- =============================================
--- SEED: ROLES
--- =============================================
 IF NOT EXISTS (SELECT 1 FROM dbo.Roles WHERE RoleName = 'Survey Administrator')
 BEGIN
     INSERT INTO dbo.Roles (RoleName) VALUES
@@ -136,10 +105,6 @@ BEGIN
 END
 GO
 
--- =============================================
--- SEED: DEFAULT USERS SURVEY (password = "Admin@123" stored as plain for demo)
--- In production, use hashed passwords (SHA-256 etc.)
--- =============================================
 IF NOT EXISTS (SELECT 1 FROM dbo.UsersSurvey WHERE Username = 'admin')
 BEGIN
     INSERT INTO dbo.UsersSurvey (Username, PasswordHash, FullName, Email, RoleID) VALUES
@@ -149,18 +114,13 @@ BEGIN
 END
 GO
 
--- =============================================
--- SEED: DEMO SURVEY, QUESTIONS, AND RESPONSES
--- =============================================
 IF NOT EXISTS (SELECT 1 FROM dbo.Surveys WHERE Title = 'Website Feedback Survey')
 BEGIN
-    -- 1. Create a Survey
     INSERT INTO dbo.Surveys (Title, Description, CreatedBy, IsActive, IsAnonymous) 
     VALUES ('Website Feedback Survey', 'Please let us know your thoughts about our new website design and features.', 2, 1, 0);
 
     DECLARE @SurveyID INT = SCOPE_IDENTITY();
 
-    -- 2. Create Questions
     INSERT INTO dbo.Questions (SurveyID, QuestionText, QuestionType, OrderNo)
     VALUES 
     (@SurveyID, 'How satisfied are you with the website navigation?', 'MCQ', 1),
@@ -171,26 +131,21 @@ BEGIN
     DECLARE @Q2 INT = (SELECT QuestionID FROM dbo.Questions WHERE SurveyID = @SurveyID AND OrderNo = 2);
     DECLARE @Q3 INT = (SELECT QuestionID FROM dbo.Questions WHERE SurveyID = @SurveyID AND OrderNo = 3);
 
-    -- 3. Create Options for Q1
     INSERT INTO dbo.Options (QuestionID, OptionText, DisplayOrder) VALUES
     (@Q1, 'Very Satisfied', 1),
     (@Q1, 'Somewhat Satisfied', 2),
     (@Q1, 'Neutral', 3),
     (@Q1, 'Dissatisfied', 4);
 
-    -- 4. Create Options for Q2 (True/False)
     INSERT INTO dbo.Options (QuestionID, OptionText, DisplayOrder) VALUES
     (@Q2, 'True', 1),
     (@Q2, 'False', 2);
 
-    -- 5. Create Options for Q3
     INSERT INTO dbo.Options (QuestionID, OptionText, DisplayOrder) VALUES
     (@Q3, 'Very Likely', 1),
     (@Q3, 'Somewhat Likely', 2),
     (@Q3, 'Not Likely', 3);
 
-    -- 6. Add some mock responses
-    -- Response 1 (From user 3 - Bob Surveyor)
     INSERT INTO dbo.Responses (SurveyID, UserID) VALUES (@SurveyID, 3);
     DECLARE @R1 INT = SCOPE_IDENTITY();
     INSERT INTO dbo.ResponseAnswers (ResponseID, QuestionID, OptionID) VALUES
@@ -198,7 +153,6 @@ BEGIN
     (@R1, @Q2, (SELECT OptionID FROM dbo.Options WHERE QuestionID = @Q2 AND DisplayOrder = 1)),
     (@R1, @Q3, (SELECT OptionID FROM dbo.Options WHERE QuestionID = @Q3 AND DisplayOrder = 1));
 
-    -- Response 2 (Anonymous)
     INSERT INTO dbo.Responses (SurveyID, UserID) VALUES (@SurveyID, NULL);
     DECLARE @R2 INT = SCOPE_IDENTITY();
     INSERT INTO dbo.ResponseAnswers (ResponseID, QuestionID, OptionID) VALUES
@@ -208,11 +162,6 @@ BEGIN
 END
 GO
 
--- =============================================
--- STORED PROCEDURES
--- =============================================
-
--- Login validation
 IF OBJECT_ID('dbo.sp_ValidateUser', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_ValidateUser;
 GO
 CREATE PROCEDURE dbo.sp_ValidateUser
@@ -230,7 +179,6 @@ BEGIN
 END
 GO
 
--- Get all surveys (admin/builder view)
 IF OBJECT_ID('dbo.sp_GetAllSurveys', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_GetAllSurveys;
 GO
 CREATE PROCEDURE dbo.sp_GetAllSurveys
@@ -247,7 +195,6 @@ BEGIN
 END
 GO
 
--- Get surveys created by a specific builder
 IF OBJECT_ID('dbo.sp_GetSurveysByBuilder', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_GetSurveysByBuilder;
 GO
 CREATE PROCEDURE dbo.sp_GetSurveysByBuilder
@@ -265,7 +212,6 @@ BEGIN
 END
 GO
 
--- Get active surveys for surveyors
 IF OBJECT_ID('dbo.sp_GetActiveSurveys', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_GetActiveSurveys;
 GO
 CREATE PROCEDURE dbo.sp_GetActiveSurveys
@@ -286,7 +232,6 @@ BEGIN
 END
 GO
 
--- Get questions & options for a survey
 IF OBJECT_ID('dbo.sp_GetSurveyQuestions', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_GetSurveyQuestions;
 GO
 CREATE PROCEDURE dbo.sp_GetSurveyQuestions
@@ -315,7 +260,6 @@ BEGIN
 END
 GO
 
--- Get results for a survey
 IF OBJECT_ID('dbo.sp_GetSurveyResults', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_GetSurveyResults;
 GO
 CREATE PROCEDURE dbo.sp_GetSurveyResults
@@ -323,7 +267,6 @@ CREATE PROCEDURE dbo.sp_GetSurveyResults
 AS
 BEGIN
     SET NOCOUNT ON;
-    -- Summary per option
     SELECT q.QuestionID, q.QuestionText, q.QuestionType,
            o.OptionID, o.OptionText,
            COUNT(ra.AnswerID) AS AnswerCount
@@ -337,7 +280,6 @@ BEGIN
 END
 GO
 
--- Get all users
 IF OBJECT_ID('dbo.sp_GetAllUsers', 'P') IS NOT NULL DROP PROCEDURE dbo.sp_GetAllUsers;
 GO
 CREATE PROCEDURE dbo.sp_GetAllUsers

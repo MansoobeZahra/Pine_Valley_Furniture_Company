@@ -1,11 +1,18 @@
 Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration
 Imports System.Web.UI.WebControls
 
 Partial Class Teacher_CreateQuiz
     Inherits System.Web.UI.Page
 
+    Dim connStr As String = ConfigurationManager.ConnectionStrings("QuizWizDB").ConnectionString
+
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AuthHelper.RequireRole(Me, "Teacher")
+        If Session("UserID") Is Nothing OrElse Session("Role").ToString() <> "Teacher" Then
+            Response.Redirect("Login.aspx")
+            Return
+        End If
         If Not IsPostBack Then
             LoadSubjects()
             mvWizard.ActiveViewIndex = 0
@@ -13,7 +20,13 @@ Partial Class Teacher_CreateQuiz
     End Sub
 
     Private Sub LoadSubjects()
-        ddlSubject.DataSource = DBHelper.GetDataTable("SELECT SubjectID, SubjectName FROM Subjects ORDER BY SubjectName")
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("SELECT SubjectID, SubjectName FROM Subjects ORDER BY SubjectName", conn)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
+        ddlSubject.DataSource = dt
         ddlSubject.DataTextField = "SubjectName"
         ddlSubject.DataValueField = "SubjectID"
         ddlSubject.DataBind()
@@ -22,12 +35,19 @@ Partial Class Teacher_CreateQuiz
     Protected Sub btnStep1Next_Click(sender As Object, e As EventArgs)
         Dim quizID = CInt(If(hfQuizID.Value = "", 0, hfQuizID.Value))
         If quizID = 0 Then
-            quizID = CInt(DBHelper.ExecuteScalar( _
-                "INSERT INTO Quiz (QuizTitle,SubjectID,AllowedTime,TotalQuestions,RandomizeQ,IsPublished,CreatedBy) " & _
-                "VALUES (@t,@s,@at,@tq,@rq,0,@by); SELECT SCOPE_IDENTITY();", _
-                DBHelper.Param("@t", txtTitle.Text.Trim()), DBHelper.Param("@s", CInt(ddlSubject.SelectedValue)), _
-                DBHelper.Param("@at", CInt(txtTime.Text)), DBHelper.Param("@tq", CInt(txtTotalQ.Text)), _
-                DBHelper.Param("@rq", chkRandomize.Checked), DBHelper.Param("@by", CInt(Session("UserID")))))
+            Using conn As New SqlConnection(connStr)
+                Dim sql = "INSERT INTO Quiz (QuizTitle,SubjectID,AllowedTime,TotalQuestions,RandomizeQ,IsPublished,CreatedBy) " & _
+                          "VALUES (@t,@s,@at,@tq,@rq,0,@by); SELECT SCOPE_IDENTITY();"
+                Dim cmd As New SqlCommand(sql, conn)
+                cmd.Parameters.AddWithValue("@t", txtTitle.Text.Trim())
+                cmd.Parameters.AddWithValue("@s", CInt(ddlSubject.SelectedValue))
+                cmd.Parameters.AddWithValue("@at", CInt(txtTime.Text))
+                cmd.Parameters.AddWithValue("@tq", CInt(txtTotalQ.Text))
+                cmd.Parameters.AddWithValue("@rq", chkRandomize.Checked)
+                cmd.Parameters.AddWithValue("@by", CInt(Session("UserID")))
+                conn.Open()
+                quizID = CInt(cmd.ExecuteScalar())
+            End Using
             hfQuizID.Value = quizID.ToString()
         End If
         LoadCurrentQuestions()
@@ -65,51 +85,69 @@ Partial Class Teacher_CreateQuiz
             cops = String.Join(",", sel)
         End If
 
-        Dim imgPath = ""
-        If fuQImage.HasFile Then
-            Try
-                Dim folder = Server.MapPath("Images/Questions/")
-                If Not System.IO.Directory.Exists(folder) Then System.IO.Directory.CreateDirectory(folder)
-                Dim fName = Guid.NewGuid().ToString() & System.IO.Path.GetExtension(fuQImage.FileName)
-                fuQImage.SaveAs(folder & fName)
-                imgPath = "Images/Questions/" & fName
-            Catch : End Try
-        End If
+        Using conn As New SqlConnection(connStr)
+            conn.Open()
+            Dim sqlQ = "INSERT INTO QuestionsTable (SubjectID,QuestionStatement,OptionA,OptionB,OptionC,OptionD,CorrectOption,DifficultyLevel,CreatedBy,QuestionType,CorrectOptions) " & _
+                       "VALUES (@sid,@stmt,@a,@b,@c,@d,@co,'Medium',@by,@qt,@cops); SELECT SCOPE_IDENTITY();"
+            Dim cmdQ As New SqlCommand(sqlQ, conn)
+            cmdQ.Parameters.AddWithValue("@sid", ddlSubject.SelectedValue)
+            cmdQ.Parameters.AddWithValue("@stmt", txtQStmt.Text)
+            cmdQ.Parameters.AddWithValue("@a", txtOptA.Text)
+            cmdQ.Parameters.AddWithValue("@b", txtOptB.Text)
+            cmdQ.Parameters.AddWithValue("@c", txtOptC.Text)
+            cmdQ.Parameters.AddWithValue("@d", txtOptD.Text)
+            cmdQ.Parameters.AddWithValue("@co", If(qType = "Radio", cops, "A"))
+            cmdQ.Parameters.AddWithValue("@by", Session("UserID"))
+            cmdQ.Parameters.AddWithValue("@qt", qType)
+            cmdQ.Parameters.AddWithValue("@cops", cops)
+            Dim qid = CInt(cmdQ.ExecuteScalar())
 
-        Dim qid = CInt(DBHelper.ExecuteScalar( _
-            "INSERT INTO QuestionsTable (SubjectID,QuestionStatement,OptionA,OptionB,OptionC,OptionD,CorrectOption,DifficultyLevel,CreatedBy,QuestionType,CorrectOptions,ImagePath) " & _
-            "VALUES (@sid,@stmt,@a,@b,@c,@d,@co,'Medium',@by,@qt,@cops,@img); SELECT SCOPE_IDENTITY();", _
-            DBHelper.Param("@sid", ddlSubject.SelectedValue), DBHelper.Param("@stmt", txtQStmt.Text), _
-            DBHelper.Param("@a", txtOptA.Text), DBHelper.Param("@b", txtOptB.Text), _
-            DBHelper.Param("@c", txtOptC.Text), DBHelper.Param("@d", txtOptD.Text), _
-            DBHelper.Param("@co", If(qType="Radio", cops, "A")), DBHelper.Param("@by", Session("UserID")), _
-            DBHelper.Param("@qt", qType), DBHelper.Param("@cops", cops), _
-            DBHelper.Param("@img", If(imgPath="", DBNull.Value, imgPath))))
+            Dim cmdL As New SqlCommand("INSERT INTO QuizQuestions (QuizID,QuestionID) VALUES (@qz,@q)", conn)
+            cmdL.Parameters.AddWithValue("@qz", hfQuizID.Value)
+            cmdL.Parameters.AddWithValue("@q", qid)
+            cmdL.ExecuteNonQuery()
+        End Using
         
-        DBHelper.ExecuteNonQuery("INSERT INTO QuizQuestions (QuizID,QuestionID) VALUES (@qz,@q)", DBHelper.Param("@qz", hfQuizID.Value), DBHelper.Param("@q", qid))
         LoadCurrentQuestions()
         txtQStmt.Text = "" : txtOptA.Text = "" : txtOptB.Text = "" : txtOptC.Text = "" : txtOptD.Text = ""
     End Sub
 
     Protected Sub btnAddSelected_Click(sender As Object, e As EventArgs)
-        For Each row As GridViewRow In gvBank.Rows
-            If CType(row.FindControl("chkSelect"), CheckBox).Checked Then
-                DBHelper.ExecuteNonQuery("INSERT INTO QuizQuestions (QuizID,QuestionID) VALUES (@qz,@q)", _
-                    DBHelper.Param("@qz", hfQuizID.Value), DBHelper.Param("@q", gvBank.DataKeys(row.RowIndex).Value))
-            End If
-        Next
+        Using conn As New SqlConnection(connStr)
+            conn.Open()
+            For Each row As GridViewRow In gvBank.Rows
+                If CType(row.FindControl("chkSelect"), CheckBox).Checked Then
+                    Dim cmd As New SqlCommand("INSERT INTO QuizQuestions (QuizID,QuestionID) VALUES (@qz,@q)", conn)
+                    cmd.Parameters.AddWithValue("@qz", hfQuizID.Value)
+                    cmd.Parameters.AddWithValue("@q", gvBank.DataKeys(row.RowIndex).Value)
+                    cmd.ExecuteNonQuery()
+                End If
+            Next
+        End Using
         LoadCurrentQuestions()
     End Sub
 
     Private Sub LoadBankQuestions()
-        gvBank.DataSource = DBHelper.GetDataTable("SELECT QuestionID, QuestionStatement FROM QuestionsTable WHERE SubjectID=@s AND CreatedBy=@by", _
-            DBHelper.Param("@s", ddlSubject.SelectedValue), DBHelper.Param("@by", Session("UserID")))
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("SELECT QuestionID, QuestionStatement FROM QuestionsTable WHERE SubjectID=@s AND CreatedBy=@by", conn)
+            cmd.Parameters.AddWithValue("@s", ddlSubject.SelectedValue)
+            cmd.Parameters.AddWithValue("@by", Session("UserID"))
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
+        gvBank.DataSource = dt
         gvBank.DataBind()
     End Sub
 
     Private Sub LoadCurrentQuestions()
-        Dim dt = DBHelper.GetDataTable("SELECT qq.QuizQuestionID, q.QuestionStatement FROM QuizQuestions qq JOIN QuestionsTable q ON qq.QuestionID = q.QuestionID WHERE qq.QuizID=@qz", _
-            DBHelper.Param("@qz", hfQuizID.Value))
+        Dim dt As New DataTable()
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("SELECT qq.QuizQuestionID, q.QuestionStatement FROM QuizQuestions qq JOIN QuestionsTable q ON qq.QuestionID = q.QuestionID WHERE qq.QuizID=@qz", conn)
+            cmd.Parameters.AddWithValue("@qz", hfQuizID.Value)
+            Dim da As New SqlDataAdapter(cmd)
+            da.Fill(dt)
+        End Using
         rptCurrentQ.DataSource = dt
         rptCurrentQ.DataBind()
         litCurQCount.Text = dt.Rows.Count.ToString()
@@ -117,7 +155,12 @@ Partial Class Teacher_CreateQuiz
 
     Protected Sub rptCurrentQ_Command(source As Object, e As RepeaterCommandEventArgs)
         If e.CommandName = "Remove" Then
-            DBHelper.ExecuteNonQuery("DELETE FROM QuizQuestions WHERE QuizQuestionID=@id", DBHelper.Param("@id", e.CommandArgument))
+            Using conn As New SqlConnection(connStr)
+                Dim cmd As New SqlCommand("DELETE FROM QuizQuestions WHERE QuizQuestionID=@id", conn)
+                cmd.Parameters.AddWithValue("@id", e.CommandArgument)
+                conn.Open()
+                cmd.ExecuteNonQuery()
+            End Using
             LoadCurrentQuestions()
         End If
     End Sub
@@ -128,7 +171,12 @@ Partial Class Teacher_CreateQuiz
     End Sub
 
     Protected Sub btnPublish_Click(sender As Object, e As EventArgs)
-        DBHelper.ExecuteNonQuery("UPDATE Quiz SET IsPublished=1 WHERE QuizID=@q", DBHelper.Param("@q", hfQuizID.Value))
+        Using conn As New SqlConnection(connStr)
+            Dim cmd As New SqlCommand("UPDATE Quiz SET IsPublished=1 WHERE QuizID=@q", conn)
+            cmd.Parameters.AddWithValue("@q", hfQuizID.Value)
+            conn.Open()
+            cmd.ExecuteNonQuery()
+        End Using
         Response.Redirect("Teacher_Dashboard.aspx")
     End Sub
 End Class

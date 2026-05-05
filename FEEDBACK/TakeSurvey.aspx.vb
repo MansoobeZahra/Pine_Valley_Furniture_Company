@@ -1,11 +1,11 @@
-﻿Imports System.Data
+Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Configuration
 Imports System.Web.UI
 Imports System.Web.UI.HtmlControls
 Imports System.Web.UI.WebControls
 
-Public Class Surveyor_TakeSurvey
+Public Class TakeSurvey
     Inherits System.Web.UI.Page
 
     Private _surveyID As Integer = 0
@@ -17,7 +17,7 @@ Public Class Surveyor_TakeSurvey
         End If
 
         If Not Integer.TryParse(Request.QueryString("sid"), _surveyID) OrElse _surveyID = 0 Then
-            Response.Redirect("Dashboard.aspx")
+            Response.Redirect("SurveyorDashboard.aspx")
         End If
 
         If Not IsPostBack Then
@@ -31,7 +31,6 @@ Public Class Surveyor_TakeSurvey
         Using conn As New SqlConnection(connStr)
             conn.Open()
 
-            ' Check survey exists and is active
             Dim infoCmd As New SqlCommand(
                 "SELECT Title, Description, IsAnonymous FROM Surveys WHERE SurveyID=@s AND IsActive=1", conn)
             infoCmd.Parameters.AddWithValue("@s", _surveyID)
@@ -48,7 +47,6 @@ Public Class Surveyor_TakeSurvey
                 lnkResults2.HRef = "../Results/SurveyResults.aspx?sid=" & _surveyID
             End Using
 
-            ' Check already taken
             Dim takenCmd As New SqlCommand(
                 "SELECT COUNT(*) FROM Responses WHERE SurveyID=@s AND UserID=@u", conn)
             takenCmd.Parameters.AddWithValue("@s", _surveyID)
@@ -59,7 +57,6 @@ Public Class Surveyor_TakeSurvey
                 Return
             End If
 
-            ' Load questions
             Dim qCmd As New SqlCommand("sp_GetSurveyQuestions", conn)
             qCmd.CommandType = CommandType.StoredProcedure
             qCmd.Parameters.AddWithValue("@SurveyID", _surveyID)
@@ -88,12 +85,10 @@ Public Class Surveyor_TakeSurvey
             Dim qText As String  = row("QuestionText").ToString()
             Dim qType As String  = row("QuestionType").ToString()
 
-            ' Outer block
             Dim block As New HtmlGenericControl("div")
             block.Attributes("class") = "question-block"
             block.Attributes("data-qid") = qID.ToString()
 
-            ' Header
             Dim header As New HtmlGenericControl("div")
             header.Attributes("class") = "question-block-header"
             Dim numBadge As New HtmlGenericControl("div")
@@ -110,11 +105,9 @@ Public Class Surveyor_TakeSurvey
             header.Controls.Add(qTextEl)
             block.Controls.Add(header)
 
-            ' Body with radio options
             Dim body As New HtmlGenericControl("div")
             body.Attributes("class") = "question-block-body"
 
-            ' Get options
             Using conn As New SqlConnection(connStr)
                 Dim optCmd As New SqlCommand("sp_GetQuestionOptions", conn)
                 optCmd.CommandType = CommandType.StoredProcedure
@@ -158,19 +151,16 @@ Public Class Surveyor_TakeSurvey
             Using conn As New SqlConnection(connStr)
                 conn.Open()
 
-                ' Get survey anonymity setting
                 Dim anonCmd As New SqlCommand("SELECT IsAnonymous FROM Surveys WHERE SurveyID=@s", conn)
                 anonCmd.Parameters.AddWithValue("@s", _surveyID)
                 Dim isAnon As Boolean = CBool(anonCmd.ExecuteScalar())
 
-                ' Create response record
                 Dim respCmd As New SqlCommand(
                     "INSERT INTO Responses(SurveyID, UserID) OUTPUT INSERTED.ResponseID VALUES(@s,@u)", conn)
                 respCmd.Parameters.AddWithValue("@s", _surveyID)
                 respCmd.Parameters.AddWithValue("@u", If(isAnon, CObj(DBNull.Value), CObj(uid)))
                 Dim responseID As Integer = CInt(respCmd.ExecuteScalar())
 
-                ' Load questions to iterate
                 Dim qCmd As New SqlCommand("sp_GetSurveyQuestions", conn)
                 qCmd.CommandType = CommandType.StoredProcedure
                 qCmd.Parameters.AddWithValue("@SurveyID", _surveyID)
@@ -178,7 +168,6 @@ Public Class Surveyor_TakeSurvey
                 Dim dt As New DataTable()
                 da.Fill(dt)
 
-                ' Save each answer
                 For Each row As DataRow In dt.Rows
                     Dim qID    As Integer = CInt(row("QuestionID"))
                     Dim answer As String  = Request.Form("q_" & qID.ToString())
@@ -193,11 +182,13 @@ Public Class Surveyor_TakeSurvey
                 Next
             End Using
 
-            Response.Redirect("Dashboard.aspx?done=1")
+            Response.Redirect("SurveyorDashboard.aspx?done=1")
         Catch ex As Exception
             pnlError.Visible = True
             litError.Text = "Error submitting survey: " & ex.Message
         End Try
     End Sub
 End Class
+
+
 

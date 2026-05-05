@@ -1,18 +1,21 @@
 <%@ Page Language="VB" AutoEventWireup="false" CodeFile="Teacher_Dashboard.aspx.vb" Inherits="Teacher_Dashboard" %>
-<%@ Register TagPrefix="uc" TagName="Header" Src="Header.ascx" %>
-<%@ Register TagPrefix="uc" TagName="Sidebar" Src="Sidebar.ascx" %>
+<%@ Register Src="~/Navbar.ascx" TagPrefix="uc" TagName="Navbar" %>
+<%@ Register Src="~/Header.ascx" TagPrefix="uc" TagName="Header" %>
 <!DOCTYPE html>
 <html>
 <head runat="server">
-    <title>Teacher Dashboard - QuizWiz</title>
-    <link rel="stylesheet" href="Styles/site.css" />
+    <title>QuizWiz - Teacher Dashboard</title>
+    <link href="Styles/site.css" rel="stylesheet" />
 </head>
-<body>
+<body style="margin:0; padding:0;">
 <form id="form1" runat="server">
-    <uc:Header runat="server" ID="Header1" />
+    <uc:Header runat="server" ID="Header" />
     <div class="layout-container">
-        <uc:Sidebar runat="server" ID="Sidebar1" />
+        <uc:Navbar runat="server" ID="Navbar" />
         <div class="main-area">
+            <h1>Teacher Dashboard</h1>
+            <hr />
+
             <h2>Welcome Teacher!</h2>
             <div style="background-color:#f4f4f4; padding:15px; border-left:5px solid #0078d4; margin-bottom:20px;">
                 <strong>Your Stats:</strong><br />

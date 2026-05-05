@@ -1,11 +1,11 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Register.aspx.vb" Inherits="Register" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Register.aspx.vb" Inherits="Register" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FeedBACK - Register</title>
-    <link rel="stylesheet" href="Styles/Site.css" />
+    <link rel="stylesheet" href="Site.css" runat="server" />
 </head>
 <body>
 <form id="frmRegister" runat="server">
@@ -83,4 +83,5 @@
 </form>
 </body>
 </html>
+
 

@@ -1,4 +1,4 @@
-<%@ Control Language="VB" AutoEventWireup="false" CodeFile="Header.ascx.vb" Inherits="Header" %>
+<%@ Control Language="VB" AutoEventWireup="false" CodeFile="Navbar.ascx.vb" Inherits="Navbar" %>
 <nav class="navbar">
     <a href="~/Default.aspx" runat="server" class="navbar-brand">
         <span class="brand-icon"></span>
@@ -6,7 +6,7 @@
     </a>
 
     <div class="navbar-nav" id="navMenu" runat="server">
-        <!-- Injected by code-behind based on role -->
+        <!-- Injected by code-behind -->
     </div>
 
     <div style="display:flex;align-items:center;gap:.75rem;">

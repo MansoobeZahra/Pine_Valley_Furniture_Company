@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Login" EnableViewStateMac="false" ViewStateEncryptionMode="Never" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="Login" %>
 <!DOCTYPE html>
 <html>
 <head runat="server">
@@ -13,7 +13,7 @@
 <body style="background-color:#eee;">
     <div style="width:350px; margin: 100px auto; border: 1px solid #0078d4; padding: 20px; background-color: white;">
         <div style="text-align:center; margin-bottom:20px;">
-            <img src='<%= ResolveUrl("Assets/discar.png") %>' alt="QuizWiz" style="max-width:300px;" />
+            <img src='<%= ResolveUrl("~/Assets/discar.png") %>' alt="QuizWiz" style="max-width:300px;" />
         </div>
         <form id="form1" runat="server">
             <asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="alert alert-err">

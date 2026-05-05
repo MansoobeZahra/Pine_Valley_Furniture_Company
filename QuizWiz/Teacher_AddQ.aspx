@@ -1,19 +1,20 @@
 <%@ Page Language="VB" AutoEventWireup="false" CodeFile="Teacher_AddQ.aspx.vb" Inherits="Teacher_AddQuestion" %>
-<%@ Register TagPrefix="uc" TagName="Header" Src="Header.ascx" %>
-<%@ Register TagPrefix="uc" TagName="Sidebar" Src="Sidebar.ascx" %>
+<%@ Register Src="~/Navbar.ascx" TagPrefix="uc" TagName="Navbar" %>
+<%@ Register Src="~/Header.ascx" TagPrefix="uc" TagName="Header" %>
 <!DOCTYPE html>
 <html>
 <head runat="server">
-    <title>Add Question - QuizWiz</title>
-    <link rel="stylesheet" href="Styles/site.css" />
+    <title>QuizWiz - Add Question</title>
+    <link href="Styles/site.css" rel="stylesheet" />
 </head>
-<body>
+<body style="margin:0; padding:0;">
 <form id="form1" runat="server">
-    <uc:Header runat="server" ID="Header1" />
+    <uc:Header runat="server" ID="Header" />
     <div class="layout-container">
-        <uc:Sidebar runat="server" ID="Sidebar1" />
+        <uc:Navbar runat="server" ID="Navbar" />
         <div class="main-area">
-            <h2>Add New Question</h2>
+            <h1>Add Question</h1>
+            <hr />
 
             <asp:Panel ID="pnlSuccess" runat="server" Visible="false" CssClass="alert alert-ok">
                 Question saved! <a href="Teacher_AddQ.aspx">Add another</a> | <a href="Teacher_Bank.aspx">View Bank</a>
@@ -31,7 +32,7 @@
                 <asp:HiddenField ID="hfQType" runat="server" Value="Radio" />
             </div>
 
-            <div style="margin:0 0 10px 0;">
+            <div class="main-area" style="margin:0 0 10px 0;">
                 Subject: <asp:DropDownList ID="ddlSubject" runat="server" /><br />
                 Difficulty: 
                 <asp:DropDownList ID="ddlDifficulty" runat="server">
@@ -78,23 +79,38 @@
         </div>
     </div>
 </form>
+
 <script>
     function updateVisibility() {
+        var rbS = document.getElementById('<%= rbSingle.ClientID %>');
+        var rbM = document.getElementById('<%= rbMultiple.ClientID %>');
         var type = "";
-        if (document.getElementById('<%= rbSingle.ClientID %>').checked) type = "Radio";
-        else if (document.getElementById('<%= rbMultiple.ClientID %>').checked) type = "Checkbox";
+        if (rbS && rbS.checked) type = "Radio";
+        else if (rbM && rbM.checked) type = "Checkbox";
         else type = "Paragraph";
 
-        document.getElementById('<%= hfQType.ClientID %>').value = type;
-        document.getElementById('secOptions').style.display = (type === 'Paragraph') ? 'none' : 'block';
-        document.getElementById('secCorrectRadio').style.display = (type === 'Radio') ? 'block' : 'none';
-        document.getElementById('secCorrectCheckbox').style.display = (type === 'Checkbox') ? 'block' : 'none';
-        document.getElementById('secCorrectParagraph').style.display = (type === 'Paragraph') ? 'block' : 'none';
+        var hf = document.getElementById('<%= hfQType.ClientID %>');
+        if (hf) hf.value = type;
+        
+        var secOptions = document.getElementById('secOptions');
+        var secCR = document.getElementById('secCorrectRadio');
+        var secCC = document.getElementById('secCorrectCheckbox');
+        var secCP = document.getElementById('secCorrectParagraph');
+
+        if (secOptions) secOptions.style.display = (type === 'Paragraph') ? 'none' : 'block';
+        if (secCR) secCR.style.display = (type === 'Radio') ? 'block' : 'none';
+        if (secCC) secCC.style.display = (type === 'Checkbox') ? 'block' : 'none';
+        if (secCP) secCP.style.display = (type === 'Paragraph') ? 'block' : 'none';
     }
-    document.getElementById('<%= rbSingle.ClientID %>').onclick = updateVisibility;
-    document.getElementById('<%= rbMultiple.ClientID %>').onclick = updateVisibility;
-    document.getElementById('<%= rbParagraph.ClientID %>').onclick = updateVisibility;
-    updateVisibility();
+    window.onload = function() {
+        var rbS = document.getElementById('<%= rbSingle.ClientID %>');
+        var rbM = document.getElementById('<%= rbMultiple.ClientID %>');
+        var rbP = document.getElementById('<%= rbParagraph.ClientID %>');
+        if (rbS) rbS.onclick = updateVisibility;
+        if (rbM) rbM.onclick = updateVisibility;
+        if (rbP) rbP.onclick = updateVisibility;
+        updateVisibility();
+    };
 </script>
 </body>
 </html>

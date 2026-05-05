@@ -6,7 +6,6 @@ Public Class Register
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
-        ' Already logged in -> redirect
         If Session("UserID") IsNot Nothing Then
             Response.Redirect("~/Default.aspx")
         End If
@@ -19,7 +18,6 @@ Public Class Register
         Try
             Using conn As New SqlConnection(connStr)
                 conn.Open()
-                ' Check duplicate username / email
                 Dim chkCmd As New SqlCommand(
                     "SELECT COUNT(*) FROM UsersSurvey WHERE Username=@u OR Email=@e", conn)
                 chkCmd.Parameters.AddWithValue("@u", txtUsername.Text.Trim())
@@ -47,4 +45,6 @@ Public Class Register
         End Try
     End Sub
 End Class
+
+
 

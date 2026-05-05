@@ -51,7 +51,7 @@ CREATE TABLE QuestionsTable (
     CorrectOption     CHAR(1)       NOT NULL CHECK (CorrectOption IN ('A','B','C','D')),
     DifficultyLevel   NVARCHAR(20)  NOT NULL DEFAULT 'Medium'
                         CHECK (DifficultyLevel IN ('Easy','Medium','Hard','Expert')),
-    ImagePath         NVARCHAR(500) NULL,
+
     CreatedBy         INT           NOT NULL REFERENCES Users2(UserID),
     CreatedAt         DATETIME      NOT NULL DEFAULT GETDATE()
 );
@@ -156,7 +156,7 @@ VALUES
    'Queue','Stack','Linked List','Tree','B','Easy',2),
 
 (1,'What is the time complexity of Binary Search?',
-   'O(n)','O(n²)','O(log n)','O(1)','C','Medium',2),
+   'O(n)','O(n2)','O(log n)','O(1)','C','Medium',2),
 
 (1,'Which OSI layer is responsible for routing?',
    'Data Link','Transport','Network','Application','C','Medium',2),
@@ -201,14 +201,14 @@ VALUES
 (2,'What is the derivative of sin(x)?',
    'cos(x)','-cos(x)','tan(x)','-sin(x)','A','Medium',3),
 
-(2,'What is the value of 2¹⁰?',
+(2,'What is the value of 2^10?',
    '512','1024','2048','256','B','Easy',3),
 
-(2,'What is the approximate value of π (pi)?',
+(2,'What is the approximate value of pi (pi)?',
    '3.14159','2.71828','1.61803','1.41421','A','Easy',3),
 
 (2,'What is the integral of 1/x?',
-   'x','ln(x)','e^x','1/x²','B','Hard',3),
+   'x','ln(x)','e^x','1/x2','B','Hard',3),
 
 (2,'What is the determinant of a 2×2 identity matrix?',
    '0','2','1','-1','C','Medium',3),
@@ -217,18 +217,18 @@ VALUES
    'x = 4','x = 5','x = 6','x = 3','B','Easy',3),
 
 (2,'What is the area of a circle with radius r?',
-   '2πr','πr','πr²','2πr²','C','Easy',3),
+   '2pi r','pi r','pi r2','2pi r2','C','Easy',3),
 
 (2,'What is the sum of interior angles of a triangle?',
-   '90°','180°','270°','360°','B','Easy',3),
+   '90 degrees','180 degrees','270 degrees','360 degrees','B','Easy',3),
 
 (2,'What is the quadratic formula?',
-   '(-b ± √(b²−4ac)) / 2a',
-   '(-b ± √(b+4ac)) / 2a',
-   '(b ± √(b²−4ac)) / 2a',
-   '(-b ± √(b²+4ac)) / 2a','A','Hard',3),
+   '(-b +/- sqrt(b^2-4ac)) / 2a',
+   '(-b +/- sqrt(b+4ac)) / 2a',
+   '(b +/- sqrt(b^2-4ac)) / 2a',
+   '(-b +/- sqrt(b^2+4ac)) / 2a','A','Hard',3),
 
-(2,'What is log₁₀(1000)?',
+(2,'What is log10(1000)?',
    '2','3','4','10','B','Medium',3);
 
 -- --------- Physics Questions (by t_ali, UserID = 2) ---------
@@ -239,7 +239,7 @@ VALUES
    'Watt','Joule','Newton','Pascal','C','Easy',2),
 
 (3,'What is the speed of light in vacuum?',
-   '3 × 10⁸ m/s','3 × 10⁶ m/s','3 × 10¹⁰ m/s','3 × 10⁴ m/s','A','Easy',2),
+   '3 x 10^8 m/s','3 x 10^6 m/s','3 x 10^10 m/s','3 x 10^4 m/s','A','Easy',2),
 
 (3,'Which law states F = ma?',
    'Newton''s First Law',
@@ -251,7 +251,7 @@ VALUES
    'Ampere','Volt','Ohm','Coulomb','C','Easy',2),
 
 (3,'What is the formula for kinetic energy?',
-   'mgh','½mv²','mv','Fd','B','Medium',2);
+   'mgh','1/2 mv2','mv','Fd','B','Medium',2);
 
 PRINT 'QuizWizDB created successfully!';
 PRINT 'Tables: Subjects, Users2, QuestionsTable, Quiz, QuizQuestions, Answers, Results, Notifications';

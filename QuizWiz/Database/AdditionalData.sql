@@ -26,7 +26,7 @@ IF NOT EXISTS (SELECT 1 FROM QuestionsTable WHERE QuestionStatement LIKE '%squar
 BEGIN
     INSERT INTO QuestionsTable (SubjectID, QuestionStatement, OptionA, OptionB, OptionC, OptionD, CorrectOption, DifficultyLevel, CreatedBy) VALUES
     (2, 'What is the square root of 225?', '13', '14', '15', '16', 'C', 'Easy', 3),
-    (2, 'What is the value of Sin(90°)?', '0', '1', '0.5', '-1', 'B', 'Easy', 3),
+    (2, 'What is the value of Sin(90 degrees)?', '0', '1', '0.5', '-1', 'B', 'Easy', 3),
     (2, 'If 5x = 40, what is x?', '6', '7', '8', '9', 'C', 'Easy', 3),
     (2, 'What is a prime number?', 'A number divisible by 2', 'A number with exactly two factors', 'A number ending in 1', 'Any odd number', 'B', 'Medium', 3),
     (2, 'What is 7 multiplied by 8?', '54', '56', '58', '62', 'B', 'Easy', 3);
@@ -64,9 +64,9 @@ BEGIN
     INSERT INTO QuestionsTable (SubjectID, QuestionStatement, OptionA, OptionB, OptionC, OptionD, CorrectOption, DifficultyLevel, CreatedBy) VALUES
     (3, 'Which planet is known as the Red Planet?', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'B', 'Easy', 2),
     (3, 'What is the standard unit of temperature?', 'Celsius', 'Fahrenheit', 'Kelvin', 'Rankine', 'C', 'Medium', 2),
-    (3, 'What is the acceleration due to gravity on Earth?', '8.9 m/s²', '9.8 m/s²', '10.5 m/s²', '7.2 m/s²', 'B', 'Easy', 2),
+    (3, 'What is the acceleration due to gravity on Earth?', '8.9 m/s2', '9.8 m/s2', '10.5 m/s2', '7.2 m/s2', 'B', 'Easy', 2),
     (3, 'Which of these is a noble gas?', 'Oxygen', 'Nitrogen', 'Helium', 'Chlorine', 'C', 'Easy', 2),
-    (3, 'What is the boiling point of water at sea level?', '90°C', '100°C', '110°C', '120°C', 'B', 'Easy', 2);
+    (3, 'What is the boiling point of water at sea level?', '90C', '100C', '110C', '120C', 'B', 'Easy', 2);
 END
 
 -- 8. Create a Math Quiz (SubjectID 2, UserID 3)
