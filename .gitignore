@@ -1,10 +1,27 @@
+# Visual Studio Files
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.userprefs
+*.dbmdl
+
+# Build results
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+# Package Files
+node_modules/
+packages/
+
+# Compressed Files
 *.zip
 *.rar
 *.7z
-.vs/
-bin/
-obj/
-*.user
-*.suo
+
+# Other
 _ReSharper.Caches/
-node_modules/
+*.log
+*.tmp
