@@ -31,7 +31,7 @@ Partial Class Login
                         Dim refId As Object = reader("ReferenceID")
                         
                         ' Create auth ticket with role
-                        Dim ticket As New FormsAuthenticationTicket(1, email, DateTime.Now, DateTime.Now.AddMinutes(60), chkRememberMe.Checked, role)
+                        Dim ticket As New FormsAuthenticationTicket(1, email, DateTime.Now, DateTime.Now.AddMinutes(60), False, role)
                         Dim encryptedTicket As String = FormsAuthentication.Encrypt(ticket)
                         Dim cookie As New HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
                         Response.Cookies.Add(cookie)

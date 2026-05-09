@@ -28,13 +28,7 @@
                     <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" required="required"></asp:TextBox>
                 </div>
 
-                <div class="remember-forgot">
-                    <label class="checkbox-label">
-                        <asp:CheckBox ID="chkRememberMe" runat="server" />
-                        Remember Me
-                    </label>
-                    <a href="#">Forgot Password?</a>
-                </div>
+
 
                 <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn-login" OnClick="btnLogin_Click" />
 
