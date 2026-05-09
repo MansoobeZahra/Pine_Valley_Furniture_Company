@@ -1,0 +1,33 @@
+.menu-container {
+    padding: 30px;
+    background: #fff;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ba1010;
+    padding-bottom: 15px;
+}
+
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.menu-table th {
+    background: #fcf8ec;
+    color: #ba1010;
+    padding: 12px;
+    text-align: left;
+}
+
+.menu-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}

@@ -1,0 +1,115 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fcf8ec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.form-wrapper {
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(186, 16, 16, 0.1);
+    text-align: center;
+    border: 2px solid #ba1010;
+}
+
+.brand-logo {
+    height: 80px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    color: #ba1010;
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #ba1010;
+    outline: none;
+}
+
+.btn-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-submit {
+    flex: 2;
+    padding: 14px;
+    background-color: #ba1010;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #960d0d;
+}
+
+.btn-reset {
+    flex: 1;
+    padding: 14px;
+    background-color: #fff;
+    color: #ba1010;
+    border: 2px solid #ba1010;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.links {
+    margin-top: 25px;
+    font-size: 0.9rem;
+}
+
+.links a {
+    color: #ba1010;
+    text-decoration: none;
+    font-weight: 600;
+}

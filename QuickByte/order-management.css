@@ -1,0 +1,22 @@
+.order-container {
+    padding: 30px;
+}
+
+.order-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #ba1010;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.order-status {
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.status-pending { background: #fff3cd; color: #856404; }
+.status-completed { background: #d4edda; color: #155724; }
+.status-cancelled { background: #f8d7da; color: #721c24; }
