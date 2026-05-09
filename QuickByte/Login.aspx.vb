@@ -30,11 +30,8 @@ Partial Class Login
                         Dim role As String = reader("Role").ToString()
                         Dim refId As Object = reader("ReferenceID")
                         
-                        ' Create auth ticket with role
-                        Dim ticket As New FormsAuthenticationTicket(1, email, DateTime.Now, DateTime.Now.AddMinutes(60), False, role)
-                        Dim encryptedTicket As String = FormsAuthentication.Encrypt(ticket)
-                        Dim cookie As New HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
-                        Response.Cookies.Add(cookie)
+                        ' Standard ASP.NET Auth Cookie
+                        FormsAuthentication.SetAuthCookie(email, False)
                         
                         Session("Role") = role
                         If Not IsDBNull(refId) Then
