@@ -1,4 +1,4 @@
-# Internet Application Development Labs
+# Internet Application Development Labs 1-7
 
 This repository contains various lab assignments and projects developed for the Internet Application Development (IAD) course.
 
