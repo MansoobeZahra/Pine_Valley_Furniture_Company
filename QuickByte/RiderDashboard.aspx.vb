@@ -58,7 +58,11 @@ Partial Class RiderDashboard
 
     Protected Sub chkAvailability_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
         Dim refId As Integer = Convert.ToInt32(Session("ReferenceID"))
-        ExecuteNonQuery("UPDATE Rider_QB SET Availability = " & If(chkAvailability.Checked, "1", "0") & " WHERE RiderID = " & refId)
+        Dim availVal As String = "0"
+        If chkAvailability.Checked Then
+            availVal = "1"
+        End If
+        ExecuteNonQuery("UPDATE Rider_QB SET Availability = " & availVal & " WHERE RiderID = " & refId)
         UpdateStatusText()
         LoadAvailableOrders()
     End Sub

@@ -177,7 +177,10 @@ Partial Class AdminDashboard
     End Sub
 
     Protected Function GetSegmentClass(ByVal segment As Object) As String
-        Dim seg As String = If(segment IsNot Nothing, segment.ToString(), "")
+        Dim seg As String = ""
+        If segment IsNot Nothing Then
+            seg = segment.ToString()
+        End If
         Select Case seg
             Case "Premium", "Top Performance", "Elite Rider"
                 Return "segment-premium"

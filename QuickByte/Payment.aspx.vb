@@ -33,7 +33,10 @@ Partial Class Payment
                 conn.Open()
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     If reader.Read() Then
-                        Dim amount As Decimal = If(reader("TotalAmount") Is DBNull.Value, 0, Convert.ToDecimal(reader("TotalAmount")))
+                        Dim amount As Decimal = 0
+                        If Not reader("TotalAmount") Is DBNull.Value Then
+                            amount = Convert.ToDecimal(reader("TotalAmount"))
+                        End If
                         txtAmount.Text = amount.ToString("F2")
                         
                         litOrderSummary.Text = String.Format(
@@ -53,8 +56,14 @@ Partial Class Payment
     End Sub
 
     Private Sub LoadPaymentHistory()
-        Dim role As String = If(Session("Role") IsNot Nothing, Session("Role").ToString(), "")
-        Dim refId As Integer = If(Session("ReferenceID") IsNot Nothing, Convert.ToInt32(Session("ReferenceID")), 0)
+        Dim role As String = ""
+        If Session("Role") IsNot Nothing Then
+            role = Session("Role").ToString()
+        End If
+        Dim refId As Integer = 0
+        If Session("ReferenceID") IsNot Nothing Then
+            refId = Convert.ToInt32(Session("ReferenceID"))
+        End If
         
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)

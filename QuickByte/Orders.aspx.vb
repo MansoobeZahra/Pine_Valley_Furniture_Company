@@ -15,8 +15,14 @@ Partial Class Orders
     End Sub
 
     Private Sub LoadOrders()
-        Dim role As String = If(Session("Role") IsNot Nothing, Session("Role").ToString(), "")
-        Dim refId As Integer = If(Session("ReferenceID") IsNot Nothing, Convert.ToInt32(Session("ReferenceID")), 0)
+        Dim role As String = ""
+        If Session("Role") IsNot Nothing Then
+            role = Session("Role").ToString()
+        End If
+        Dim refId As Integer = 0
+        If Session("ReferenceID") IsNot Nothing Then
+            refId = Convert.ToInt32(Session("ReferenceID"))
+        End If
         
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
