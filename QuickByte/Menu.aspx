@@ -84,14 +84,14 @@
                             <asp:BoundField DataField="Price" HeaderText="Price" DataFormatString="{0:C}" />
                             <asp:TemplateField HeaderText="Availability">
                                 <ItemTemplate>
-                                    <span style='<%# If(Convert.ToBoolean(Eval("Available")), "color:green;", "color:red;") %>'>
-                                        <%# If(Convert.ToBoolean(Eval("Available")), "Active", "Hidden") %>
+                                    <span style='<%# IIf(Convert.ToBoolean(Eval("Available")), "color:green;", "color:red;") %>'>
+                                        <%# IIf(Convert.ToBoolean(Eval("Available")), "Active", "Hidden") %>
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Actions">
                                 <ItemTemplate>
-                                    <asp:Button ID="btnToggle" runat="server" Text='<%# If(Convert.ToBoolean(Eval("Available")), "Hide", "Show") %>' 
+                                    <asp:Button ID="btnToggle" runat="server" Text='<%# IIf(Convert.ToBoolean(Eval("Available")), "Hide", "Show") %>' 
                                         CommandName="ToggleAvailable" CommandArgument='<%# Eval("ItemID") %>' CssClass="btn-view" style="padding:5px 10px; font-size:0.8rem;" />
                                     <asp:Button ID="btnDelete" runat="server" Text="Delete" CommandName="Delete" CssClass="btn-delete" style="padding:5px 10px; font-size:0.8rem;" />
                                 </ItemTemplate>
