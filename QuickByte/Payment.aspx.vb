@@ -24,10 +24,7 @@ Partial Class Payment
     Private Sub LoadOrderDetails(ByVal orderId As String)
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT o.OrderID, c.FirstName + ' ' + c.LastName AS CustomerName, r.Name AS RestaurantName, o.Status, " &
-                                 "(SELECT SUM(mi.Price * oi.Quantity) FROM OrderItem_QB oi JOIN MenuItem_QB mi ON oi.ItemID = mi.ItemID WHERE oi.OrderID = o.OrderID) AS TotalAmount " &
-                                 "FROM Order_QB o INNER JOIN Customer_QB c ON o.CustomerID = c.CustomerID INNER JOIN Restaurant_QB r ON o.RestaurantID = r.RestaurantID " &
-                                 "WHERE o.OrderID = @OrderID"
+            Dim query As String = "SELECT o.OrderID, c.FirstName + ' ' + c.LastName AS CustomerName, r.Name AS RestaurantName, o.Status, (SELECT SUM(mi.Price * oi.Quantity) FROM OrderItem_QB oi JOIN MenuItem_QB mi ON oi.ItemID = mi.ItemID WHERE oi.OrderID = o.OrderID) AS TotalAmount FROM Order_QB o INNER JOIN Customer_QB c ON o.CustomerID = c.CustomerID INNER JOIN Restaurant_QB r ON o.RestaurantID = r.RestaurantID WHERE o.OrderID = @OrderID"
             Using cmd As New SqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@OrderID", orderId)
                 conn.Open()
@@ -39,13 +36,7 @@ Partial Class Payment
                         End If
                         txtAmount.Text = amount.ToString("F2")
                         
-                        litOrderSummary.Text = String.Format(
-                            "<div class='info-row'><span class='label'>Order ID:</span><span class='value'>{0}</span></div>" &
-                            "<div class='info-row'><span class='label'>Customer Name:</span><span class='value'>{1}</span></div>" &
-                            "<div class='info-row'><span class='label'>Restaurant:</span><span class='value'>{2}</span></div>" &
-                            "<div class='info-row'><span class='label'>Total Amount:</span><span class='value amount'>Rs. {3}</span></div>" &
-                            "<div class='info-row'><span class='label'>Order Status:</span><span class='value'>{4}</span></div>",
-                            reader("OrderID"), reader("CustomerName"), reader("RestaurantName"), amount.ToString("N2"), reader("Status"))
+                        litOrderSummary.Text = String.Format("<div class='info-row'><span class='label'>Order ID:</span><span class='value'>{0}</span></div><div class='info-row'><span class='label'>Customer Name:</span><span class='value'>{1}</span></div><div class='info-row'><span class='label'>Restaurant:</span><span class='value'>{2}</span></div><div class='info-row'><span class='label'>Total Amount:</span><span class='value amount'>Rs. {3}</span></div><div class='info-row'><span class='label'>Order Status:</span><span class='value'>{4}</span></div>", reader("OrderID"), reader("CustomerName"), reader("RestaurantName"), amount.ToString("N2"), reader("Status"))
                     Else
                         paymentFormSection.Visible = False
                         litOrderSummary.Text = "<p>Order not found.</p>"

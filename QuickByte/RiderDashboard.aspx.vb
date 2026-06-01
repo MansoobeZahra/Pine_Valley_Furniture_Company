@@ -77,10 +77,7 @@ Partial Class RiderDashboard
         Dim region As String = Session("RiderRegion")
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT o.OrderID, r.Name AS RestaurantName, " &
-                                 "(SELECT STUFF((SELECT ', ' + mi.Name FROM OrderItem_QB oi JOIN MenuItem_QB mi ON oi.ItemID = mi.ItemID WHERE oi.OrderID = o.OrderID FOR XML PATH('')), 1, 2, '')) AS Items " &
-                                 "FROM Order_QB o JOIN Restaurant_QB r ON o.RestaurantID = r.RestaurantID " &
-                                 "WHERE o.Status = 'Pending' AND o.Region = @Region"
+            Dim query As String = "SELECT o.OrderID, r.Name AS RestaurantName, (SELECT STUFF((SELECT ', ' + mi.Name FROM OrderItem_QB oi JOIN MenuItem_QB mi ON oi.ItemID = mi.ItemID WHERE oi.OrderID = o.OrderID FOR XML PATH('')), 1, 2, '')) AS Items FROM Order_QB o JOIN Restaurant_QB r ON o.RestaurantID = r.RestaurantID WHERE o.Status = 'Pending' AND o.Region = @Region"
             Using cmd As New SqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@Region", region)
                 Dim dt As New System.Data.DataTable()
@@ -112,10 +109,7 @@ Partial Class RiderDashboard
         Dim refId As Integer = Convert.ToInt32(Session("ReferenceID"))
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT o.OrderID, c.FirstName + ' ' + c.LastName + '<br/><small>' + c.PhoneNumber + '</small>' AS CustomerInfo, " &
-                                 "r.Name + '<br/><small>' + r.Street + '</small>' AS RestaurantInfo, o.Status " &
-                                 "FROM Order_QB o INNER JOIN Customer_QB c ON o.CustomerID = c.CustomerID INNER JOIN Restaurant_QB r ON o.RestaurantID = r.RestaurantID " &
-                                 "WHERE o.RiderID = @RefID AND o.Status IN ('Assigned', 'Picked Up', 'Delivered')"
+            Dim query As String = "SELECT o.OrderID, c.FirstName + ' ' + c.LastName + '<br/><small>' + c.PhoneNumber + '</small>' AS CustomerInfo, r.Name + '<br/><small>' + r.Street + '</small>' AS RestaurantInfo, o.Status FROM Order_QB o INNER JOIN Customer_QB c ON o.CustomerID = c.CustomerID INNER JOIN Restaurant_QB r ON o.RestaurantID = r.RestaurantID WHERE o.RiderID = @RefID AND o.Status IN ('Assigned', 'Picked Up', 'Delivered')"
             Using cmd As New SqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@RefID", refId)
                 Dim dt As New System.Data.DataTable()
@@ -147,9 +141,7 @@ Partial Class RiderDashboard
         Dim refId As Integer = Convert.ToInt32(Session("ReferenceID"))
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT o.OrderID, o.OrderDate, c.FirstName + ' ' + c.LastName AS CustomerName, o.Status " &
-                                 "FROM Order_QB o INNER JOIN Customer_QB c ON o.CustomerID = c.CustomerID " &
-                                 "WHERE o.RiderID = @RefID AND o.Status = 'Confirmed' ORDER BY o.OrderDate DESC"
+            Dim query As String = "SELECT o.OrderID, o.OrderDate, c.FirstName + ' ' + c.LastName AS CustomerName, o.Status FROM Order_QB o INNER JOIN Customer_QB c ON o.CustomerID = c.CustomerID WHERE o.RiderID = @RefID AND o.Status = 'Confirmed' ORDER BY o.OrderDate DESC"
             Using cmd As New SqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@RefID", refId)
                 Dim dt As New System.Data.DataTable()
