@@ -43,10 +43,7 @@ Partial Class Search
         Dim region As String = ddlRegion.SelectedValue
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT m.ItemID, r.RestaurantID, m.Name AS ItemName, r.Name AS RestaurantName, m.Price, m.Description, " &
-                                 "ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = r.RestaurantID AND TargetType = 'Restaurant'), 0) AS AvgRating " &
-                                 "FROM MenuItem_QB m INNER JOIN Restaurant_QB r ON m.RestaurantID = r.RestaurantID " &
-                                 "WHERE m.Available = 1 AND r.Region = @Region AND r.IsActive = 1"
+            Dim query As String = "SELECT m.ItemID, r.RestaurantID, m.Name AS ItemName, r.Name AS RestaurantName, m.Price, m.Description, ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = r.RestaurantID AND TargetType = 'Restaurant'), 0) AS AvgRating FROM MenuItem_QB m INNER JOIN Restaurant_QB r ON m.RestaurantID = r.RestaurantID WHERE m.Available = 1 AND r.Region = @Region AND r.IsActive = 1"
             Using cmd As New SqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@Region", region)
                 Dim dt As New System.Data.DataTable()
@@ -64,10 +61,7 @@ Partial Class Search
         
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT m.ItemID, r.RestaurantID, m.Name AS ItemName, r.Name AS RestaurantName, m.Price, m.Description, " &
-                                 "ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = r.RestaurantID AND TargetType = 'Restaurant'), 0) AS AvgRating " &
-                                 "FROM MenuItem_QB m INNER JOIN Restaurant_QB r ON m.RestaurantID = r.RestaurantID " &
-                                 "WHERE m.Available = 1 AND r.Region = @Region AND r.IsActive = 1 AND (m.Name LIKE @Search OR r.Name LIKE @Search)"
+            Dim query As String = "SELECT m.ItemID, r.RestaurantID, m.Name AS ItemName, r.Name AS RestaurantName, m.Price, m.Description, ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = r.RestaurantID AND TargetType = 'Restaurant'), 0) AS AvgRating FROM MenuItem_QB m INNER JOIN Restaurant_QB r ON m.RestaurantID = r.RestaurantID WHERE m.Available = 1 AND r.Region = @Region AND r.IsActive = 1 AND (m.Name LIKE @Search OR r.Name LIKE @Search)"
             Using cmd As New SqlCommand(query, conn)
                 cmd.Parameters.AddWithValue("@Region", region)
                 cmd.Parameters.AddWithValue("@Search", "%" & searchStr & "%")
