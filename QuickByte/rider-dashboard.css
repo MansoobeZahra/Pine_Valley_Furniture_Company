@@ -56,7 +56,7 @@
 
 /* Section Wrappers */
 .assigned-orders {
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: left;
 }
 
@@ -69,7 +69,7 @@
 }
 
 .delivery-history {
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: left;
 }
 
@@ -161,12 +161,12 @@
 
 /* No results state */
 .no-results {
-    padding: 25px;
+    padding: 30px;
     text-align: center;
-    background-color: #fcf8ec;
-    border: 1px dashed #ba1010;
-    border-radius: 10px;
     color: #89758d;
+    background: #fcf8ec;
+    border-radius: 10px;
+    border: 1px dashed #ba1010;
     font-style: italic;
     font-size: 15px;
     margin-top: 10px;
