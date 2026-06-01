@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="payment.css">
     <script>
         function togglePaymentFields() {
-            const method = document.getElementById('<%= ddlPaymentMethod.ClientID %>').value;
-            const cardFields = document.getElementById('cardFields');
-            const walletFields = document.getElementById('walletFields');
+            var method = document.getElementById('<%= ddlPaymentMethod.ClientID %>').value;
+            var cardFields = document.getElementById('cardFields');
+            var walletFields = document.getElementById('walletFields');
 
             cardFields.style.display = 'none';
             walletFields.style.display = 'none';

@@ -59,7 +59,7 @@
                         </div>
                         <div class="form-group">
                             <label for="txtPrice">Price (Rs.):</label>
-                            <asp:TextBox ID="txtPrice" runat="server" TextMode="Number" step="0.01" required="required"></asp:TextBox>
+                            <asp:TextBox ID="txtPrice" runat="server" TextMode="SingleLine" placeholder="0.00" required="required"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group">
