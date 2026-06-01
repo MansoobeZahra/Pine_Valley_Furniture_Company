@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Management - QUICK byte</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="menu-management.css">
+    <link rel="stylesheet" href="index.css?v=2">
+    <link rel="stylesheet" href="menu-management.css?v=2">
 </head>
 <body>
     <form id="form1" runat="server">
