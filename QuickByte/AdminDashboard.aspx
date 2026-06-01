@@ -226,15 +226,15 @@
                                     <asp:TemplateField HeaderText="Status">
                                         <ItemTemplate>
                                             <span
-                                                class='<%# If(Convert.ToBoolean(Eval("IsActive")), "status-active", "status-disabled") %>'>
-                                                <%# If(Convert.ToBoolean(Eval("IsActive")), "Active" , "Disabled" ) %>
+                                                class='<%# IIf(Convert.ToBoolean(Eval("IsActive")), "status-active", "status-disabled") %>'>
+                                                <%# IIf(Convert.ToBoolean(Eval("IsActive")), "Active" , "Disabled" ) %>
                                             </span>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:Button ID="btnToggleRest" runat="server"
-                                                Text='<%# If(Convert.ToBoolean(Eval("IsActive")), "Disable", "Enable") %>'
+                                                Text='<%# IIf(Convert.ToBoolean(Eval("IsActive")), "Disable", "Enable") %>'
                                                 CommandName="ToggleStatus" CommandArgument='<%# Eval("RestaurantID") %>'
                                                 CssClass="btn-view" style="padding:4px 8px; font-size:0.75rem;" />
                                             <asp:Button ID="btnResetRest" runat="server" Text="Reset Revenue"
@@ -269,16 +269,15 @@
                                     <asp:TemplateField HeaderText="Availability">
                                         <ItemTemplate>
                                             <span
-                                                class='<%# "badge " & If(Convert.ToBoolean(Eval("Availability")), "badge-available", "badge-offline") %>'>
-                                                <%# If(Convert.ToBoolean(Eval("Availability")), "Available" , "Offline"
-                                                    ) %>
+                                                class='<%# "badge " & IIf(Convert.ToBoolean(Eval("Availability")), "badge-available", "badge-offline") %>'>
+                                                <%# IIf(Convert.ToBoolean(Eval("Availability")), "Available" , "Offline" ) %>
                                             </span>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:Button ID="btnToggleRider" runat="server"
-                                                Text='<%# If(Convert.ToBoolean(Eval("IsActive")), "Disable", "Enable") %>'
+                                                Text='<%# IIf(Convert.ToBoolean(Eval("IsActive")), "Disable", "Enable") %>'
                                                 CommandName="ToggleStatus" CommandArgument='<%# Eval("RiderID") %>'
                                                 CssClass="btn-view" style="padding:4px 8px; font-size:0.75rem;" />
                                             <asp:Button ID="btnResetRider" runat="server" Text="Reset Earnings"
@@ -302,7 +301,7 @@
                                     <asp:TemplateField HeaderText="Rating">
                                         <ItemTemplate>
                                             <span
-                                                class='<%# "badge " & If(Convert.ToInt32(Eval("Rating")) >= 4, "badge-high", "badge-low") %>'>
+                                                class='<%# "badge " & IIf(Convert.ToInt32(Eval("Rating")) >= 4, "badge-high", "badge-low") %>'>
                                                 <%# Eval("Rating") %> / 5
                                             </span>
                                         </ItemTemplate>
