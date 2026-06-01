@@ -1,51 +1,60 @@
+/* Inherits .search-wrapper card from index.css */
 .search-wrapper {
-    max-width: 900px;
-    margin: 40px auto;
+    max-width: 960px;
+    margin: 30px auto;
     text-align: center;
 }
 
-.brand-logo {
-    height: 120px;
-    margin-bottom: 20px;
-}
-
-h1 {
-    color: #ba1010;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 30px;
-}
-
+/* Search Filters Box */
 .search-box {
+    background: #fffafa;
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid #f8be2c;
     margin-bottom: 40px;
+    text-align: left;
+}
+
+.search-box label {
+    display: block;
+    font-weight: bold;
+    color: #ba1010;
+    margin-bottom: 8px;
+    font-size: 14px;
 }
 
 .search-input {
     padding: 12px 15px;
     border: 1px solid #ba1010;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 14px;
+    background-color: white;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: #f8be2c;
 }
 
 .btn-search {
     padding: 12px 25px;
     background: #ba1010;
     color: white;
-    border: none;
+    border: 1px solid #ba1010;
     border-radius: 8px;
     font-weight: bold;
+    font-size: 14px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.2s ease;
 }
 
 .btn-search:hover {
-    background: #960d0d;
+    background-color: white;
+    color: #ba1010;
 }
 
+/* Results Section */
 .results-section {
     text-align: left;
     margin-top: 40px;
@@ -53,37 +62,76 @@ h1 {
 
 .results-section h2 {
     color: #ba1010;
-    border-bottom: 2px solid #ba1010;
+    font-size: 22px;
+    border-bottom: 3px solid #f8be2c;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
+/* Results Table */
 .results-table {
     width: 100%;
+    border-collapse: collapse;
     background: white;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     border: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .results-table th {
-    background: #ba1010;
-    color: white;
-    padding: 15px;
+    background-color: #ba1010;
+    color: white !important;
+    padding: 14px 16px;
+    font-weight: bold;
     text-align: left;
+    font-size: 14px;
+    border-bottom: 3px solid #f8be2c;
 }
 
 .results-table td {
-    padding: 15px;
+    padding: 14px 16px;
     border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 14px;
+    vertical-align: middle;
 }
 
+.results-table tr:last-child td {
+    border-bottom: none;
+}
+
+.results-table tr:hover {
+    background-color: #fcf8ec;
+    transition: background-color 0.2s ease;
+}
+
+/* No Results State */
 .no-results {
     padding: 40px;
     text-align: center;
-    color: #666;
+    color: #89758d;
     background: #fcf8ec;
     border-radius: 10px;
     border: 1px dashed #ba1010;
+    font-style: italic;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+/* Back Links */
+.links {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.links a {
+    color: #ba1010;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.links a:hover {
+    text-decoration: underline;
 }

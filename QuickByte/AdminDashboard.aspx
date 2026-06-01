@@ -9,64 +9,108 @@
         <title>Admin Dashboard - QUICK byte</title>
         <link rel="stylesheet" href="index.css">
         <style>
+            /* Admin Dashboard Specific Styles */
+            .admin-wrapper {
+                background: white;
+                padding: 40px;
+                border-radius: 20px;
+                border: 2px solid #ba1010;
+                box-shadow: 0 10px 25px rgba(186,16,16,0.05);
+                margin: 30px 0;
+            }
+
+            .admin-wrapper h1 {
+                color: #ba1010;
+                text-align: center;
+                font-size: 32px;
+                font-weight: 800;
+                margin-bottom: 5px;
+            }
+
             .dashboard-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-                margin-top: 20px;
+                grid-template-columns: 1fr;
+                gap: 25px;
+                margin-top: 25px;
             }
 
             .stat-card {
                 background: white;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 25px;
+                border-radius: 12px;
+                border: 1px solid #eee;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.04);
                 border-top: 4px solid #ba1010;
             }
 
             .stat-card h2 {
                 color: #ba1010;
+                font-size: 18px;
                 margin-bottom: 15px;
-                font-size: 1.2rem;
-                border-bottom: 1px solid #eee;
-                padding-bottom: 10px;
+                border-bottom: 3px solid #f8be2c;
+                padding-bottom: 8px;
             }
 
+            /* Add Restaurant Form */
+            .add-restaurant-card {
+                background: #fffafa;
+                border: 2px solid #f8be2c;
+                border-radius: 12px;
+                padding: 25px;
+                margin-bottom: 30px;
+            }
+
+            .add-restaurant-card h2 {
+                color: #ba1010;
+                font-size: 18px;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #f8be2c;
+                padding-bottom: 8px;
+            }
+
+            /* Admin Table */
             .admin-table {
                 width: 100%;
                 border-collapse: collapse;
-                font-size: 0.9rem;
+                border-radius: 12px;
+                overflow: hidden;
+                background: white;
+                border: 1px solid #eee;
             }
 
             .admin-table th {
-                background: #fcf8ec;
+                background-color: #ba1010;
+                color: white !important;
                 text-align: left;
-                padding: 10px;
-                border-bottom: 2px solid #ba1010;
+                padding: 14px 16px;
+                font-size: 14px;
+                font-weight: bold;
+                border-bottom: 3px solid #f8be2c;
             }
 
             .admin-table td {
-                padding: 10px;
+                padding: 14px 16px;
                 border-bottom: 1px solid #eee;
+                font-size: 14px;
+                color: #333;
+                vertical-align: middle;
             }
 
-            .segment-premium {
-                color: gold;
-                font-weight: bold;
+            .admin-table tr:last-child td {
+                border-bottom: none;
             }
 
-            .segment-regular {
-                color: #555;
+            .admin-table tr:hover {
+                background-color: #fcf8ec;
+                transition: background-color 0.2s ease;
             }
 
-            .segment-bulk {
-                color: #ba1010;
-                font-weight: bold;
-            }
+            /* Segment Labels */
+            .segment-premium  { color: #c8860a; font-weight: bold; }
+            .segment-regular  { color: #555; }
+            .segment-bulk     { color: #ba1010; font-weight: bold; }
 
-            .full-width {
-                grid-column: 1 / -1;
-            }
+            .full-width { grid-column: 1 / -1; }
         </style>
     </head>
 
@@ -110,17 +154,14 @@
             </nav>
 
             <div class="container" style="max-width: 1200px;">
-                <div class="search-wrapper" style="background:transparent; padding:0; box-shadow:none;">
+                <div class="admin-wrapper">
                     <img src="assets/logo.png" alt="QuickByte Logo" class="brand-logo" />
-                    <h1 style="color: #ba1010; font-size: 2.5rem; margin-bottom: 5px;">Business Segmentation Dashboard
-                    </h1>
-                    <p class="subtitle" style="margin-bottom: 30px;">Network-wide stakeholder analytics & logistics</p>
+                    <h1>Business Segmentation Dashboard</h1>
+                    <p class="subtitle">Network-wide stakeholder analytics & logistics</p>
 
                     <!-- Admin Only: Add Restaurant -->
-                    <div class="stat-card full-width" style="margin-bottom: 30px; border: 1px solid #eee;">
-                        <h2
-                            style="background: #fcf8ec; padding: 10px; margin: -20px -20px 20px -20px; border-radius: 10px 10px 0 0;">
-                            Add New Restaurant Partner</h2>
+                    <div class="add-restaurant-card">
+                        <h2>Add New Restaurant Partner</h2>
                         <div
                             style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                             <asp:TextBox ID="txtNewRestName" runat="server" placeholder="Restaurant Name"
@@ -283,12 +324,11 @@
                     </div>
                 </div>
 
-        </form>
         <footer>
+            <p>&copy; 2026 QUICK byte - Taste the speed</p>
+            <p>Internet application development</p>
+            <p>Mansoob-e-Zahra</p>
+        </footer>
+        </form>
     </body>
-    <p>&copy; 2026 QUICK byte - Taste the speed</p>
-    <p>Internet application development</p>
-    <p>Mansoob-e-Zahra</p>
-    </footer>
-
     </html>

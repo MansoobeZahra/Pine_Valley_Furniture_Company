@@ -1,5 +1,5 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background-color: #fcf8ec;
     margin: 0;
     padding: 0;
@@ -8,34 +8,14 @@ body {
 
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
     padding: 40px 20px;
     margin: 0 auto;
 }
 
+/* Inherits .form-wrapper from index.css */
 .form-wrapper {
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(186, 16, 16, 0.1);
     text-align: center;
-    border: 2px solid #ba1010;
-}
-
-.brand-logo {
-    height: 120px;
-    margin-bottom: 15px;
-}
-
-h1 {
-    color: #ba1010;
-    margin: 0;
-    font-size: 2.2rem;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 30px;
 }
 
 .form-group {
@@ -46,8 +26,9 @@ h1 {
 .form-group label {
     display: block;
     margin-bottom: 6px;
-    font-weight: 600;
-    color: #333;
+    font-weight: bold;
+    color: #ba1010;
+    font-size: 14px;
 }
 
 .form-group input[type="text"],
@@ -57,15 +38,16 @@ h1 {
 .form-group select {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid #eee;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    transition: border-color 0.3s;
+    border: 1px solid #ba1010;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
 .form-group input:focus, .form-group select:focus {
-    border-color: #ba1010;
-    outline: none;
+    border-color: #f8be2c;
 }
 
 .btn-container {
@@ -79,16 +61,17 @@ h1 {
     padding: 14px;
     background-color: #ba1010;
     color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.05rem;
+    border: 1px solid #ba1010;
+    border-radius: 8px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.2s ease;
 }
 
 .btn-submit:hover {
-    background-color: #960d0d;
+    background-color: white;
+    color: #ba1010;
 }
 
 .btn-reset {
@@ -96,10 +79,15 @@ h1 {
     padding: 14px;
     background-color: #fff;
     color: #ba1010;
-    border: 2px solid #ba1010;
-    border-radius: 10px;
+    border: 1px solid #ba1010;
+    border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-reset:hover {
+    background-color: #fcf8ec;
 }
 
 .links {
@@ -112,3 +100,8 @@ h1 {
     text-decoration: none;
     font-weight: 600;
 }
+
+.links a:hover {
+    text-decoration: underline;
+}
+

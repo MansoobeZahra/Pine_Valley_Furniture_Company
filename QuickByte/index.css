@@ -392,3 +392,49 @@ footer {
         padding: 20px;
     }
 }
+
+/* Shared Card Wrapper for Pages */
+.login-wrapper,
+.form-wrapper,
+.search-wrapper,
+.menu-wrapper,
+.order-wrapper,
+.payment-wrapper,
+.dashboard-wrapper {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid #ba1010;
+    box-shadow: 0 10px 25px rgba(186, 16, 16, 0.05);
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* Shared Brand Elements */
+.brand-logo {
+    display: block;
+    margin: 0 auto 20px;
+    height: 100px;
+    width: auto;
+}
+
+.login-wrapper h1,
+.form-wrapper h1,
+.search-wrapper h1,
+.menu-wrapper h1,
+.order-wrapper h1,
+.payment-wrapper h1,
+.dashboard-wrapper h1 {
+    color: #ba1010;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #89758d;
+    font-size: 16px;
+    margin-bottom: 40px;
+}

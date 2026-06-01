@@ -1,24 +1,141 @@
+/* Inherits .payment-wrapper card from index.css */
 .payment-wrapper {
-    max-width: 500px;
-    margin: 50px auto;
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    border: 2px solid #ba1010;
+    max-width: 720px;
+    margin: 30px auto;
     text-align: center;
 }
 
-.payment-methods {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin: 20px 0;
+/* Order Summary Card */
+.payment-info {
+    background: #fffafa;
+    border: 2px solid #f8be2c;
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    text-align: left;
 }
 
-.card-input {
+.payment-info h2 {
+    color: #ba1010;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f8be2c;
+    padding-bottom: 8px;
+}
+
+/* Payment Form */
+#paymentFormSection h2 {
+    color: #ba1010;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    border-bottom: 2px solid #f8be2c;
+    padding-bottom: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #ba1010;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+    padding: 12px 15px;
+    border: 1px solid #ba1010;
     border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #f8be2c;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.btn-pay {
+    width: 100%;
+    padding: 14px;
+    background-color: #ba1010;
+    color: white;
+    border: 1px solid #ba1010;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.btn-pay:hover {
+    background-color: white;
+    color: #ba1010;
+}
+
+/* Payment History Section */
+.payment-history {
+    margin-top: 40px;
+    text-align: left;
+}
+
+.payment-history h2 {
+    color: #ba1010;
+    font-size: 20px;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #f8be2c;
+    padding-bottom: 8px;
+}
+
+/* History Table */
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.history-table th {
+    background-color: #ba1010;
+    color: white !important;
+    padding: 14px 16px;
+    font-weight: bold;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 3px solid #f8be2c;
+}
+
+.history-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.history-table tr:last-child td {
+    border-bottom: none;
+}
+
+.history-table tr:hover {
+    background-color: #fcf8ec;
+    transition: background-color 0.2s ease;
 }

@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Management - QUICK byte</title>
-    <link rel="stylesheet" href="order-management.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="order-management.css">
 </head>
 <body>
     <form id="form1" runat="server">

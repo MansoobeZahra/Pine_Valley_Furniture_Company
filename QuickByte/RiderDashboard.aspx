@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rider Dashboard - QUICK byte</title>
-    <link rel="stylesheet" href="rider-dashboard.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="rider-dashboard.css">
 </head>
 <body>
     <form id="form1" runat="server">
@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- NEW: Available Orders in Region -->
-                <div class="assigned-orders" style="margin-top: 30px; border-top: 2px solid #ba1010; padding-top: 20px;">
+                <div class="assigned-orders">
                     <h2>Available Orders in <asp:Label ID="lblRegionTitle" runat="server"></asp:Label></h2>
                     <asp:GridView ID="gvAvailableOrders" runat="server" AutoGenerateColumns="False" CssClass="orders-table" GridLines="None" DataKeyNames="OrderID" OnRowCommand="gvAvailableOrders_RowCommand">
                         <Columns>
@@ -128,6 +128,8 @@
         </div>
         <footer>
             <p>&copy; 2026 QUICK byte - Taste the speed</p>
+            <p>Internet application development</p>
+            <p>Mansoob-e-Zahra</p>
         </footer>
     </form>
 </body>

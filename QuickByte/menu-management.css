@@ -1,33 +1,184 @@
-.menu-container {
-    padding: 30px;
-    background: #fff;
-    border-radius: 15px;
-    border: 1px solid #eee;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+/* Inherits .menu-wrapper card from index.css */
+.menu-wrapper {
+    text-align: center;
 }
 
-.menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    border-bottom: 2px solid #ba1010;
-    padding-bottom: 15px;
-}
-
-.menu-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.menu-table th {
-    background: #fcf8ec;
-    color: #ba1010;
-    padding: 12px;
+/* Add Item Section */
+.add-item-section {
+    background: #fffafa;
+    border: 2px solid #f8be2c;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 40px;
     text-align: left;
 }
 
+.add-item-section h2 {
+    color: #ba1010;
+    font-size: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f8be2c;
+    padding-bottom: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #ba1010;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ba1010;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #f8be2c;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.btn-add {
+    background-color: #ba1010;
+    color: white;
+    border: 1px solid #ba1010;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.btn-add:hover {
+    background-color: white;
+    color: #ba1010;
+}
+
+/* Menu Items Section */
+.menu-items-section {
+    text-align: left;
+}
+
+.menu-items-section h2 {
+    color: #ba1010;
+    font-size: 20px;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #f8be2c;
+    padding-bottom: 8px;
+}
+
+/* Menu Table */
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.menu-table th {
+    background-color: #ba1010;
+    color: white !important;
+    padding: 14px 16px;
+    font-weight: bold;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 3px solid #f8be2c;
+}
+
 .menu-table td {
-    padding: 12px;
+    padding: 14px 16px;
     border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.menu-table tr:last-child td {
+    border-bottom: none;
+}
+
+.menu-table tr:hover {
+    background-color: #fcf8ec;
+    transition: background-color 0.2s ease;
+}
+
+/* Action Buttons in Table */
+.btn-view {
+    padding: 6px 14px;
+    background: #f8be2c;
+    color: #333;
+    border: 1px solid #333;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.btn-view:hover {
+    background: #e0a820;
+}
+
+.btn-delete {
+    padding: 6px 14px;
+    background: white;
+    color: #ba1010;
+    border: 1px solid #ba1010;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: #ba1010;
+    color: white;
+}
+
+/* No results state */
+.no-results {
+    padding: 30px;
+    text-align: center;
+    color: #89758d;
+    background: #fcf8ec;
+    border-radius: 10px;
+    border: 1px dashed #ba1010;
+    font-style: italic;
+    font-size: 15px;
 }

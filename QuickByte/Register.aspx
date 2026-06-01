@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration - QUICK byte</title>
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="registration.css">
     <script type="text/javascript">
         function toggleFields() {
@@ -79,12 +80,12 @@
 
                 <div class="form-group">
                     <label for="txtEmail">Email:</label>
-                    <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" required="required"></asp:TextBox>
+                    <asp:TextBox ID="txtEmail" runat="server" TextMode="SingleLine" placeholder="email@example.com" required="required"></asp:TextBox>
                 </div>
 
                 <div class="form-group">
                     <label for="txtPhone">Phone Number:</label>
-                    <asp:TextBox ID="txtPhone" runat="server" TextMode="Phone" placeholder="03001234567" required="required"></asp:TextBox>
+                    <asp:TextBox ID="txtPhone" runat="server" TextMode="SingleLine" placeholder="03001234567" required="required"></asp:TextBox>
                 </div>
 
                 <div class="form-group">

@@ -1,22 +1,101 @@
-.order-container {
-    padding: 30px;
+/* Inherits .order-wrapper card from index.css */
+.order-wrapper {
+    text-align: center;
 }
 
-.order-card {
+/* Orders Table Section */
+.orders-table-section {
+    text-align: left;
+    margin-top: 30px;
+}
+
+.orders-table-section h2 {
+    color: #ba1010;
+    font-size: 20px;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #f8be2c;
+    padding-bottom: 8px;
+}
+
+/* Orders Table */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
     background: white;
     border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-left: 5px solid #ba1010;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-.order-status {
+.orders-table th {
+    background-color: #ba1010;
+    color: white !important;
+    padding: 14px 16px;
     font-weight: bold;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 3px solid #f8be2c;
+}
+
+.orders-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.orders-table tr:last-child td {
+    border-bottom: none;
+}
+
+.orders-table tr:hover {
+    background-color: #fcf8ec;
+    transition: background-color 0.2s ease;
+}
+
+/* Action Buttons */
+.btn-view {
+    padding: 7px 16px;
+    background: #f8be2c;
+    color: #333;
+    border: 1px solid #333;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.btn-view:hover {
+    background: #e0a820;
+}
+
+/* Status Badges */
+.order-status {
+    display: inline-block;
     padding: 4px 12px;
     border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
 }
 
-.status-pending { background: #fff3cd; color: #856404; }
-.status-completed { background: #d4edda; color: #155724; }
+.status-pending   { background: #fff3cd; color: #856404; }
+.status-assigned  { background: #cce5ff; color: #004085; }
+.status-delivered { background: #d4edda; color: #155724; }
+.status-confirmed { background: #d1ecf1; color: #0c5460; }
 .status-cancelled { background: #f8d7da; color: #721c24; }
+
+/* No results state */
+.no-results {
+    padding: 30px;
+    text-align: center;
+    color: #89758d;
+    background: #fcf8ec;
+    border-radius: 10px;
+    border: 1px dashed #ba1010;
+    font-style: italic;
+    font-size: 15px;
+    margin-top: 10px;
+}

@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment - QUICK byte</title>
-    <link rel="stylesheet" href="payment.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="payment.css">
     <script>
         function togglePaymentFields() {
             const method = document.getElementById('<%= ddlPaymentMethod.ClientID %>').value;
@@ -134,6 +134,8 @@
         </div>
         <footer>
             <p>&copy; 2026 QUICK byte - Taste the speed</p>
+            <p>Internet application development</p>
+            <p>Mansoob-e-Zahra</p>
         </footer>
     </form>
 </body>
