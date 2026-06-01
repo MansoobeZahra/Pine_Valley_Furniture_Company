@@ -24,14 +24,7 @@ Partial Class AdminDashboard
     Private Sub LoadFeedback()
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT f.Rating, f.Comment, f.TargetType, " &
-                                 "CASE WHEN f.TargetType = 'Rider' THEN (SELECT Name FROM Rider_QB WHERE RiderID = f.TargetID) " &
-                                 "     ELSE (SELECT Name FROM Restaurant_QB WHERE RestaurantID = f.TargetID) END AS TargetName, " &
-                                 "CASE WHEN f.ReviewerRole = 'Customer' THEN (SELECT FirstName + ' ' + LastName FROM Customer_QB WHERE CustomerID = f.ReviewerID) " &
-                                 "     ELSE (SELECT Name FROM Restaurant_QB WHERE RestaurantID = f.ReviewerID) END AS Reviewer, " &
-                                 "o.Region " &
-                                 "FROM Feedback_QB f JOIN Order_QB o ON f.OrderID = o.OrderID " &
-                                 "ORDER BY f.CreatedAt DESC"
+            Dim query As String = "SELECT f.Rating, f.Comment, f.TargetType, CASE WHEN f.TargetType = 'Rider' THEN (SELECT Name FROM Rider_QB WHERE RiderID = f.TargetID) ELSE (SELECT Name FROM Restaurant_QB WHERE RestaurantID = f.TargetID) END AS TargetName, CASE WHEN f.ReviewerRole = 'Customer' THEN (SELECT FirstName + ' ' + LastName FROM Customer_QB WHERE CustomerID = f.ReviewerID) ELSE (SELECT Name FROM Restaurant_QB WHERE RestaurantID = f.ReviewerID) END AS Reviewer, o.Region FROM Feedback_QB f JOIN Order_QB o ON f.OrderID = o.OrderID ORDER BY f.CreatedAt DESC"
             
             Using cmd As New SqlCommand(query, conn)
                 Dim dt As New System.Data.DataTable()
@@ -46,17 +39,7 @@ Partial Class AdminDashboard
     Private Sub LoadCustomerSegmentation()
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT c.FirstName + ' ' + c.LastName AS CustomerName, c.Region, " &
-                                 "COUNT(o.OrderID) AS TotalOrders, " &
-                                 "ISNULL(SUM(p.Amount), 0) AS TotalSpent, " &
-                                 "CASE " &
-                                 "  WHEN SUM(p.Amount) > 5000 OR COUNT(o.OrderID) > 10 THEN 'Premium' " &
-                                 "  ELSE 'Regular' " &
-                                 "END AS Segment " &
-                                 "FROM Customer_QB c " &
-                                 "LEFT JOIN Order_QB o ON c.CustomerID = o.CustomerID " &
-                                 "LEFT JOIN Payment_QB p ON o.OrderID = p.OrderID AND p.Status = 'Paid' " &
-                                 "GROUP BY c.CustomerID, c.FirstName, c.LastName, c.Region"
+            Dim query As String = "SELECT c.FirstName + ' ' + c.LastName AS CustomerName, c.Region, COUNT(o.OrderID) AS TotalOrders, ISNULL(SUM(p.Amount), 0) AS TotalSpent, CASE WHEN SUM(p.Amount) > 5000 OR COUNT(o.OrderID) > 10 THEN 'Premium' ELSE 'Regular' END AS Segment FROM Customer_QB c LEFT JOIN Order_QB o ON c.CustomerID = o.CustomerID LEFT JOIN Payment_QB p ON o.OrderID = p.OrderID AND p.Status = 'Paid' GROUP BY c.CustomerID, c.FirstName, c.LastName, c.Region"
             
             Using cmd As New SqlCommand(query, conn)
                 Dim dt As New System.Data.DataTable()
@@ -71,13 +54,7 @@ Partial Class AdminDashboard
     Private Sub LoadRestaurantPerformance()
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT r.RestaurantID, r.Name, r.Region, r.IsActive, " &
-                                 "(SELECT COUNT(DISTINCT CustomerID) FROM Order_QB WHERE RestaurantID = r.RestaurantID) AS CustomerCount, " &
-                                 "(SELECT COUNT(*) FROM Order_QB WHERE RestaurantID = r.RestaurantID AND OrderDate >= r.LastRevenueReset) AS OrderCount, " &
-                                 "ISNULL((SELECT SUM(p.Amount) FROM Order_QB o JOIN Payment_QB p ON o.OrderID = p.OrderID " &
-                                 "        WHERE o.RestaurantID = r.RestaurantID AND o.OrderDate >= r.LastRevenueReset AND p.Status = 'Paid'), 0) AS Revenue, " &
-                                 "ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = r.RestaurantID AND TargetType = 'Restaurant'), 0) AS AvgRating " &
-                                 "FROM Restaurant_QB r"
+            Dim query As String = "SELECT r.RestaurantID, r.Name, r.Region, r.IsActive, (SELECT COUNT(DISTINCT CustomerID) FROM Order_QB WHERE RestaurantID = r.RestaurantID) AS CustomerCount, (SELECT COUNT(*) FROM Order_QB WHERE RestaurantID = r.RestaurantID AND OrderDate >= r.LastRevenueReset) AS OrderCount, ISNULL((SELECT SUM(p.Amount) FROM Order_QB o JOIN Payment_QB p ON o.OrderID = p.OrderID WHERE o.RestaurantID = r.RestaurantID AND o.OrderDate >= r.LastRevenueReset AND p.Status = 'Paid'), 0) AS Revenue, ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = r.RestaurantID AND TargetType = 'Restaurant'), 0) AS AvgRating FROM Restaurant_QB r"
             Using cmd As New SqlCommand(query, conn)
                 Dim dt As New System.Data.DataTable()
                 Dim da As New SqlDataAdapter(cmd)
@@ -91,11 +68,7 @@ Partial Class AdminDashboard
     Private Sub LoadRiderActivity()
         Dim connString As String = ConfigurationManager.ConnectionStrings("FoodserviceDB").ConnectionString
         Using conn As New SqlConnection(connString)
-            Dim query As String = "SELECT RiderID, Name, Region, Availability, IsActive, " &
-                                 "(SELECT COUNT(*) FROM Order_QB WHERE RiderID = Rider_QB.RiderID AND Status = 'Confirmed' AND OrderDate >= Rider_QB.LastRevenueReset) AS Deliveries, " &
-                                 "ISNULL((SELECT SUM(50) FROM Order_QB WHERE RiderID = Rider_QB.RiderID AND Status = 'Confirmed' AND OrderDate >= Rider_QB.LastRevenueReset), 0) AS Revenue, " &
-                                 "ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = Rider_QB.RiderID AND TargetType = 'Rider'), 0) AS AvgRating " &
-                                 "FROM Rider_QB"
+            Dim query As String = "SELECT RiderID, Name, Region, Availability, IsActive, (SELECT COUNT(*) FROM Order_QB WHERE RiderID = Rider_QB.RiderID AND Status = 'Confirmed' AND OrderDate >= Rider_QB.LastRevenueReset) AS Deliveries, ISNULL((SELECT SUM(50) FROM Order_QB WHERE RiderID = Rider_QB.RiderID AND Status = 'Confirmed' AND OrderDate >= Rider_QB.LastRevenueReset), 0) AS Revenue, ISNULL((SELECT AVG(CAST(Rating AS DECIMAL(3,2))) FROM Feedback_QB WHERE TargetID = Rider_QB.RiderID AND TargetType = 'Rider'), 0) AS AvgRating FROM Rider_QB"
             Using cmd As New SqlCommand(query, conn)
                 Dim dt As New System.Data.DataTable()
                 Dim da As New SqlDataAdapter(cmd)
